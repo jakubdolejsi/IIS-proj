@@ -4,16 +4,29 @@
 namespace Controllers;
 
 
-abstract class aController
+
+
+use Views\View;
+
+
+abstract class aController extends aView
 {
-	protected $view = "";
 
 	protected $data = [];
 
 	protected $db;
 
-	public function __construct($db)
+	public function __construct()
 	{
-		$this->db = $db;
+//		$this->db = $db;
+	}
+
+	abstract protected function process($params);
+
+	protected function redirect($url)
+	{
+		header("Location: /$url");
+		header("Connection: close");
+		exit;
 	}
 }

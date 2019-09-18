@@ -2,15 +2,20 @@
 
 namespace Router;
 
+use Controllers\aController;
+use Views\View;
 
-class Router extends aRouter
+
+class Router extends aController
 {
 
 	public function process($params)
 	{
 		$url = $this->parseUrl($params);
 		$this->controller = $this->loadClass($this->getControllerClass($url));
-//		$this->controller->process();
+		$this->controller->process($url);
+
+		$this->view = 'BaseLayout';
 	}
 
 	private function getControllerClass($controller)
@@ -29,16 +34,23 @@ class Router extends aRouter
 
 	private function loadClass($class)
 	{
-		$class = $class . '.php';
+		$cls = $class . '.php';
 		// TODO: recursive search...
-		if (file_exists($class))
+		$path = getcwd() . '\\Controllers\\'. $cls;
+		if (file_exists($path))
 		{
-//			$controller = new $class();
-//			return $controller;
+			$class = 'Controllers\\'.$class;
+			$controller = new $class("db");
+			return $controller;
 		} else
 		{
 			$this->redirect('error');
 		}
+	}
+
+	public function createView()
+	{
+		return (new View($this->view, $this->controller));
 	}
 
 }
