@@ -31,11 +31,13 @@ class View implements IViewable
 
 	public function render()
 	{
-		if ($this->controller->getView()->controllerView) {
+		$this->controllerView = $this->controller->getView()->controllerView;
+
+		if ($this->controllerView) {
 			extract($this->controller->getData());
 //			var_dump($tuska);
 			// tato metoda pouze includne pohled, o validaci se bude starat nekdo jiny
-			require ($this->controller->getView()->controllerView);
+			require ($this->controllerView);
 		}
 	}
 
@@ -85,11 +87,12 @@ class View implements IViewable
 			return false;
 		}
 	}
-	private function xssProtection(){}
 
 	public function getControllerView()
 	{
 		return $this->controllerView;
 	}
+
+	private function xssProtection(){}
 }
 
