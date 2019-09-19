@@ -9,5 +9,5 @@ mb_internal_encoding("UTF-8");
 $router = new Router();
 $router->process($_SERVER['REQUEST_URI']);
 
-$router->createView()->render();
+$router->createView()->renderBase();
 

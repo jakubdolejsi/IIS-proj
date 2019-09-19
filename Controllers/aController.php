@@ -9,8 +9,13 @@ namespace Controllers;
 use Views\View;
 
 
-abstract class aController extends aView
+abstract class aController
 {
+
+	/**
+	 * @var View
+	 */
+	protected $view;
 
 	protected $data = [];
 
@@ -19,6 +24,7 @@ abstract class aController extends aView
 	public function __construct()
 	{
 //		$this->db = $db;
+		$this->view = new View;
 	}
 
 	abstract protected function process($params);
@@ -29,4 +35,15 @@ abstract class aController extends aView
 		header("Connection: close");
 		exit;
 	}
+
+	public function getData()
+	{
+		return ($this->data);
+	}
+
+	public function getView()
+	{
+		return ($this->view);
+	}
+
 }

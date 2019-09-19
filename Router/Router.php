@@ -3,11 +3,11 @@
 namespace Router;
 
 use Controllers\aController;
-use Views\View;
 
 
 class Router extends aController
 {
+	protected $controller;
 
 	public function process($params)
 	{
@@ -15,7 +15,9 @@ class Router extends aController
 		$this->controller = $this->loadClass($this->getControllerClass($url));
 		$this->controller->process($url);
 
-		$this->view = 'BaseLayout';
+//		$this->view = 'BaseLayout';
+		$this->view->loadBaseView('BaseLayout');
+
 	}
 
 	private function getControllerClass($controller)
@@ -50,7 +52,10 @@ class Router extends aController
 
 	public function createView()
 	{
-		return (new View($this->view, $this->controller));
+
+		$this->view->loadController($this->controller);
+		return $this->view;
+
 	}
 
 }

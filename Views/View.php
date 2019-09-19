@@ -1,32 +1,79 @@
-<?php
+<?php /** @noinspection ALL */
 
 
 namespace Views;
 
 
 
-use Controllers\aView;
-
-
-class View extends aView
+class View
 {
+	private $baseView;
+
+	private $controllerView;
+
+	private $controller;
 
 
-	public function render()
+	protected function render()
 	{
-		if ($this->view) {
-			//			extract($this->data);
-			$this->includeView("Views/", $this->view);
-
+		if ($this->controller->getView()->controllerView) {
+			extract($this->controller->getData());
+//			var_dump($tuska);
+			// tato metoda pouze includne pohled, o validaci se bude starat nekdo jiny
+			require ($this->controller->getView()->controllerView);
 		}
 	}
 
-	private function includeView($folder, $view){
-		$path = $folder.$view.'.phtml';
-		if (is_file($path)){
-			require ($path);
-		} else{
-			require ($folder . 'Booking/' . $view . '.phtml');
+
+	public function renderBase()
+	{
+		if ($this->baseView) {
+			require_once ($this->baseView);
 		}
+	}
+
+	public function loadController($controller)
+	{
+		$this->controller = $controller;
+	}
+
+
+	private function requireControllerView()
+	{
+		require_once ($this->controller->getView());
+	}
+
+	public function loadBaseView($view)
+	{
+		$validView = $this->validateView($view);
+		if($validView) {
+			$this->baseView = $validView;
+		}
+	}
+
+	public function loadControllerView($view)
+	{
+		$validView = $this->validateView($view);
+		if($validView) {
+			$this->controllerView = $validView;
+		}
+	}
+
+	private function validateView($view)
+	{
+		$folder = 'Views/';
+		$path = $folder . $view . '.phtml';
+		if (is_file($path)) {
+			return $path;
+		} else {
+			return false;
+		}
+	}
+	private function xssProtection(){}
+
+	public function getControllerView()
+	{
+		return $this->controllerView;
 	}
 }
+
