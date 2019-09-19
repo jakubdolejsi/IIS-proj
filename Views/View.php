@@ -4,17 +4,32 @@
 namespace Views;
 
 
+use Controllers\aController;
 
+
+/**
+ * Class View
+ * @package Views
+ */
 class View implements IViewable
 {
+	/**
+	 * @var string
+	 */
 	private $baseView;
 
+	/**
+	 * @var string
+	 */
 	private $controllerView;
 
+	/**
+	 * @var aController
+	 */
 	private $controller;
 
 
-	protected function render()
+	public function render()
 	{
 		if ($this->controller->getView()->controllerView) {
 			extract($this->controller->getData());
@@ -23,6 +38,7 @@ class View implements IViewable
 			require ($this->controller->getView()->controllerView);
 		}
 	}
+
 
 
 	public function renderBase()

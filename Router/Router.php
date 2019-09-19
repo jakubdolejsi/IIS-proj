@@ -3,28 +3,47 @@
 namespace Router;
 
 use Controllers\aController;
+use Views\View;
 
 
+/**
+ * Class Router
+ * @package Router
+ */
 class Router extends aController
 {
+	/**
+	 * @var aController
+	 */
 	protected $controller;
 
+	/**
+	 * @param $params
+	 * @return mixed|void
+	 */
 	public function process($params)
 	{
 		$url = $this->parseUrl($params);
 		$this->controller = $this->loadClass($this->getControllerClass($url));
 		$this->controller->process($url);
 
-//		$this->view = 'BaseLayout';
 		$this->view->loadBaseView('BaseLayout');
 
 	}
 
+	/**\
+	 * @param $controller
+	 * @return string
+	 */
 	private function getControllerClass($controller)
 	{
 		 return (ucwords($controller[0]). 'Controller');
 	}
 
+	/**
+	 * @param string $url
+	 * @return array
+	 */
 	private function parseUrl($url)
 	{
 		$url = explode("/", trim(ltrim(parse_url($url)["path"], "/")));
@@ -34,6 +53,10 @@ class Router extends aController
 		return ($url);
 	}
 
+	/**
+	 * @param $class
+	 * @return mixed
+	 */
 	private function loadClass($class)
 	{
 		$cls = $class . '.php';
@@ -50,12 +73,14 @@ class Router extends aController
 		}
 	}
 
-	public function createView()
+	/**
+	 * @return View
+	 */
+	public function loadControllerToView()
 	{
-
 		$this->view->loadController($this->controller);
-		return $this->view;
 
+		return $this->view;
 	}
 
 }

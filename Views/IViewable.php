@@ -4,16 +4,38 @@
 namespace Views;
 
 
+/**
+ * Interface IViewable
+ * @package Views
+ */
 interface IViewable
 {
+	/**
+	 * @return mixed
+	 */
 	public function render();
 
+	/**
+	 * @return mixed
+	 */
 	public function renderBase();
 
-	public function loadController();
+	/**
+	 * @param $controller
+	 * @return mixed
+	 */
+	public function loadController($controller);
 
-	public function loadBaseView();
+	/**
+	 * @param $baseView
+	 * @return mixed
+	 */
+	public function loadBaseView($baseView);
 
-	public function loadControllerView();
+	/**
+	 * @param $controllerView
+	 * @return mixed
+	 */
+	public function loadControllerView($controllerView);
 
 }
