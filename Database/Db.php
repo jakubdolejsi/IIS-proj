@@ -4,10 +4,16 @@
 namespace Database;
 use Enviroment\Enviroment;
 use PDO;
+use PDOStatement;
 
 
+/**
+ * Class Db
+ * @package Database
+ */
 class Db extends PDO implements IDatabase
 {
+
 	public function __construct()
 	{
 		$default_options = [
@@ -19,15 +25,26 @@ class Db extends PDO implements IDatabase
 		parent::__construct(Enviroment::getDsn(), Enviroment::DB_OPTIONS['DB_USERNAME'],
 			Enviroment::DB_OPTIONS['DB_PASSWORD'], Enviroment::DB_OPTIONS['OPTIONS']);
 	}
+
+	/**
+	 * @param string $sql
+	 * @param null $args
+	 * @return bool|PDOStatement
+	 */
 	public function run($sql, $args = NULL)
 	{
 		$stmt = $this->prepare($sql);
 		$stmt->execute($this->toArray($args));
 		return $stmt;
 	}
+
+	/**
+	 * @param $args
+	 * @return array
+	 */
 	private function toArray($args)
 	{
-		return (gettype($args) == "string") ? [$args] : $args;
+		return (is_string($args)) ? [$args] : $args;
 	}
 
 }

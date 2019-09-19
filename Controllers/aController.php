@@ -4,9 +4,8 @@
 namespace Controllers;
 
 
-
-
-use Views\View;
+use Database\Db;
+use Views\ViewRenderer\View;
 
 
 abstract class aController
@@ -29,10 +28,11 @@ abstract class aController
 
 	/**
 	 * aController constructor.
+	 * @param Db $db
 	 */
-	public function __construct()
+	public function __construct(Db $db)
 	{
-//		$this->db = $db;
+		$this->db = $db;
 		$this->view = new View;
 	}
 
@@ -48,7 +48,7 @@ abstract class aController
 	protected function redirect($url)
 	{
 		header("Location: /$url");
-		header("Connection: close");
+		header('Connection: close');
 		exit;
 	}
 

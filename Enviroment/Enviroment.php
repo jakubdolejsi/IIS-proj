@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 
 namespace Enviroment;
@@ -24,8 +24,8 @@ class Enviroment
 	{
 		$host = self::DB_OPTIONS['DB_HOST'];
 		$dbName = self::DB_OPTIONS['DB_NAME'];
-		$dsn = "mysql:host={$host};dbname={$dbName}";
-		return $dsn;
+
+		return "mysql:host={$host};dbname={$dbName}";
 	}
 	public static function setErrorNotification()
 	{
@@ -41,6 +41,6 @@ class Enviroment
 	}
 	public static function setEncoding()
 	{
-		mb_internal_encoding("UTF-8");
+		mb_internal_encoding('UTF-8');
 	}
 }
