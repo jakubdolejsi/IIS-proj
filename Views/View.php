@@ -5,7 +5,7 @@ namespace Views;
 
 
 
-class View
+class View implements IViewable
 {
 	private $baseView;
 
