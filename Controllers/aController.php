@@ -4,9 +4,9 @@
 namespace Controllers;
 
 
-
-
-use Views\View;
+use Database\Db;
+use Exceptions\DatabaseException;
+use Views\ViewRenderer\View;
 
 
 abstract class aController
@@ -29,10 +29,17 @@ abstract class aController
 
 	/**
 	 * aController constructor.
+	 * @param Db $db
 	 */
-	public function __construct()
+	public function __construct(Db $db)
 	{
-//		$this->db = $db;
+		try {
+			$this->db = $db;
+		}catch (DatabaseException $exception){
+			//FIXME advanced debug
+			echo '<pre>' , print_r($exception->errorMessage() ,true) , '</pre>';
+			 exit();
+		}
 		$this->view = new View;
 	}
 
@@ -40,22 +47,22 @@ abstract class aController
 	 * @param $params
 	 * @return mixed
 	 */
-	abstract protected function process($params);
+	abstract protected function process($params): void;
 
 	/**
 	 * @param $url
 	 */
-	protected function redirect($url)
+	protected function redirect($url): void
 	{
 		header("Location: /$url");
-		header("Connection: close");
+		header('Connection: close');
 		exit;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getData()
+	public function getData(): array
 	{
 		return ($this->data);
 	}
@@ -63,7 +70,7 @@ abstract class aController
 	/**
 	 * @return View
 	 */
-	public function getView()
+	public function getView(): View
 	{
 		return ($this->view);
 	}

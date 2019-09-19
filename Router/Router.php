@@ -1,9 +1,9 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace Router;
 
 use Controllers\aController;
-use Views\View;
+use Views\ViewRenderer\View;
 
 
 /**
@@ -21,17 +21,16 @@ class Router extends aController
 	 * @param $params
 	 * @return mixed|void
 	 */
-	public function process($params)
+	public function process($params): void
 	{
 		$url = $this->parseUrl($params);
 		$this->controller = $this->loadClass($this->getControllerClass($url));
 		$this->controller->process($url);
 
 		$this->view->loadBaseView('BaseLayout');
-
 	}
 
-	/**\
+	/**
 	 * @param $controller
 	 * @return string
 	 */
@@ -46,7 +45,7 @@ class Router extends aController
 	 */
 	private function parseUrl($url)
 	{
-		$url = explode("/", trim(ltrim(parse_url($url)["path"], "/")));
+		$url = explode('/', trim(ltrim(parse_url($url)['path'], '/')));
 		if(empty($url[0])){
 			$this->redirect('home');
 		}
@@ -65,18 +64,17 @@ class Router extends aController
 		if (file_exists($path))
 		{
 			$class = 'Controllers\\'.$class;
-			$controller = new $class("db");
-			return $controller;
-		} else
-		{
-			$this->redirect('error');
+
+			return new $class('db');
 		}
+
+		$this->redirect('error');
 	}
 
 	/**
 	 * @return View
 	 */
-	public function loadControllerToView()
+	public function loadControllerToView(): View
 	{
 		$this->view->loadController($this->controller);
 

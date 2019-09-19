@@ -1,7 +1,7 @@
 <?php /** @noinspection ALL */
 
 
-namespace Views;
+namespace Views\ViewRenderer;
 
 
 use Controllers\aController;

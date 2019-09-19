@@ -2,7 +2,7 @@
 
 spl_autoload_register(function ($cls)
 {
-	var_dump($cls);
+//	var_dump($cls);
 
 	$ds = DIRECTORY_SEPARATOR;
 	$dir = __DIR__;
