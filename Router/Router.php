@@ -21,14 +21,13 @@ class Router extends aController
 	 * @param $params
 	 * @return mixed|void
 	 */
-	public function process($params)
+	public function process($params): void
 	{
 		$url = $this->parseUrl($params);
 		$this->controller = $this->loadClass($this->getControllerClass($url));
 		$this->controller->process($url);
 
 		$this->view->loadBaseView('BaseLayout');
-
 	}
 
 	/**
@@ -75,7 +74,7 @@ class Router extends aController
 	/**
 	 * @return View
 	 */
-	public function loadControllerToView()
+	public function loadControllerToView(): View
 	{
 		$this->view->loadController($this->controller);
 

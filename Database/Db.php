@@ -2,6 +2,7 @@
 
 
 namespace Database;
+
 use Enviroment\Enviroment;
 use PDO;
 use PDOStatement;
@@ -22,8 +23,10 @@ class Db extends PDO implements IDatabase
 			PDO::ATTR_EMULATE_PREPARES   => FALSE,
 		];
 		$options = array_merge($default_options, Enviroment::DB_OPTIONS['OPTIONS']);
+
 		parent::__construct(Enviroment::getDsn(), Enviroment::DB_OPTIONS['DB_USERNAME'],
 			Enviroment::DB_OPTIONS['DB_PASSWORD'], Enviroment::DB_OPTIONS['OPTIONS']);
+
 	}
 
 	/**
@@ -35,6 +38,7 @@ class Db extends PDO implements IDatabase
 	{
 		$stmt = $this->prepare($sql);
 		$stmt->execute($this->toArray($args));
+
 		return $stmt;
 	}
 
@@ -42,7 +46,7 @@ class Db extends PDO implements IDatabase
 	 * @param $args
 	 * @return array
 	 */
-	private function toArray($args)
+	private function toArray($args): array
 	{
 		return (is_string($args)) ? [$args] : $args;
 	}

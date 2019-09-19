@@ -14,9 +14,7 @@ class Enviroment
 		'OPTIONS'     => [],
 	];
 
-	const ERROR_DEBUG = 1;
-
-	const DEVEL = 2;
+	const DEVEL = 1;
 
 	const PRODUCTION = 3;
 
@@ -30,9 +28,7 @@ class Enviroment
 	public static function setErrorNotification()
 	{
 		if ($GLOBALS['VERSION'] == self::DEVEL) {
-			ini_set('display_errors', 1);
-			ini_set('display_startup_errors', 1);
-			error_reporting(E_ALL);
+			self::development();
 		}
 	}
 	public static function setSession()
@@ -42,5 +38,19 @@ class Enviroment
 	public static function setEncoding()
 	{
 		mb_internal_encoding('UTF-8');
+	}
+
+	private static function development()
+	{
+		$date = str_replace(':','_',date('Y:m:d'));
+		$dir = str_replace(__NAMESPACE__, '', __DIR__);
+		$dir = $dir . 'Log' . DIRECTORY_SEPARATOR . $date;
+
+		ini_set('display_startup_errors', 1);
+		ini_set('display_errors', 1);
+		ini_set('log_errors', 1);
+		ini_set('error_log',$dir);
+		error_reporting(E_ALL);
+
 	}
 }

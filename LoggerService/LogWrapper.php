@@ -3,13 +3,11 @@
 
 namespace LoggerService;
 
-
 /**
- * Interface ILogger
+ * Class LogWrapper
  * @package LogWrapper
  */
-interface ILogger
+class LogWrapper implements ILogger
 {
-
 
 }

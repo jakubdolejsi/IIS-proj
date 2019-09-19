@@ -13,7 +13,7 @@ class HomeController extends aController
 	 * @param $params
 	 * @return mixed|void
 	 */
-	protected function process($params)
+	protected function process($params): void
 	{
 		$this->view->loadControllerView('home');
 		$this->data['tuska'] = 'mojekurvaData';
