@@ -25,16 +25,19 @@ class Enviroment
 
 		return "mysql:host={$host};dbname={$dbName}";
 	}
+
 	public static function setErrorNotification()
 	{
 		if ($GLOBALS['VERSION'] == self::DEVEL) {
 			self::development();
 		}
 	}
+
 	public static function setSession()
 	{
 		session_start();
 	}
+
 	public static function setEncoding()
 	{
 		mb_internal_encoding('UTF-8');
@@ -42,15 +45,14 @@ class Enviroment
 
 	private static function development()
 	{
-		$date = str_replace(':','_',date('Y:m:d'));
+		$date = str_replace(':', '_', date('Y:m:d'));
 		$dir = str_replace(__NAMESPACE__, '', __DIR__);
 		$dir = $dir . 'Log' . DIRECTORY_SEPARATOR . $date;
 
 		ini_set('display_startup_errors', 1);
 		ini_set('display_errors', 1);
 		ini_set('log_errors', 1);
-		ini_set('error_log',$dir);
+		ini_set('error_log', $dir);
 		error_reporting(E_ALL);
-
 	}
 }

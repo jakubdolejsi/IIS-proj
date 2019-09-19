@@ -1,0 +1,25 @@
+[19-Sep-2019 16:01:07 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1049] Unknown database 'hotel' in C:\xampp\htdocs\Database\Db.php:27
+Stack trace:
+#0 C:\xampp\htdocs\Database\Db.php(27): PDO->__construct('mysql:host=loca...', 'root', '', Array)
+#1 C:\xampp\htdocs\index.php(13): Database\Db->__construct()
+#2 {main}
+  thrown in C:\xampp\htdocs\Database\Db.php on line 27
+
+[19-Sep-2019 16:02:32 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1049] Unknown database 'hotel' in C:\xampp\htdocs\Database\Db.php:27
+Stack trace:
+#0 C:\xampp\htdocs\Database\Db.php(27): PDO->__construct('mysql:host=loca...', 'root', '', Array)
+#1 C:\xampp\htdocs\index.php(13): Database\Db->__construct()
+#2 {main}
+  thrown in C:\xampp\htdocs\Database\Db.php on line 27
+[19-Sep-2019 16:29:15 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1049] Unknown database 'hotel' in C:\xampp\htdocs\Database\Db.php:28
+Stack trace:
+#0 C:\xampp\htdocs\Database\Db.php(28): PDO->__construct('mysql:host=loca...', 'root', '', Array)
+#1 C:\xampp\htdocs\index.php(15): Database\Db->__construct()
+#2 {main}
+  thrown in C:\xampp\htdocs\Database\Db.php on line 28
+[19-Sep-2019 18:54:34 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1049] Unknown database 'hotel' in C:\xampp\htdocs\Database\Db.php:28
+Stack trace:
+#0 C:\xampp\htdocs\Database\Db.php(28): PDO->__construct('mysql:host=loca...', 'root', '', Array)
+#1 C:\xampp\htdocs\index.php(15): Database\Db->__construct()
+#2 {main}
+  thrown in C:\xampp\htdocs\Database\Db.php on line 28

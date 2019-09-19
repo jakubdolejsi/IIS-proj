@@ -5,7 +5,6 @@ namespace Controllers;
 
 
 use Database\Db;
-use Exceptions\DatabaseException;
 use Views\ViewRenderer\View;
 
 
@@ -33,13 +32,7 @@ abstract class aController
 	 */
 	public function __construct(Db $db)
 	{
-		try {
-			$this->db = $db;
-		}catch (DatabaseException $exception){
-			//FIXME advanced debug
-			echo '<pre>' , print_r($exception->errorMessage() ,true) , '</pre>';
-			 exit();
-		}
+		$this->db = $db;
 		$this->view = new View;
 	}
 
