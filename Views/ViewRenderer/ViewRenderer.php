@@ -5,13 +5,14 @@ namespace Views\ViewRenderer;
 
 
 use Controllers\aController;
+use Exceptions\aBaseException;
 
 
 /**
  * Class View
  * @package Views
  */
-class View implements IViewable
+class ViewRenderer implements IViewable
 {
 	/**
 	 * @var string
@@ -29,39 +30,43 @@ class View implements IViewable
 	private $controller;
 
 
-	public function render()
+	/**
+	 * Render view passed by controller
+	 */
+	public function render(): void
 	{
-		$this->controllerView = $this->controller->getView()->controllerView;
-
 		if ($this->controllerView) {
 			extract($this->controller->getData());
-//			var_dump($tuska);
 			// tato metoda pouze includne pohled, o validaci se bude starat nekdo jiny
 			require ($this->controllerView);
 		}
 	}
 
 
-
-	public function renderBase()
+	/**
+	 * Render base View like menu, navigation bar
+	 */
+	public function renderBase(): void
 	{
 		if ($this->baseView) {
 			require_once ($this->baseView);
 		}
 	}
 
-	public function loadController($controller)
+	/**
+	 * @param aController $controller
+	 */
+	public function loadController(aController $controller): void
 	{
 		$this->controller = $controller;
 	}
 
 
-	private function requireControllerView()
-	{
-		require_once ($this->controller->getView());
-	}
-
-	public function loadBaseView($view)
+	/**
+	 * @param string $view
+	 * @throws aBaseException
+	 */
+	public function loadBaseView($view): void
 	{
 		$validView = $this->validateView($view);
 		if($validView) {
@@ -69,7 +74,11 @@ class View implements IViewable
 		}
 	}
 
-	public function loadControllerView($view)
+	/**
+	 * @param string $view
+	 * @throws aBaseException
+	 */
+	public function loadControllerView(string $view): void
 	{
 		$validView = $this->validateView($view);
 		if($validView) {
@@ -77,22 +86,23 @@ class View implements IViewable
 		}
 	}
 
-	private function validateView($view)
+	/**
+	 * @param $view
+	 * @return string
+	 * @throws aBaseException
+	 */
+	private function validateView($view): string
 	{
 		$folder = 'Views/';
 		$path = $folder . $view . '.phtml';
-		if (is_file($path)) {
-			return $path;
-		} else {
-			return false;
+		if (!is_file($path)) {
+			// jaka vyjimka se vyhodi
+			throw new aBaseException();
 		}
-	}
-
-	public function getControllerView()
-	{
-		return $this->controllerView;
+		return $path;
 	}
 
 	private function xssProtection(){}
+
 }
 

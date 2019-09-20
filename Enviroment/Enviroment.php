@@ -3,14 +3,13 @@
 
 namespace Enviroment;
 
-
 class Enviroment
 {
 	const DB_OPTIONS = [
 		'DB_HOST'     => 'localhost',
 		'DB_USERNAME' => 'root',
 		'DB_PASSWORD' => '',
-		'DB_NAME'     => 'hotel',
+		'DB_NAME'     => 'theatre',
 		'OPTIONS'     => [],
 	];
 

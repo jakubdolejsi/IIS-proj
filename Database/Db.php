@@ -29,12 +29,13 @@ class Db extends PDO implements IDatabase
 
 	}
 
+
 	/**
-	 * @param string $sql
-	 * @param null $args
+	 * @param string     $sql
+	 * @param array|NULL $args
 	 * @return bool|PDOStatement
 	 */
-	public function run($sql, $args = NULL)
+	public function run(string $sql, array $args = NULL)
 	{
 		$stmt = $this->prepare($sql);
 		$stmt->execute($this->toArray($args));

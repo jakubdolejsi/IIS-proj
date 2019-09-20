@@ -7,5 +7,5 @@ namespace Database;
 interface IDatabase
 {
 
-	public function run($sql, $args = NULL);
+	public function run(string $sql, array $args = NULL);
 }

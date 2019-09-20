@@ -6,7 +6,6 @@ use Router\Router;
 
 require_once 'autoloader.php';
 
-
 $VERSION = Enviroment::DEVEL;
 Enviroment::setEncoding();
 Enviroment::setErrorNotification();
@@ -15,5 +14,5 @@ Enviroment::setErrorNotification();
 $router = new Router(new Db);
 $router->process($_SERVER['REQUEST_URI']);
 
-$router->loadControllerToView()->renderBase();
+$router->getViewRenderer()->renderBase();
 

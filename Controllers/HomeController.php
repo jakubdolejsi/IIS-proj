@@ -15,8 +15,8 @@ class HomeController extends aController
 	 */
 	protected function process($params): void
 	{
-		$this->view->loadControllerView('home');
-		$this->data['tuska'] = 'mojekurvaData';
+		$this->view = 'home';
+		$this->data['data'] = 'mojekurvaData';
 	}
 
 

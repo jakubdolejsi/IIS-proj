@@ -5,15 +5,12 @@ namespace Controllers;
 
 
 use Database\Db;
-use Views\ViewRenderer\View;
+use Views\ViewRenderer\ViewRenderer;
 
 
 abstract class aController
 {
 
-	/**
-	 * @var View
-	 */
 	protected $view;
 
 	/**
@@ -33,19 +30,18 @@ abstract class aController
 	public function __construct(Db $db)
 	{
 		$this->db = $db;
-		$this->view = new View;
 	}
 
 	/**
 	 * @param $params
 	 * @return mixed
 	 */
-	abstract protected function process($params): void;
+	abstract protected function process(string $params): void;
 
 	/**
 	 * @param $url
 	 */
-	protected function redirect($url): void
+	protected function redirect(string $url): void
 	{
 		header("Location: /$url");
 		header('Connection: close');
@@ -60,10 +56,11 @@ abstract class aController
 		return ($this->data);
 	}
 
+
 	/**
-	 * @return View
+	 * @return string
 	 */
-	public function getView(): View
+	public function getView(): string
 	{
 		return ($this->view);
 	}
