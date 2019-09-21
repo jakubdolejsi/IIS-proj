@@ -7,10 +7,7 @@ namespace DI;
 
 use Database\Db;
 use Helpers\Auth\Auth;
-use Helpers\Cookies\Cookies;
 use Helpers\Sessions\Session;
-use Views\ViewRenderer\ViewFactory;
-use Views\ViewRenderer\ViewRenderer;
 
 
 /**

@@ -36,7 +36,6 @@ class ViewRenderer implements IViewable
 	{
 		if ($this->controllerView) {
 			extract($this->data);
-			// tato metoda pouze includne pohled, o validaci se bude starat nekdo jiny
 			require ($this->controllerView);
 		}
 	}
@@ -96,7 +95,7 @@ class ViewRenderer implements IViewable
 		$folder = 'Views/';
 		$path = $folder . $view . '.phtml';
 		if (!is_file($path)) {
-			// jaka vyjimka se vyhodi
+			// jaka vyjimka se vyhodi??
 			throw new aBaseException();
 		}
 		return $path;

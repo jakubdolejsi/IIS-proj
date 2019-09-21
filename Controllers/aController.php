@@ -6,9 +6,13 @@ namespace Controllers;
 
 use DI\Container;
 use DI\ModelFactory;
-use Views\ViewRenderer\ViewFactory;
+use DI\ViewFactory;
 
 
+/**
+ * Class aController
+ * @package Controllers
+ */
 abstract class aController
 {
 
@@ -74,6 +78,7 @@ abstract class aController
 		return ($this->view);
 	}
 
+
 	/**
 	 * @return ViewFactory
 	 */
@@ -82,7 +87,7 @@ abstract class aController
 		if ($this->isCalledClassRouter(static::class)) {
 			return $this->viewFactory;
 		}
-		return NULL;
+		$this->blame();
 	}
 
 	/**
@@ -93,7 +98,7 @@ abstract class aController
 		if ($this->isCalledClassRouter(static::class)) {
 			return $this->container;
 		}
-		return NULL;
+		$this->blame();
 	}
 
 	/**
@@ -103,5 +108,11 @@ abstract class aController
 	private function isCalledClassRouter($cls): bool
 	{
 		return $cls === 'Router\Router';
+	}
+
+	private function blame(): void
+	{
+		echo '<pre>', var_dump('Tuhle metodu nemas co volat kamo'), '</pre>';
+		exit();
 	}
 }

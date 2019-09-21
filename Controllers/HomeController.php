@@ -10,10 +10,8 @@ namespace Controllers;
  */
 class HomeController extends aController
 {
-	protected $modelFactory;
 	/**
-	 * @param $params
-	 * @return mixed|void
+	 * @param string $params
 	 */
 	public function process($params): void
 	{
