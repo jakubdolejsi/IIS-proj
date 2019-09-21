@@ -25,10 +25,9 @@ class ViewRenderer implements IViewable
 	private $controllerView;
 
 	/**
-	 * @var aController
+	 * @var array
 	 */
-	private $controller;
-
+	private $data;
 
 	/**
 	 * Render view passed by controller
@@ -36,7 +35,7 @@ class ViewRenderer implements IViewable
 	public function render(): void
 	{
 		if ($this->controllerView) {
-			extract($this->controller->getData());
+			extract($this->data);
 			// tato metoda pouze includne pohled, o validaci se bude starat nekdo jiny
 			require ($this->controllerView);
 		}
@@ -51,14 +50,6 @@ class ViewRenderer implements IViewable
 		if ($this->baseView) {
 			require_once ($this->baseView);
 		}
-	}
-
-	/**
-	 * @param aController $controller
-	 */
-	public function loadController(aController $controller): void
-	{
-		$this->controller = $controller;
 	}
 
 
@@ -87,6 +78,15 @@ class ViewRenderer implements IViewable
 	}
 
 	/**
+	 * @param array $data
+	 */
+	public function loadData(array $data): void
+	{
+		$this->data = $data;
+	}
+
+
+	/**
 	 * @param $view
 	 * @return string
 	 * @throws aBaseException
@@ -101,6 +101,7 @@ class ViewRenderer implements IViewable
 		}
 		return $path;
 	}
+
 
 	private function xssProtection(){}
 

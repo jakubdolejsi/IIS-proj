@@ -12,7 +12,7 @@ use PDOStatement;
  * Class Db
  * @package Database
  */
-class Db extends PDO implements IDatabase
+final class Db extends PDO implements IDatabase
 {
 
 	public function __construct()

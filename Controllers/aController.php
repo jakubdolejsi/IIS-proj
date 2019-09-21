@@ -4,8 +4,9 @@
 namespace Controllers;
 
 
-use Database\Db;
-use Views\ViewRenderer\ViewRenderer;
+use DI\Container;
+use DI\ModelFactory;
+use Views\ViewRenderer\ViewFactory;
 
 
 abstract class aController
@@ -18,25 +19,34 @@ abstract class aController
 	 */
 	protected $data = [];
 
-	/**
-	 * @var
-	 */
-	protected $db;
 
 	/**
-	 * aController constructor.
-	 * @param Db $db
+	 * @var ModelFactory
 	 */
-	public function __construct(Db $db)
+	protected $modelFactory;
+
+	/**
+	 * @var ViewFactory
+	 */
+	private $viewFactory;
+
+	/**
+	 * @var Container
+	 */
+	private $container;
+
+	public function __construct(Container $container)
 	{
-		$this->db = $db;
+		$this->modelFactory = $container->getModelFactory();
+		$this->viewFactory = $container->getViewFactory();
+		$this->container = $container;
 	}
 
 	/**
 	 * @param $params
 	 * @return mixed
 	 */
-	abstract protected function process(string $params): void;
+	abstract public function process(string $params): void;
 
 	/**
 	 * @param $url
@@ -56,7 +66,6 @@ abstract class aController
 		return ($this->data);
 	}
 
-
 	/**
 	 * @return string
 	 */
@@ -65,4 +74,34 @@ abstract class aController
 		return ($this->view);
 	}
 
+	/**
+	 * @return ViewFactory
+	 */
+	public function getViewFactory(): ViewFactory
+	{
+		if ($this->isCalledClassRouter(static::class)) {
+			return $this->viewFactory;
+		}
+		return NULL;
+	}
+
+	/**
+	 * @return Container
+	 */
+	protected function getContainer(): Container
+	{
+		if ($this->isCalledClassRouter(static::class)) {
+			return $this->container;
+		}
+		return NULL;
+	}
+
+	/**
+	 * @param $cls
+	 * @return bool
+	 */
+	private function isCalledClassRouter($cls): bool
+	{
+		return $cls === 'Router\Router';
+	}
 }

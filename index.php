@@ -1,6 +1,6 @@
 <?php
 
-use Database\Db;
+use DI\Container;
 use Enviroment\Enviroment;
 use Router\Router;
 
@@ -10,8 +10,9 @@ $VERSION = Enviroment::DEVEL;
 Enviroment::setEncoding();
 Enviroment::setErrorNotification();
 
+$container = new Container;
 
-$router = new Router(new Db);
+$router = new Router($container);
 $router->process($_SERVER['REQUEST_URI']);
 
 $router->getViewRenderer()->renderBase();

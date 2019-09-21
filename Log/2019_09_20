@@ -991,3 +991,41 @@ Stack trace:
 #1 C:\xampp\htdocs\index.php(15): Router\Router->process('/error')
 #2 {main}
   thrown in C:\xampp\htdocs\Router\Router.php on line 83
+[20-Sep-2019 20:28:25 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Argument 1 passed to Views\ViewRenderer\ViewRenderer::loadController() must be an instance of Controllers\aController, array given, called in C:\xampp\htdocs\Router\Router.php on line 95 and defined in C:\xampp\htdocs\Views\ViewRenderer\ViewRenderer.php:58
+Stack trace:
+#0 C:\xampp\htdocs\Router\Router.php(95): Views\ViewRenderer\ViewRenderer->loadController(Array)
+#1 C:\xampp\htdocs\Router\Router.php(36): Router\Router->initView()
+#2 C:\xampp\htdocs\index.php(14): Router\Router->process('/home')
+#3 {main}
+  thrown in C:\xampp\htdocs\Views\ViewRenderer\ViewRenderer.php on line 58
+[20-Sep-2019 20:30:39 Europe/Berlin] PHP Fatal error:  Class Views\ViewRenderer\ViewRenderer contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (Views\ViewRenderer\IViewable::loadController) in C:\xampp\htdocs\Views\ViewRenderer\ViewRenderer.php on line 15
+[20-Sep-2019 20:30:39 Europe/Berlin] PHP Stack trace:
+[20-Sep-2019 20:30:39 Europe/Berlin] PHP   1. {main}() C:\xampp\htdocs\index.php:0
+[20-Sep-2019 20:30:39 Europe/Berlin] PHP   2. Router\Router->process() C:\xampp\htdocs\index.php:14
+[20-Sep-2019 20:30:39 Europe/Berlin] PHP   3. spl_autoload_call() C:\xampp\htdocs\Router\Router.php:31
+[20-Sep-2019 20:30:39 Europe/Berlin] PHP   4. {closure:C:\xampp\htdocs\autoloader.php:3-14}() C:\xampp\htdocs\Router\Router.php:31
+[20-Sep-2019 20:30:39 Europe/Berlin] PHP   5. require_once() C:\xampp\htdocs\autoloader.php:12
+[20-Sep-2019 20:31:04 Europe/Berlin] PHP Fatal error:  Declaration of Views\ViewRenderer\ViewRenderer::loadData(array $data) must be compatible with Views\ViewRenderer\IViewable::loadData(array $data): void in C:\xampp\htdocs\Views\ViewRenderer\ViewRenderer.php on line 15
+[20-Sep-2019 20:31:04 Europe/Berlin] PHP Stack trace:
+[20-Sep-2019 20:31:04 Europe/Berlin] PHP   1. {main}() C:\xampp\htdocs\index.php:0
+[20-Sep-2019 20:31:04 Europe/Berlin] PHP   2. Router\Router->process() C:\xampp\htdocs\index.php:14
+[20-Sep-2019 20:31:04 Europe/Berlin] PHP   3. spl_autoload_call() C:\xampp\htdocs\Router\Router.php:31
+[20-Sep-2019 20:31:04 Europe/Berlin] PHP   4. {closure:C:\xampp\htdocs\autoloader.php:3-14}() C:\xampp\htdocs\Router\Router.php:31
+[20-Sep-2019 20:31:04 Europe/Berlin] PHP   5. require_once() C:\xampp\htdocs\autoloader.php:12
+[20-Sep-2019 20:31:18 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function loadData() on null in C:\xampp\htdocs\Router\Router.php:96
+Stack trace:
+#0 C:\xampp\htdocs\Router\Router.php(36): Router\Router->initView()
+#1 C:\xampp\htdocs\index.php(14): Router\Router->process('/home')
+#2 {main}
+  thrown in C:\xampp\htdocs\Router\Router.php on line 96
+[20-Sep-2019 20:32:14 Europe/Berlin] PHP Notice:  Undefined property: Router\Router::$viewRednerer in C:\xampp\htdocs\Router\Router.php on line 96
+[20-Sep-2019 20:32:14 Europe/Berlin] PHP Stack trace:
+[20-Sep-2019 20:32:14 Europe/Berlin] PHP   1. {main}() C:\xampp\htdocs\index.php:0
+[20-Sep-2019 20:32:14 Europe/Berlin] PHP   2. Router\Router->process() C:\xampp\htdocs\index.php:14
+[20-Sep-2019 20:32:14 Europe/Berlin] PHP   3. Router\Router->initView() C:\xampp\htdocs\Router\Router.php:36
+[20-Sep-2019 20:32:14 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function loadData() on null in C:\xampp\htdocs\Router\Router.php:96
+Stack trace:
+#0 C:\xampp\htdocs\Router\Router.php(36): Router\Router->initView()
+#1 C:\xampp\htdocs\index.php(14): Router\Router->process('/home')
+#2 {main}
+  thrown in C:\xampp\htdocs\Router\Router.php on line 96

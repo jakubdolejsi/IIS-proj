@@ -3,6 +3,8 @@
 namespace Router;
 
 use Controllers\aController;
+use DI\Container;
+use DI\ModelFactory;
 use Views\ViewRenderer\ViewRenderer;
 
 
@@ -10,12 +12,12 @@ use Views\ViewRenderer\ViewRenderer;
  * Class Router
  * @package Router
  */
-class Router extends aController
+final class Router extends aController
 {
 	/**
 	 * @var ViewRenderer
 	 */
-	private $viewRednerer;
+	private $viewRenderer;
 	/**
 	 * @var aController
 	 */
@@ -28,7 +30,7 @@ class Router extends aController
 	 */
 	public function process($params): void
 	{
-		$this->viewRenderer = new ViewRenderer;
+		$this->viewRenderer = $this->getViewFactory()->getViewRenderer();
 		$url = $this->parseUrl($params);
 		$this->controller = $this->loadClass($this->getControllerClass($url));
 		$this->controller->process($url);
@@ -74,7 +76,7 @@ class Router extends aController
 		}
 		$class = 'Controllers\\'.$class;
 
-		return new $class($this->db);
+		return new $class($this->getContainer());
 	}
 
 	/**
@@ -92,7 +94,7 @@ class Router extends aController
 	{
 		$this->viewRenderer->loadBaseView('BaseLayout');
 		$this->viewRenderer->loadControllerView($this->controller->getView());
-		$this->viewRenderer->loadController($this->controller);
+		$this->viewRenderer->loadData($this->controller->getData());
 	}
 
 }

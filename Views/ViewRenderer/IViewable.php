@@ -24,10 +24,9 @@ interface IViewable
 	public function renderBase(): void ;
 
 	/**
-	 * @param $controller
-	 * @return mixed
+	 * @param array $data
 	 */
-	public function loadController(aController $controller): void ;
+	public function loadData(array $data): void ;
 
 	/**
 	 * @param $baseView

@@ -3,17 +3,19 @@
 
 namespace Controllers;
 
+
 /**
  * Class HomeController
  * @package Controllers
  */
 class HomeController extends aController
 {
+	protected $modelFactory;
 	/**
 	 * @param $params
 	 * @return mixed|void
 	 */
-	protected function process($params): void
+	public function process($params): void
 	{
 		$this->view = 'home';
 		$this->data['data'] = 'mojekurvaData';
