@@ -3,8 +3,7 @@
 namespace Router;
 
 use Controllers\aController;
-use DI\Container;
-use DI\ModelFactory;
+use Exceptions\ViewLoadException;
 use Views\ViewRenderer\ViewRenderer;
 
 
@@ -25,8 +24,7 @@ final class Router extends aController
 
 
 	/**
-	 * @param string $params
-	 * @throws \Exceptions\aBaseException
+	 * @param array $params
 	 */
 	public function process($params): void
 	{
@@ -35,7 +33,14 @@ final class Router extends aController
 		$this->controller = $this->loadClass($this->getControllerClass($url));
 		$this->controller->process($url);
 
-		$this->initView();
+		try {
+			$this->initView();
+		}
+		catch (ViewLoadException $exception) {
+			print_r($exception->errorMessage());
+			exit();
+//			$this->redirect('error');
+		}
 	}
 
 	/**
@@ -44,7 +49,7 @@ final class Router extends aController
 	 */
 	private function getControllerClass(array $url)
 	{
-		 return (ucwords($url[0]). 'Controller');
+		return (ucwords($url[0]) . 'Controller');
 	}
 
 
@@ -55,9 +60,10 @@ final class Router extends aController
 	private function parseUrl(string $url)
 	{
 		$url = explode('/', trim(ltrim(parse_url($url)['path'], '/')));
-		if(empty($url[0])){
+		if (empty($url[0])) {
 			$this->redirect('home');
 		}
+
 		return ($url);
 	}
 
@@ -69,12 +75,11 @@ final class Router extends aController
 	{
 		$cls = $class . '.php';
 		// TODO: recursive search...
-		$path = getcwd() . '\\Controllers\\'. $cls;
-		if (!file_exists($path))
-		{
+		$path = getcwd() . '\\Controllers\\' . $cls;
+		if (!file_exists($path)) {
 			$this->redirect('error');
 		}
-		$class = 'Controllers\\'.$class;
+		$class = 'Controllers\\' . $class;
 
 		return new $class($this->getContainer());
 	}
@@ -92,8 +97,8 @@ final class Router extends aController
 	 */
 	private function initView(): void
 	{
-		$this->viewRenderer->loadBaseView('BaseLayout');
 		$this->viewRenderer->loadControllerView($this->controller->getView());
+		$this->viewRenderer->loadBaseView('BaseLayout');
 		$this->viewRenderer->loadData($this->controller->getData());
 	}
 

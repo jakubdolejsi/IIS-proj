@@ -5,7 +5,7 @@ namespace Views\ViewRenderer;
 
 
 use Controllers\aController;
-use Exceptions\aBaseException;
+use Exceptions\ViewLoadException;
 
 
 /**
@@ -88,7 +88,7 @@ class ViewRenderer implements IViewable
 	/**
 	 * @param $view
 	 * @return string
-	 * @throws aBaseException
+	 * @throws ViewLoadException
 	 */
 	private function validateView($view): string
 	{
@@ -96,7 +96,7 @@ class ViewRenderer implements IViewable
 		$path = $folder . $view . '.phtml';
 		if (!is_file($path)) {
 			// jaka vyjimka se vyhodi??
-			throw new aBaseException();
+			throw new ViewLoadException();
 		}
 		return $path;
 	}

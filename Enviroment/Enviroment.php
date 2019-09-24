@@ -13,9 +13,14 @@ class Enviroment
 		'OPTIONS'     => [],
 	];
 
-	const DEVEL = 1;
-
-	const PRODUCTION = 3;
+//	const DEVEL = 1;
+//
+//	const PRODUCTION = 3;
+//
+	const VERSION = [
+		'DEVEL' => 1,
+		'PRODUCTION' => 3,
+	];
 
 	public static function getDsn()
 	{
@@ -27,7 +32,7 @@ class Enviroment
 
 	public static function setErrorNotification()
 	{
-		if ($GLOBALS['VERSION'] == self::DEVEL) {
+		if ($GLOBALS['VERSION'] == self::VERSION['DEVEL']) {
 			self::development();
 		}
 	}
@@ -53,5 +58,10 @@ class Enviroment
 		ini_set('log_errors', 1);
 		ini_set('error_log', $dir);
 		error_reporting(E_ALL);
+	}
+
+	public static function setVersion($version)
+	{
+		$GLOBALS['VERSION'] = $version;
 	}
 }

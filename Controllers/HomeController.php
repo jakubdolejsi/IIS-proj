@@ -11,9 +11,9 @@ namespace Controllers;
 class HomeController extends aController
 {
 	/**
-	 * @param string $params
+	 * @param array $params
 	 */
-	public function process($params): void
+	public function process(array $params): void
 	{
 		$this->view = 'home';
 		$this->data['data'] = 'mojekurvaData';

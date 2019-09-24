@@ -27,7 +27,7 @@ abstract class aController
 	/**
 	 * @var ModelFactory
 	 */
-	protected $modelFactory;
+	private $modelFactory;
 
 	/**
 	 * @var ViewFactory
@@ -41,8 +41,6 @@ abstract class aController
 
 	public function __construct(Container $container)
 	{
-		$this->modelFactory = $container->getModelFactory();
-		$this->viewFactory = $container->getViewFactory();
 		$this->container = $container;
 	}
 
@@ -50,7 +48,7 @@ abstract class aController
 	 * @param $params
 	 * @return mixed
 	 */
-	abstract public function process(string $params): void;
+	abstract public function process(array $params): void;
 
 	/**
 	 * @param $url
@@ -67,7 +65,7 @@ abstract class aController
 	 */
 	public function getData(): array
 	{
-		return ($this->data);
+		return $this->data;
 	}
 
 	/**
@@ -75,9 +73,20 @@ abstract class aController
 	 */
 	public function getView(): string
 	{
-		return ($this->view);
+		return $this->view;
 	}
 
+	/**
+	 * @return ModelFactory
+	 */
+	public function getModelFactory(): ModelFactory
+	{
+		if(!$this->modelFactory)
+		{
+			$this->modelFactory = $this->container->getModelFactory();
+		}
+		return $this->modelFactory;
+	}
 
 	/**
 	 * @return ViewFactory
@@ -85,7 +94,7 @@ abstract class aController
 	public function getViewFactory(): ViewFactory
 	{
 		if ($this->isCalledClassRouter(static::class)) {
-			return $this->viewFactory;
+			return $this->setViewFactory();
 		}
 		$this->blame();
 	}
@@ -115,4 +124,18 @@ abstract class aController
 		echo '<pre>', var_dump('Tuhle metodu nemas co volat kamo'), '</pre>';
 		exit();
 	}
+
+	/**
+	 * @return ViewFactory
+	 */
+	private function setViewFactory(): ViewFactory
+	{
+		if(!$this->viewFactory)
+		{
+			$this->viewFactory = $this->container->getViewFactory();
+		}
+		return $this->viewFactory;
+	}
+
+
 }
