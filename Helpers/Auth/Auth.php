@@ -1,27 +1,25 @@
 <?php
 
 
-namespace Auth;
+namespace Helpers\Auth;
 
 
-use Database\Db;
+
+use Auth\Roles\Admin;
 
 
-final class Auth
+class Auth
 {
-	/**
-	 * @var Db
-	 */
-	private $db;
-
-	public function __construct(Db $db)
+	protected $db;
+	public function __construct($db)
 	{
 		$this->db = $db;
 	}
 
 	public function login(){}
 
-	public function register(){}
+	public function register(): void
+	{}
 
 	public function logout(){}
 
@@ -45,7 +43,9 @@ final class Auth
 
 	public function getRoleById(){}
 
-	public function admin(){}
+	public function admin(){
+		return new Admin($this->db);
+	}
 
 	public function cashier(){}
 

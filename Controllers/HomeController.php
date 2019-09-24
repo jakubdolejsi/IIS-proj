@@ -3,6 +3,7 @@
 
 namespace Controllers;
 
+
 /**
  * Class HomeController
  * @package Controllers
@@ -10,13 +11,12 @@ namespace Controllers;
 class HomeController extends aController
 {
 	/**
-	 * @param $params
-	 * @return mixed|void
+	 * @param array $params
 	 */
-	protected function process($params): void
+	public function process(array $params): void
 	{
-		$this->view->loadControllerView('home');
-		$this->data['tuska'] = 'mojekurvaData';
+		$this->view = 'home';
+		$this->data['data'] = 'mojekurvaData';
 	}
 
 

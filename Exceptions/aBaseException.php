@@ -20,5 +20,4 @@ class aBaseException extends Exception
 
 		return $msg;
 	}
-
 }

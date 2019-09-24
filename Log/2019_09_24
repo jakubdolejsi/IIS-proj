@@ -1,0 +1,76 @@
+[24-Sep-2019 09:43:20 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Argument 1 passed to Controllers\ErrorController::process() must be of the type string, array given, called in C:\xampp\htdocs\Router\Router.php on line 36 and defined in C:\xampp\htdocs\Controllers\ErrorController.php:14
+Stack trace:
+#0 C:\xampp\htdocs\Router\Router.php(36): Controllers\ErrorController->process(Array)
+#1 C:\xampp\htdocs\index.php(16): Router\Router->process('/error')
+#2 {main}
+  thrown in C:\xampp\htdocs\Controllers\ErrorController.php on line 14
+[24-Sep-2019 09:43:41 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Argument 1 passed to Controllers\ErrorController::process() must be of the type string, array given, called in C:\xampp\htdocs\Router\Router.php on line 36 and defined in C:\xampp\htdocs\Controllers\ErrorController.php:14
+Stack trace:
+#0 C:\xampp\htdocs\Router\Router.php(36): Controllers\ErrorController->process(Array)
+#1 C:\xampp\htdocs\index.php(16): Router\Router->process('/error')
+#2 {main}
+  thrown in C:\xampp\htdocs\Controllers\ErrorController.php on line 14
+[24-Sep-2019 09:47:51 Europe/Berlin] PHP Fatal error:  Uncaught Exceptions\aBaseException in C:\xampp\htdocs\Views\ViewRenderer\ViewRenderer.php:99
+Stack trace:
+#0 C:\xampp\htdocs\Views\ViewRenderer\ViewRenderer.php(73): Views\ViewRenderer\ViewRenderer->validateView('error')
+#1 C:\xampp\htdocs\Router\Router.php(96): Views\ViewRenderer\ViewRenderer->loadControllerView('error')
+#2 C:\xampp\htdocs\Router\Router.php(38): Router\Router->initView()
+#3 C:\xampp\htdocs\index.php(16): Router\Router->process('/error')
+#4 {main}
+  thrown in C:\xampp\htdocs\Views\ViewRenderer\ViewRenderer.php on line 99
+[24-Sep-2019 09:48:33 Europe/Berlin] PHP Notice:  Undefined variable: file in C:\xampp\htdocs\Views\ViewRenderer\ViewRenderer.php on line 100
+[24-Sep-2019 09:48:33 Europe/Berlin] PHP Stack trace:
+[24-Sep-2019 09:48:33 Europe/Berlin] PHP   1. {main}() C:\xampp\htdocs\index.php:0
+[24-Sep-2019 09:48:33 Europe/Berlin] PHP   2. Router\Router->process() C:\xampp\htdocs\index.php:16
+[24-Sep-2019 09:48:33 Europe/Berlin] PHP   3. Router\Router->initView() C:\xampp\htdocs\Router\Router.php:38
+[24-Sep-2019 09:48:33 Europe/Berlin] PHP   4. Views\ViewRenderer\ViewRenderer->loadControllerView() C:\xampp\htdocs\Router\Router.php:96
+[24-Sep-2019 09:48:33 Europe/Berlin] PHP   5. Views\ViewRenderer\ViewRenderer->validateView() C:\xampp\htdocs\Views\ViewRenderer\ViewRenderer.php:73
+[24-Sep-2019 09:48:55 Europe/Berlin] PHP Fatal error:  Uncaught Exceptions\aBaseException in C:\xampp\htdocs\Views\ViewRenderer\ViewRenderer.php:101
+Stack trace:
+#0 C:\xampp\htdocs\Views\ViewRenderer\ViewRenderer.php(73): Views\ViewRenderer\ViewRenderer->validateView('error')
+#1 C:\xampp\htdocs\Router\Router.php(96): Views\ViewRenderer\ViewRenderer->loadControllerView('error')
+#2 C:\xampp\htdocs\Router\Router.php(38): Router\Router->initView()
+#3 C:\xampp\htdocs\index.php(16): Router\Router->process('/error')
+#4 {main}
+  thrown in C:\xampp\htdocs\Views\ViewRenderer\ViewRenderer.php on line 101
+[24-Sep-2019 10:49:30 Europe/Berlin] PHP Notice:  Undefined offset: 1 in C:\xampp\htdocs\Controllers\ErrorController.php on line 18
+[24-Sep-2019 10:49:30 Europe/Berlin] PHP Stack trace:
+[24-Sep-2019 10:49:30 Europe/Berlin] PHP   1. {main}() C:\xampp\htdocs\index.php:0
+[24-Sep-2019 10:49:30 Europe/Berlin] PHP   2. Router\Router->process() C:\xampp\htdocs\index.php:17
+[24-Sep-2019 10:49:30 Europe/Berlin] PHP   3. Controllers\ErrorController->process() C:\xampp\htdocs\Router\Router.php:37
+[24-Sep-2019 10:49:40 Europe/Berlin] PHP Notice:  Undefined offset: 1 in C:\xampp\htdocs\Controllers\ErrorController.php on line 18
+[24-Sep-2019 10:49:40 Europe/Berlin] PHP Stack trace:
+[24-Sep-2019 10:49:40 Europe/Berlin] PHP   1. {main}() C:\xampp\htdocs\index.php:0
+[24-Sep-2019 10:49:40 Europe/Berlin] PHP   2. Router\Router->process() C:\xampp\htdocs\index.php:17
+[24-Sep-2019 10:49:40 Europe/Berlin] PHP   3. Controllers\ErrorController->process() C:\xampp\htdocs\Router\Router.php:37
+[24-Sep-2019 10:50:07 Europe/Berlin] PHP Notice:  Undefined offset: 1 in C:\xampp\htdocs\Controllers\ErrorController.php on line 20
+[24-Sep-2019 10:50:07 Europe/Berlin] PHP Stack trace:
+[24-Sep-2019 10:50:07 Europe/Berlin] PHP   1. {main}() C:\xampp\htdocs\index.php:0
+[24-Sep-2019 10:50:07 Europe/Berlin] PHP   2. Router\Router->process() C:\xampp\htdocs\index.php:17
+[24-Sep-2019 10:50:07 Europe/Berlin] PHP   3. Controllers\ErrorController->process() C:\xampp\htdocs\Router\Router.php:37
+[24-Sep-2019 10:50:23 Europe/Berlin] PHP Notice:  Undefined offset: 1 in C:\xampp\htdocs\Controllers\ErrorController.php on line 20
+[24-Sep-2019 10:50:23 Europe/Berlin] PHP Stack trace:
+[24-Sep-2019 10:50:23 Europe/Berlin] PHP   1. {main}() C:\xampp\htdocs\index.php:0
+[24-Sep-2019 10:50:23 Europe/Berlin] PHP   2. Router\Router->process() C:\xampp\htdocs\index.php:17
+[24-Sep-2019 10:50:23 Europe/Berlin] PHP   3. Controllers\ErrorController->process() C:\xampp\htdocs\Router\Router.php:37
+[24-Sep-2019 12:25:28 Europe/Berlin] This is a two lined message. 
+This is line two.
+[24-Sep-2019 12:37:47 Europe/Berlin] PHP Fatal error:  test of E_USER_ERROR in C:\xampp\htdocs\index.php on line 15
+[24-Sep-2019 12:37:47 Europe/Berlin] PHP Stack trace:
+[24-Sep-2019 12:37:47 Europe/Berlin] PHP   1. {main}() C:\xampp\htdocs\index.php:0
+[24-Sep-2019 12:37:47 Europe/Berlin] PHP   2. trigger_error() C:\xampp\htdocs\index.php:15
+[24-Sep-2019 12:39:48 Europe/Berlin] PHP Fatal error:  test of E_USER_ERROR in C:\xampp\htdocs\index.php on line 48
+[24-Sep-2019 12:39:48 Europe/Berlin] PHP Stack trace:
+[24-Sep-2019 12:39:48 Europe/Berlin] PHP   1. {main}() C:\xampp\htdocs\index.php:0
+[24-Sep-2019 12:39:48 Europe/Berlin] PHP   2. trigger_error() C:\xampp\htdocs\index.php:48
+
+[24-Sep-2019 12:40:27 Europe/Berlin] PHP Warning:  file_put_contents(C:\xampp\htdocsLog\2019_09_24): failed to open stream: No such file or directory in C:\xampp\htdocs\index.php on line 35
+[24-Sep-2019 12:40:27 Europe/Berlin] PHP Stack trace:
+[24-Sep-2019 12:40:27 Europe/Berlin] PHP   1. {main}() C:\xampp\htdocs\index.php:0
+[24-Sep-2019 12:40:27 Europe/Berlin] PHP   2. trigger_error() C:\xampp\htdocs\index.php:49
+[24-Sep-2019 12:40:27 Europe/Berlin] PHP   3. myErrorHandler() C:\xampp\htdocs\index.php:49
+[24-Sep-2019 12:40:27 Europe/Berlin] PHP   4. file_put_contents() C:\xampp\htdocs\index.php:35
+[24-Sep-2019 12:41:15 Europe/Berlin] PHP Fatal error:  test of E_USER_ERROR in C:\xampp\htdocs\index.php on line 15
+[24-Sep-2019 12:41:15 Europe/Berlin] PHP Stack trace:
+[24-Sep-2019 12:41:15 Europe/Berlin] PHP   1. {main}() C:\xampp\htdocs\index.php:0
+[24-Sep-2019 12:41:15 Europe/Berlin] PHP   2. trigger_error() C:\xampp\htdocs\index.php:15

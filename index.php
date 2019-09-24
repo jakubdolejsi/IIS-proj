@@ -1,19 +1,19 @@
 <?php
 
-use Database\Db;
+use DI\Container;
 use Enviroment\Enviroment;
 use Router\Router;
+
 
 require_once 'autoloader.php';
 
 
-$VERSION = Enviroment::DEVEL;
+Enviroment::setVersion(Enviroment::VERSION['DEVEL']);
 Enviroment::setEncoding();
 Enviroment::setErrorNotification();
 
-
-$router = new Router(new Db);
+$container = new Container;
+$router = new Router($container);
 $router->process($_SERVER['REQUEST_URI']);
 
-$router->loadControllerToView()->renderBase();
-
+$router->getViewRenderer()->renderBase();

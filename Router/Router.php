@@ -3,82 +3,103 @@
 namespace Router;
 
 use Controllers\aController;
-use Views\ViewRenderer\View;
+use Exceptions\ViewLoadException;
+use Views\ViewRenderer\ViewRenderer;
 
 
 /**
  * Class Router
  * @package Router
  */
-class Router extends aController
+final class Router extends aController
 {
+	/**
+	 * @var ViewRenderer
+	 */
+	private $viewRenderer;
 	/**
 	 * @var aController
 	 */
 	protected $controller;
 
+
 	/**
-	 * @param $params
-	 * @return mixed|void
+	 * @param array $params
 	 */
 	public function process($params): void
 	{
+		$this->viewRenderer = $this->getViewFactory()->getViewRenderer();
 		$url = $this->parseUrl($params);
 		$this->controller = $this->loadClass($this->getControllerClass($url));
 		$this->controller->process($url);
 
-		$this->view->loadBaseView('BaseLayout');
+		try {
+			$this->initView();
+		}
+		catch (ViewLoadException $exception) {
+			print_r($exception->errorMessage());
+			exit();
+//			$this->redirect('error');
+		}
 	}
 
 	/**
-	 * @param $controller
+	 * @param array $url
 	 * @return string
 	 */
-	private function getControllerClass($controller)
+	private function getControllerClass(array $url)
 	{
-		 return (ucwords($controller[0]). 'Controller');
+		return (ucwords($url[0]) . 'Controller');
 	}
+
 
 	/**
 	 * @param string $url
 	 * @return array
 	 */
-	private function parseUrl($url)
+	private function parseUrl(string $url)
 	{
 		$url = explode('/', trim(ltrim(parse_url($url)['path'], '/')));
-		if(empty($url[0])){
+		if (empty($url[0])) {
 			$this->redirect('home');
 		}
+
 		return ($url);
 	}
 
 	/**
-	 * @param $class
-	 * @return mixed
+	 * @param string $class
+	 * @return aController
 	 */
-	private function loadClass($class)
+	private function loadClass(string $class): aController
 	{
 		$cls = $class . '.php';
 		// TODO: recursive search...
-		$path = getcwd() . '\\Controllers\\'. $cls;
-		if (file_exists($path))
-		{
-			$class = 'Controllers\\'.$class;
-
-			return new $class('db');
+		$path = getcwd() . '\\Controllers\\' . $cls;
+		if (!file_exists($path)) {
+			$this->redirect('error');
 		}
+		$class = 'Controllers\\' . $class;
 
-		$this->redirect('error');
+		return new $class($this->getContainer());
 	}
 
 	/**
-	 * @return View
+	 * @return ViewRenderer
 	 */
-	public function loadControllerToView(): View
+	public function getViewRenderer(): ViewRenderer
 	{
-		$this->view->loadController($this->controller);
+		return $this->viewRenderer;
+	}
 
-		return $this->view;
+	/**
+	 * Set view properties
+	 */
+	private function initView(): void
+	{
+		$this->viewRenderer->loadControllerView($this->controller->getView());
+		$this->viewRenderer->loadBaseView('BaseLayout');
+		$this->viewRenderer->loadData($this->controller->getData());
 	}
 
 }

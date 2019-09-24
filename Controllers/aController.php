@@ -4,16 +4,18 @@
 namespace Controllers;
 
 
-use Database\Db;
-use Views\ViewRenderer\View;
+use DI\Container;
+use DI\ModelFactory;
+use DI\ViewFactory;
 
 
+/**
+ * Class aController
+ * @package Controllers
+ */
 abstract class aController
 {
 
-	/**
-	 * @var View
-	 */
 	protected $view;
 
 	/**
@@ -21,31 +23,37 @@ abstract class aController
 	 */
 	protected $data = [];
 
-	/**
-	 * @var
-	 */
-	protected $db;
 
 	/**
-	 * aController constructor.
-	 * @param Db $db
+	 * @var ModelFactory
 	 */
-	public function __construct(Db $db)
+	private $modelFactory;
+
+	/**
+	 * @var ViewFactory
+	 */
+	private $viewFactory;
+
+	/**
+	 * @var Container
+	 */
+	private $container;
+
+	public function __construct(Container $container)
 	{
-		$this->db = $db;
-		$this->view = new View;
+		$this->container = $container;
 	}
 
 	/**
 	 * @param $params
 	 * @return mixed
 	 */
-	abstract protected function process($params): void;
+	abstract public function process(array $params): void;
 
 	/**
 	 * @param $url
 	 */
-	protected function redirect($url): void
+	protected function redirect(string $url): void
 	{
 		header("Location: /$url");
 		header('Connection: close');
@@ -57,15 +65,77 @@ abstract class aController
 	 */
 	public function getData(): array
 	{
-		return ($this->data);
+		return $this->data;
 	}
 
 	/**
-	 * @return View
+	 * @return string
 	 */
-	public function getView(): View
+	public function getView(): string
 	{
-		return ($this->view);
+		return $this->view;
 	}
+
+	/**
+	 * @return ModelFactory
+	 */
+	public function getModelFactory(): ModelFactory
+	{
+		if(!$this->modelFactory)
+		{
+			$this->modelFactory = $this->container->getModelFactory();
+		}
+		return $this->modelFactory;
+	}
+
+	/**
+	 * @return ViewFactory
+	 */
+	public function getViewFactory(): ViewFactory
+	{
+		if ($this->isCalledClassRouter(static::class)) {
+			return $this->setViewFactory();
+		}
+		$this->blame();
+	}
+
+	/**
+	 * @return Container
+	 */
+	protected function getContainer(): Container
+	{
+		if ($this->isCalledClassRouter(static::class)) {
+			return $this->container;
+		}
+		$this->blame();
+	}
+
+	/**
+	 * @param $cls
+	 * @return bool
+	 */
+	private function isCalledClassRouter($cls): bool
+	{
+		return $cls === 'Router\Router';
+	}
+
+	private function blame(): void
+	{
+		echo '<pre>', var_dump('Tuhle metodu nemas co volat kamo'), '</pre>';
+		exit();
+	}
+
+	/**
+	 * @return ViewFactory
+	 */
+	private function setViewFactory(): ViewFactory
+	{
+		if(!$this->viewFactory)
+		{
+			$this->viewFactory = $this->container->getViewFactory();
+		}
+		return $this->viewFactory;
+	}
+
 
 }
