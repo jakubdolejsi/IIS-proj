@@ -4,9 +4,10 @@
 namespace DI;
 
 
+use Authentification\Auth;
 use Database\Db;
-use Helpers\Auth\Auth;
 use Helpers\Sessions\Session;
+use Models\LoginModel;
 use Models\RegisterModel;
 
 
@@ -24,6 +25,7 @@ final class ModelFactory
 	 * @var Session
 	 */
 	private $session;
+
 
 	/**
 	 * ModelFactory constructor.
@@ -45,5 +47,11 @@ final class ModelFactory
 	{
 		return new RegisterModel($this->auth, $this->db, $this->session);
 	}
+
+	public function createLoginModel(): LoginModel
+	{
+		return new LoginModel($this->auth, $this->db, $this->session);
+	}
+
 
 }

@@ -17,7 +17,7 @@ class HomeController extends aController
 	{
 		$this->view = 'home';
 		$this->data['data'] = 'mojekurvaData';
+//		$model->setX(10)->setY(10);
 	}
-
 
 }

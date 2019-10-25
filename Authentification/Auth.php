@@ -1,11 +1,14 @@
 <?php
 
 
-namespace Helpers\Auth;
+namespace Authentification;
 
 
 
-use Auth\Roles\Admin;
+use Authentification\Roles\Admin;
+use Authentification\Roles\Cashier;
+use Authentification\Roles\Editor;
+use Authentification\Roles\RegisteredUser;
 
 
 class Auth
@@ -15,11 +18,6 @@ class Auth
 	{
 		$this->db = $db;
 	}
-
-	public function login(){}
-
-	public function register(): void
-	{}
 
 	public function logout(){}
 
@@ -43,15 +41,25 @@ class Auth
 
 	public function getRoleById(){}
 
-	public function admin(){
+	public function admin()
+	{
 		return new Admin($this->db);
 	}
 
-	public function cashier(){}
+	public function cashier(): Cashier
+	{
+		return new Cashier($this->db);
+	}
 
-	public function editor(){}
+	public function editor(): Editor
+	{
+		return new Editor($this->db);
+	}
 
-	public function registeredUser(){}
+	public function registeredUser(): RegisteredUser
+	{
+		return new RegisteredUser($this->db);
+	}
 
 
 }

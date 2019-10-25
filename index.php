@@ -11,6 +11,7 @@ require_once 'autoloader.php';
 Enviroment::setVersion(Enviroment::VERSION['DEVEL']);
 Enviroment::setEncoding();
 Enviroment::setErrorNotification();
+session_start();
 
 $container = new Container;
 $router = new Router($container);

@@ -4,25 +4,16 @@
 namespace Models;
 
 
-use Database\Db;
-
-
 class RegisterModel extends aBaseModel
 {
-	private $user;
-
 	public function register(): void
 	{
-		$this->user = $this->newUser();
-	}
-
-	public function newUser()
-	{
-		return $this->auth->admin()->createNewUser();
-	}
-
-	public function getDb(): Db
-	{
-		return $this->db;
+		if($_SERVER['REQUEST_METHOD'] === 'POST') {
+			try {
+				$this->auth->registeredUser()->register();
+			} catch (\Exception $exception) {
+				var_dump($exception->getMessage());
+			}
+		}
 	}
 }

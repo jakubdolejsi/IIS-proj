@@ -3,8 +3,8 @@
 
 namespace Models;
 
+use Authentification\Auth;
 use Database\Db;
-use Helpers\Auth\Auth;
 use Helpers\Sessions\Session;
 
 
