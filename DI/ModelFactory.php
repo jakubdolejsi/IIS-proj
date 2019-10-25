@@ -9,6 +9,7 @@ use Database\Db;
 use Helpers\Sessions\Session;
 use Models\LoginModel;
 use Models\RegisterModel;
+use Models\UserModel;
 
 
 final class ModelFactory
@@ -53,5 +54,8 @@ final class ModelFactory
 		return new LoginModel($this->auth, $this->db, $this->session);
 	}
 
-
+	public function createUserModel(): UserModel
+	{
+		return new UserModel($this->auth, $this->db, $this->session);
+	}
 }

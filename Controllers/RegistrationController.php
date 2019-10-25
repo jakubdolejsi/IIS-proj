@@ -13,7 +13,7 @@ class RegistrationController extends aController
 	 */
 	public function process(array $params): void
 	{
-		$registrationModel = $this->getModelFactory()->createRegistrationModel();
+		$registrationModel = $this->getModelFactory()->createUserModel();
 		$registrationModel->register();
 		$this->view = 'Registration';
 	}

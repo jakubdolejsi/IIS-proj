@@ -14,7 +14,7 @@ class LoginController extends aController
 	public function process(array $params): void
 	{
 		$this->view = 'login';
-		$login = $this->getModelFactory()->createLoginModel();
+		$login = $this->getModelFactory()->createUserModel();
 		$loginOk = $login->login();
 		if($loginOk)
 		{
