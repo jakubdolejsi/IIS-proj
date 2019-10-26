@@ -5,6 +5,7 @@ namespace Models;
 
 use Exception;
 use Exceptions\InvalidPasswordException;
+use Exceptions\LoggedUserException;
 use Exceptions\NoUserException;
 
 
@@ -18,6 +19,7 @@ class UserModel extends aBaseModel
 	/**
 	 * @throws NoUserException
 	 * @throws InvalidPasswordException
+	 * @throws LoggedUserException
 	 */
 	public function login(): void
 	{
@@ -27,6 +29,7 @@ class UserModel extends aBaseModel
 				throw new NoUserException('User does not exists!');
 			}
 			$role->login();
+			throw new LoggedUserException('');
 		}
 	}
 
@@ -55,7 +58,6 @@ class UserModel extends aBaseModel
 	public function getUserInfo()
 	{
 		$userRole = $this->auth->role()->getRoleBySessionID();
-
 		return $userRole->getUserBySessionID();
 	}
 

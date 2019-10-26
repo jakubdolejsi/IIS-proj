@@ -10,6 +10,7 @@ use Exceptions\DuplicateUser;
 use Exceptions\InvalidPasswordException;
 use Exceptions\NoUserException;
 use Exceptions\PasswordsAreNotSameException;
+use Models\UserInformation;
 
 
 class RegisteredUser extends PostDataValidator
@@ -29,20 +30,20 @@ class RegisteredUser extends PostDataValidator
 	 */
 	public function register(): void
 	{
-		$userData = ($this->getPostDataAndValidate());
+		$userData = new UserInformation($this->getPostDataAndValidate());
 		if ($this->userExists($userData)) {
 			throw new DuplicateUser('User already exists');
 		}
 		$this->processRegistrationPassword($userData);
 		$query = 'INSERT INTO theatre.users(firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)';
-		$this->db->run($query, $userData);
+		$this->db->run($query, $userData->getAllProperties());
 		$_SESSION['user_id'] = $this->db->lastInsertId();
 	}
 
-	private function userExists($userData)
+	private function userExists(UserInformation $userData)
 	{
 		$query = 'select * from theatre.users where email = ?';
-		$res = $this->db->run($query, array($userData['email']))->fetch();
+		$res = $this->db->run($query, $userData->getEmail())->fetch();
 
 		return (empty($res) ? '' : $res);
 	}
@@ -52,19 +53,17 @@ class RegisteredUser extends PostDataValidator
 	 * @param $userData
 	 * @throws PasswordsAreNotSameException
 	 */
-	protected function processRegistrationPassword(&$userData): void
+	protected function processRegistrationPassword(UserInformation $userData): void
 	{
-		$password = $userData['password'];
-		$controlPassword = $userData['password2'];
+		$password = $userData->getPassword();
+		$controlPassword = $userData->getControlPassword();
 		if ($password !== $controlPassword) {
 			throw new PasswordsAreNotSameException('Passwords are not same!');
 		}
 
-		$userData['password'] = $this->hashPassword($password);
-		unset($userData['password2']);
-
-		$userData['role'] = 'registeredUser';
-		$userData = array_values($userData);
+		$userData->setPassword($this->hashPassword($password));
+		$userData->unsetControlPassword();
+		$userData->setRole('registeredUser');
 	}
 
 	/**
@@ -73,12 +72,12 @@ class RegisteredUser extends PostDataValidator
 	 */
 	public function login(): void
 	{
-		$userData = ($this->getPostDataAndValidate());
+		$userData = new UserInformation($this->getPostDataAndValidate());
 		$user = $this->userExists($userData);
 		if (empty($user)) {
 			throw new NoUserException('User does not exists');
 		}
-		$password = $userData['password'];
+		$password = $userData->getPassword();
 		$hash = $user['password'];
 		if (!$this->verifyHashPassword($password, $hash)) {
 			throw new InvalidPasswordException('Invalid password');

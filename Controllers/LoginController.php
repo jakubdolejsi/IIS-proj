@@ -5,6 +5,7 @@ namespace Controllers;
 
 
 use Exceptions\InvalidPasswordException;
+use Exceptions\LoggedUserException;
 use Exceptions\NoUserException;
 
 
@@ -30,6 +31,9 @@ class LoginController extends aController
 		}
 		catch (NoUserException $exception) {
 			var_dump($exception->getMessage());
+		}
+		catch (LoggedUserException $exception) {
+			$this->redirect('auth');
 		}
 	}
 }
