@@ -5,61 +5,33 @@ namespace Authentification;
 
 
 
-use Authentification\Roles\Admin;
-use Authentification\Roles\Cashier;
-use Authentification\Roles\Editor;
 use Authentification\Roles\RegisteredUser;
+use Database\Db;
 
 
 class Auth
 {
 	protected $db;
-	public function __construct($db)
+
+	public function __construct(Db $db)
 	{
 		$this->db = $db;
 	}
 
-	public function logout(){}
-
-	public function isLoggedIn(){}
-
-	public function isRegistered(){}
-
-	public function getUserId(){}
-
-	public function getUserFirstName(){}
-
-	public function getUserLastName(){}
-
-	public function getUserEmail(){}
-
-	public function getUserBirthday(){}
-
-	public function getUserPhoneNumber(){}
-
-	public function setRoleById(){}
-
-	public function getRoleById(){}
-
-	public function admin()
+	/**
+	 * @return Role
+	 */
+	public function role(): Role
 	{
-		return new Admin($this->db);
+		return new Role($this->db);
 	}
 
-	public function cashier(): Cashier
-	{
-		return new Cashier($this->db);
-	}
-
-	public function editor(): Editor
-	{
-		return new Editor($this->db);
-	}
-
+	/** @return RegisteredUser
+	 * @internal Vola se pouze pri registraci
+	 */
 	public function registeredUser(): RegisteredUser
 	{
 		return new RegisteredUser($this->db);
 	}
-
 
 }

@@ -4,22 +4,33 @@
 namespace Controllers;
 
 
+use Exceptions\AlreadyLoggedUserException;
+use Exceptions\NoUserException;
+
+
 class LoginController extends aController
 {
 
 	/**
-	 * @param $params
-	 * @return mixed
+	 * @param array $params
 	 */
 	public function process(array $params): void
 	{
 		$this->view = 'login';
-		$login = $this->getModelFactory()->createUserModel();
-		$loginOk = $login->login();
-		if($loginOk)
-		{
+		$user = $this->getModelFactory()->createUserModel();
+		$logged = FALSE;
+		try {
+			$logged = $user->login();
+		}
+		catch (AlreadyLoggedUserException $exception) {
+			$exception->getMessage();
 			$this->redirect('auth');
 		}
-		var_dump('Spatne prihlaseni');
+		catch (NoUserException $exception) {
+			$exception->getMessage();
+		}
+		if ($logged) {
+			$this->redirect('auth');
+		}
 	}
 }

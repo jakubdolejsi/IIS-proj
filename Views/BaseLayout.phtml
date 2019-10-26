@@ -5,18 +5,38 @@
 	<meta charset="UTF-8"/>
 	<base href="/localhost"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="Views/baseStyle.css">
-
+    <link rel="stylesheet" type="text/css" href="Views/CSS/baseStyle.css"/>
+    <script src="Views/JS/actions.js"></script>
 </head>
 <body>
 
 <ul>
     <li><a href="home">Home</a></li>
-    <li><a href="Registration">Registration</a></li>
-    <li><a href="Login">Login</a></li>
-    <li style="float:right"><a href="about">About us</a></li>
+    <li id="registration">
+		<?php
+		if (empty($_SESSION['user_id'])) {
+			echo '<a href="registration">Registration</a>';
+		} ?>
+    </li>
+    <li><a href="search">Search</a></li>
+    <li style="float:right" id="about"><a href="about">About us</a></li>
+    <li style="float: right">
+		<?php
+		if (empty($_SESSION['user_id'])) {
+			echo '<a href="login">Login</a>';
+		} else {
+			echo '<a href="logout">Logout</a>';
+		}
+		?>
+    </li>
+    <li style="float:right" id="settings">
+		<?php
+		if (!empty($_SESSION['user_id'])) {
+			echo '<a href="settings">Settings</a>';
+		}
+		?>
+    </li>
 </ul>
-
 
 <article>
 <!--	--><?php //$this->view = $this->controller->view; // nastaveni pohledu aktualniho kontroleru

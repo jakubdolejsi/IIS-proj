@@ -51,10 +51,14 @@ abstract class aController
 	abstract public function process(array $params): void;
 
 	/**
-	 * @param $url
+	 * @param string $url
+	 * @param string $time
 	 */
-	protected function redirect(string $url): void
+	protected function redirect(string $url, $time = ''): void
 	{
+		if (!empty($time)) {
+			header('Refresh:' . $time);
+		}
 		header("Location: /$url");
 		header('Connection: close');
 		exit;

@@ -1,3 +1,12 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-family: "Droid Sans", serif;
+    font-weight: 300;
+}
+
+
 ul {
     list-style-type: none;
     margin: 0;
@@ -34,4 +43,21 @@ li a:hover {
     padding: 14px 16px;
     font-size: 30px;
 
+}
+
+.myForm {
+    max-width: 300px;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background: #5fb9c2;
+    border-radius: 10px;
+}
+
+form {
+    color: #57c1c2;
+    max-width: 300px;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background: #5fb9c2;
+    border-radius: 10px;
 }

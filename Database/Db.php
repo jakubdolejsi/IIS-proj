@@ -31,11 +31,11 @@ final class Db extends PDO
 
 
 	/**
-	 * @param string     $sql
-	 * @param array|NULL $args
+	 * @param string $sql
+	 * @param null   $args
 	 * @return bool|PDOStatement
 	 */
-	public function run(string $sql, array $args = NULL)
+	public function run(string $sql, $args = NULL)
 	{
 		$stmt = $this->prepare($sql);
 		$stmt->execute($this->toArray($args));

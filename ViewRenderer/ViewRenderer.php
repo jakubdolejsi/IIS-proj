@@ -1,10 +1,9 @@
 <?php /** @noinspection ALL */
 
 
-namespace Views\ViewRenderer;
+namespace ViewRenderer;
 
 
-use Controllers\aController;
 use Exceptions\ViewLoadException;
 
 

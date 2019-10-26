@@ -4,7 +4,7 @@ namespace Router;
 
 use Controllers\aController;
 use Exceptions\ViewLoadException;
-use Views\ViewRenderer\ViewRenderer;
+use ViewRenderer\ViewRenderer;
 
 
 /**
@@ -84,10 +84,7 @@ final class Router extends aController
 		return new $class($this->getContainer());
 	}
 
-	/**
-	 * @return ViewRenderer
-	 */
-	public function getViewRenderer(): ViewRenderer
+	public function getViewRenderer()
 	{
 		return $this->viewRenderer;
 	}

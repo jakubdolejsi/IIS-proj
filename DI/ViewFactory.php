@@ -3,15 +3,17 @@
 
 namespace DI;
 
-use Views\ViewRenderer\ViewRenderer;
+
+use ViewRenderer\ViewRenderer;
 
 
 /**
  * Class ViewFactory
- * @package Views\ViewRenderer
+ * @package DI
  */
 class ViewFactory
 {
+
 	/**
 	 * @return ViewRenderer
 	 */

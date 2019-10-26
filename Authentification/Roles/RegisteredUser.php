@@ -4,12 +4,13 @@
 namespace Authentification\Roles;
 
 
+use Authentification\PostDataValidator;
 use Database\Db;
 use Exceptions\DuplicateUser;
 use Exceptions\NoUserException;
 
 
-class RegisteredUser
+class RegisteredUser extends PostDataValidator
 {
 
 	protected $db;
@@ -23,12 +24,11 @@ class RegisteredUser
 	public function register(): void
 	{
 		$userData = ($this->getPostDataAndValidate());
-		if($this->userExists($userData))
-		{
+		if ($this->userExists($userData)) {
 			throw new DuplicateUser('User already exists');
 		}
 		$this->processPassword($userData);
-		$query = 'INSERT INTO users(firstName, lastName, email, password) VALUES (?,?,?,?)';
+		$query = 'INSERT INTO theatre.users(firstName, lastName, email, password) VALUES (?,?,?,?)';
 		$this->db->run($query, $userData);
 		session_start();
 		$_SESSION['user_id'] = $this->db->lastInsertId();
@@ -36,7 +36,7 @@ class RegisteredUser
 
 	private function userExists($userData)
 	{
-		$query = 'select * from users where email=?';
+		$query = 'select * from theatre.users where email=?';
 		$res = $this->db->run($query, array($userData['email']))->fetch();
 
 		return (empty($res) ? '' : $res);
@@ -54,12 +54,17 @@ class RegisteredUser
 	{
 		$userData = ($this->getPostDataAndValidate());
 		$user = $this->userExists($userData);
-		if(empty($user))
-		{
+		if (empty($user)) {
 			throw new NoUserException('User does not exists');
 		}
 		$_SESSION['user_id'] = $user['id'];
 		var_dump('Vitej '.$user['firstName']);
+	}
+
+	public function logout(): void
+	{
+		unset($_SESSION['user_id']);
+		session_destroy();
 	}
 
 	public function isLogged()
@@ -73,17 +78,5 @@ class RegisteredUser
 		$res = $this->db->run($query, array($id))->fetchAll();
 
 		return $res;
-	}
-
-	// ********************* patri do jiny tridy ********************************
-
-	private function parseInput($data): string
-	{
-		return (htmlspecialchars(stripslashes(trim($data))));
-	}
-
-	protected function getPostDataAndValidate(): array
-	{
-		return (array_map([$this, 'parseInput'], $_POST));
 	}
 }

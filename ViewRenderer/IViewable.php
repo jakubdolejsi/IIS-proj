@@ -1,10 +1,7 @@
 <?php
 
 
-namespace Views\ViewRenderer;
-
-
-use Controllers\aController;
+namespace ViewRenderer;
 
 
 /**

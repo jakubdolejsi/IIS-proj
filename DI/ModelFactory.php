@@ -42,18 +42,8 @@ final class ModelFactory
 	}
 
 	/**
-	 * @return RegisterModel
+	 * @return UserModel
 	 */
-	public function createRegistrationModel(): RegisterModel
-	{
-		return new RegisterModel($this->auth, $this->db, $this->session);
-	}
-
-	public function createLoginModel(): LoginModel
-	{
-		return new LoginModel($this->auth, $this->db, $this->session);
-	}
-
 	public function createUserModel(): UserModel
 	{
 		return new UserModel($this->auth, $this->db, $this->session);
