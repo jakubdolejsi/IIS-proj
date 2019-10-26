@@ -4,7 +4,7 @@
 namespace Controllers;
 
 
-use Exceptions\AlreadyLoggedUserException;
+use Exceptions\InvalidPasswordException;
 use Exceptions\NoUserException;
 
 
@@ -18,19 +18,18 @@ class LoginController extends aController
 	{
 		$this->view = 'login';
 		$user = $this->getModelFactory()->createUserModel();
-		$logged = FALSE;
-		try {
-			$logged = $user->login();
-		}
-		catch (AlreadyLoggedUserException $exception) {
-			$exception->getMessage();
+
+		if ($user->isLogged()) {
 			$this->redirect('auth');
+		}
+		try {
+			$user->login();
+		}
+		catch (InvalidPasswordException $exception) {
+			var_dump($exception->getMessage());
 		}
 		catch (NoUserException $exception) {
-			$exception->getMessage();
-		}
-		if ($logged) {
-			$this->redirect('auth');
+			var_dump($exception->getMessage());
 		}
 	}
 }

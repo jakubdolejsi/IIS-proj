@@ -25,7 +25,9 @@ class Role extends PostDataValidator
 		$data = $this->getPostDataAndValidate();
 		$query = ('select usr.role from theatre.users as usr where usr.email = ?');
 		$res = $this->db->run($query, $data['email'])->fetchAll();
-
+		if (empty($res)) {
+			return NULL;
+		}
 		return $this->setRole($res[0]['role']);
 	}
 
@@ -52,6 +54,8 @@ class Role extends PostDataValidator
 				return new Editor($this->db);
 			case 'admin':
 				return new Admin($this->db);
+			default:
+				return NULL;
 		}
 	}
 

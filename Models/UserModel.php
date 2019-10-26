@@ -4,7 +4,7 @@
 namespace Models;
 
 use Exception;
-use Exceptions\AlreadyLoggedUserException;
+use Exceptions\InvalidPasswordException;
 use Exceptions\NoUserException;
 
 
@@ -16,40 +16,40 @@ class UserModel extends aBaseModel
 	}
 
 	/**
-	 * @throws AlreadyLoggedUserException
 	 * @throws NoUserException
+	 * @throws InvalidPasswordException
 	 */
-	public function login(): bool
+	public function login(): void
 	{
-		if (isset($_SESSION['user_id'])) {
-			throw new AlreadyLoggedUserException('You are already logged in');
-		}
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$role = $this->auth->role()->getRoleByEmailPOST();
+			if (!isset($role)) {
+				throw new NoUserException('User does not exists!');
+			}
 			$role->login();
-
-			return TRUE;
 		}
-
-		return FALSE;
 	}
 
-	public function logout()
+	public function logout(): void
 	{
 		$role = $this->auth->role()->getRoleBySessionID();
 		$role->logout();
 	}
 
-	public function register(): void
+	public function register(): bool
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			try {
 				$this->auth->registeredUser()->register();
+
+				return TRUE;
 			}
 			catch (Exception $exception) {
 				var_dump($exception->getMessage());
 			}
 		}
+
+		return FALSE;
 	}
 
 	public function getUserInfo()

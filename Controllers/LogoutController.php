@@ -14,6 +14,9 @@ class LogoutController extends aController
 	public function process(array $params): void
 	{
 		$user = $this->getModelFactory()->createUserModel();
+		if (!$user->isLogged()) {
+			$this->redirect('error');
+		}
 		$user->logout();
 		$this->redirect('home');
 	}
