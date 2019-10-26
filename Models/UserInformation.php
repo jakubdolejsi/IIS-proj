@@ -88,10 +88,15 @@ class UserInformation
 		$this->password = $user['password'];
 	}
 
+	/** TODO: Predelat, je to hrozne staticky..
+	 * @param array $user
+	 */
 	private function setRegistrationData(array $user): void
 	{
 		$this->firstName = $user['firstName'];
 		$this->lastName = $user['lastName'];
-		$this->controlPassword = $user['password2'];
+		if (isset($user['password2'])) {
+			$this->controlPassword = $user['password2'];
+		}
 	}
 }

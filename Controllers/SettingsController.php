@@ -17,8 +17,8 @@ class SettingsController extends aController
 		$userInformation = $user->getUserInfo();
 
 		$this->view = 'settings';
-		$this->data['firstName'] = $userInformation['firstName'];
-		$this->data['lastName'] = $userInformation['lastName'];
-		$this->data['email'] = $userInformation['email'];
+		$this->data['firstName'] = $userInformation->getFirstName();
+		$this->data['lastName'] = $userInformation->getLastName();
+		$this->data['email'] = $userInformation->getEmail();
 	}
 }

@@ -6,10 +6,7 @@ namespace Authentification\Roles;
 
 use Authentification\PostDataValidator;
 use Database\Db;
-use Exceptions\DuplicateUser;
-use Exceptions\InvalidPasswordException;
-use Exceptions\NoUserException;
-use Exceptions\PasswordsAreNotSameException;
+use Exceptions\{DuplicateUser, InvalidPasswordException, NoUserException, PasswordsAreNotSameException};
 use Models\UserInformation;
 
 
@@ -25,8 +22,8 @@ class RegisteredUser extends PostDataValidator
 	}
 
 	/**
-	 * @throws DuplicateUser
 	 * @throws PasswordsAreNotSameException
+	 * @throws DuplicateUser
 	 */
 	public function register(): void
 	{
@@ -93,11 +90,11 @@ class RegisteredUser extends PostDataValidator
 	}
 
 
-	public function getUserBySessionID(): array
+	public function getUserBySessionID(): UserInformation
 	{
 		$id = $_SESSION['user_id'];
 		$query = 'select * from users where id=?';
 
-		return $this->db->run($query, [$id])->fetchAll()[0];
+		return new UserInformation($this->db->run($query, [$id])->fetchAll()[0]);
 	}
 }

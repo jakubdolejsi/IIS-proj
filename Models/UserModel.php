@@ -44,7 +44,6 @@ class UserModel extends aBaseModel
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			try {
 				$this->auth->registeredUser()->register();
-
 				return TRUE;
 			}
 			catch (Exception $exception) {
@@ -55,7 +54,7 @@ class UserModel extends aBaseModel
 		return FALSE;
 	}
 
-	public function getUserInfo()
+	public function getUserInfo(): UserInformation
 	{
 		$userRole = $this->auth->role()->getRoleBySessionID();
 		return $userRole->getUserBySessionID();

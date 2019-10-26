@@ -20,6 +20,6 @@ class AuthController extends aController
 		}
 		$user = $this->getModelFactory()->createUserModel();
 		$userInfo = $user->getUserInfo();
-		$this->data['firstName'] = $userInfo['firstName'];
+		$this->data['firstName'] = $userInfo->getFirstName();
 	}
 }
