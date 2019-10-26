@@ -12,7 +12,7 @@ class UserModel extends aBaseModel
 {
 	public function isLogged(): bool
 	{
-		return TRUE;
+		return isset($_SESSION['user_id']);
 	}
 
 	/**
@@ -50,6 +50,13 @@ class UserModel extends aBaseModel
 				var_dump($exception->getMessage());
 			}
 		}
+	}
+
+	public function getUserInfo()
+	{
+		$userRole = $this->auth->role()->getRoleBySessionID();
+
+		return $userRole->getUserBySessionID();
 	}
 
 	public function createReservation()

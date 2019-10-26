@@ -28,9 +28,8 @@ class RegisteredUser extends PostDataValidator
 			throw new DuplicateUser('User already exists');
 		}
 		$this->processPassword($userData);
-		$query = 'INSERT INTO theatre.users(firstName, lastName, email, password) VALUES (?,?,?,?)';
+		$query = 'INSERT INTO theatre.users(firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)';
 		$this->db->run($query, $userData);
-		session_start();
 		$_SESSION['user_id'] = $this->db->lastInsertId();
 	}
 
@@ -47,6 +46,7 @@ class RegisteredUser extends PostDataValidator
 	{
 		// overi heslo...
 		unset($userData['password2']);
+		$userData['role'] = 'registeredUser';
 		$userData = array_values($userData);
 	}
 
@@ -72,11 +72,11 @@ class RegisteredUser extends PostDataValidator
 
 	}
 
-	public function getUserByID($id): array
+	public function getUserBySessionID(): array
 	{
+		$id = $_SESSION['user_id'];
 		$query = 'select * from users where id=?';
-		$res = $this->db->run($query, array($id))->fetchAll();
 
-		return $res;
+		return $this->db->run($query, [$id])->fetchAll()[0];
 	}
 }
