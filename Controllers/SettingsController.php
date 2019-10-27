@@ -13,6 +13,7 @@ class SettingsController extends aController
 	 */
 	public function process(array $params): void
 	{
+
 		$user = $this->getModelFactory()->createUserModel();
 		$userInformation = $user->getUserInfo();
 

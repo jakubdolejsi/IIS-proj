@@ -2,11 +2,11 @@
 
 <html lang="cs-cz">
 <head>
-	<meta charset="UTF-8"/>
-	<base href="/localhost"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta charset="UTF-8"/>
+    <base href="/localhost"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="Views/CSS/baseStyle.css"/>
-    <script src="Views/JS/actions.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -36,11 +36,15 @@
 		}
 		?>
     </li>
+    <li style="float: right" class="search">
+        <input type="text" placeholder="Type hotel name..." name="search">
+        <input type=button class="searchButton" value="Search">
+    </li>
 </ul>
 
 <article>
-<!--	--><?php //$this->view = $this->controller->view; // nastaveni pohledu aktualniho kontroleru
-    $this->render(); ?>
+    <!--	--><?php //$this->view = $this->controller->view; // nastaveni pohledu aktualniho kontroleru
+	$this->render(); ?>
 </article>
 
 </body>

@@ -33,6 +33,12 @@ li a:hover {
     background-color: #55b5c8;
 }
 
+
+.searchButton {
+    padding: 5px;
+    margin: 5px;
+}
+
 .welcome {
     display: block;
     font-family: "Droid Sans", serif;
