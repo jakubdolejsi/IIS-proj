@@ -12,7 +12,7 @@ use Helpers\Sessions\Session;
  * Class baseModel
  * @package Models
  */
-abstract class BaseModel
+abstract class baseModel
 {
 	protected $auth;
 

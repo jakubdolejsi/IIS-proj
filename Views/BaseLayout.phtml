@@ -36,13 +36,6 @@
 		}
 		?>
     </li>
-    <li style="float:right" id="settings">
-		<?php
-		if (!empty($_SESSION['user_id'])) {
-			echo '<a href="ticket">Your tickets</a>';
-		}
-		?>
-    </li>
     <li style="float: right" class="search">
         <input type="text" placeholder="Type hotel name..." name="search">
         <input type=button class="searchButton" value="Search">

@@ -3,8 +3,7 @@
 
 namespace Models;
 
-
-use Exceptions\DuplicateUser;
+use Exception;
 use Exceptions\InvalidPasswordException;
 use Exceptions\LoggedUserException;
 use Exceptions\NoUserException;
@@ -20,11 +19,10 @@ class UserModel extends baseModel
 		return isset($_SESSION['user_id']);
 	}
 
-
 	/**
+	 * @throws NoUserException
 	 * @throws InvalidPasswordException
 	 * @throws LoggedUserException
-	 * @throws NoUserException
 	 */
 	public function login(): void
 	{
@@ -44,23 +42,21 @@ class UserModel extends baseModel
 		$role->logout();
 	}
 
-	/**
-	 * @return bool
-	 * @throws DuplicateUser
-	 * @throws PasswordsAreNotSameException
-	 */
 	public function register(): bool
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			try {
 				$this->auth->registeredUser()->register();
 				return TRUE;
+			}
+			catch (Exception $exception) {
+				var_dump($exception->getMessage());
+			}
 		}
+
 		return FALSE;
 	}
 
-	/**
-	 * @return UserDetail
-	 */
 	public function getUserInfo(): UserDetail
 	{
 		$userRole = $this->auth->role()->getRoleBySessionID();
