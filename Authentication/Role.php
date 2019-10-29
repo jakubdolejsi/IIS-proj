@@ -25,7 +25,7 @@ class Role extends Validator
 	public function getRoleByEmailPOST()
 	{
 		$data = new UserDetail($this->getPostDataAndValidate());
-		$query = ('select usr.role from theatre.users as usr where usr.email = ?');
+		$query = ('select usr.role from theatre.user as usr where usr.email = ?');
 		$res = $this->db->run($query, $data->getEmail())->fetch(PDO::FETCH_ASSOC);
 		if (empty($res)) {
 			return NULL;
@@ -40,7 +40,7 @@ class Role extends Validator
 		if (empty($sessionID)) {
 			// nejaka exceptiona, asi ze uzivatel neni prihlaseny..
 		}
-		$query = 'select usr.role from theatre.users as usr where usr.id = ?';
+		$query = 'select usr.role from theatre.user as usr where usr.id = ?';
 		$res = $this->db->run($query, $sessionID)->fetch(PDO::FETCH_ASSOC);
 
 		return $this->setRole($res['role']);

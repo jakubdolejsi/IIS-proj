@@ -7,8 +7,7 @@ namespace DI;
 use Authentication\Auth;
 use Database\Db;
 use Helpers\Sessions\Session;
-use Models\LoginModel;
-use Models\RegisterModel;
+use Models\TicketManager;
 use Models\UserModel;
 
 
@@ -47,5 +46,10 @@ final class ModelFactory
 	public function createUserModel(): UserModel
 	{
 		return new UserModel($this->auth, $this->db, $this->session);
+	}
+
+	public function createTicketManager(): TicketManager
+	{
+		return new TicketManager($this->auth, $this->db, $this->session);
 	}
 }

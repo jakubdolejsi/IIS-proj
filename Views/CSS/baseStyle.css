@@ -75,3 +75,7 @@ form {
 .inner {
     display: inline-block;
 }
+
+.tickets {
+    display: inline-block;
+}

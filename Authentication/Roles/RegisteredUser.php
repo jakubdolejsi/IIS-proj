@@ -39,7 +39,7 @@ class RegisteredUser extends Validator
 			throw new DuplicateUser('User already exists');
 		}
 		$this->processRegistrationPassword($userDetail);
-		$query = 'INSERT INTO theatre.users(firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)';
+		$query = 'INSERT INTO theatre.user(firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)';
 		$this->db->run($query, $userDetail->getAllProperties());
 		$_SESSION['user_id'] = $this->db->lastInsertId();
 	}
@@ -50,7 +50,7 @@ class RegisteredUser extends Validator
 	 */
 	private function getUserByEmail($email)
 	{
-		$query = 'select * from theatre.users where email = ?';
+		$query = 'select * from theatre.user where email = ?';
 		$res = $this->db->run($query, $email)->fetch(PDO::FETCH_ASSOC);
 
 		return (empty($res) ? '' : $res);
@@ -72,6 +72,7 @@ class RegisteredUser extends Validator
 			->unsetControlPassword()
 			->setRole('registeredUser');
 	}
+
 
 	/**
 	 * @throws InvalidPasswordException
@@ -109,7 +110,7 @@ class RegisteredUser extends Validator
 	public function getUserBySessionID(): UserDetail
 	{
 		$id = $_SESSION['user_id'];
-		$query = 'select * from theatre.users where id=?';
+		$query = 'select * from theatre.user where id=?';
 
 		return new UserDetail($this->db->run($query, [$id])->fetchAll()[0]);
 	}
@@ -122,7 +123,7 @@ class RegisteredUser extends Validator
 	{
 		$newEmail = $this->getPostDataAndValidate()['email'];
 		$actualEmail = $this->getUserBySessionID()->getEmail();
-		$query = 'update theatre.users set email = ? where email = ?';
+		$query = 'update theatre.user set email = ? where email = ?';
 		$res = $this->db->run($query, [$newEmail, $actualEmail]);
 		if ($res->errorCode() !== '00000') {
 			throw new UpdateProfileException('Updating profile was not successfully completed!');
@@ -141,7 +142,7 @@ class RegisteredUser extends Validator
 		if (!$user->compareNewPassword()) {
 			throw new PasswordsAreNotSameException('Passwords does not match!');
 		}
-		$query = 'select password from theatre.users where email = ?';
+		$query = 'select password from theatre.user where email = ?';
 		$oldHash = $this->db->run($query, $this->getUserBySessionID()->getEmail())->fetch(PDO::FETCH_ASSOC);
 		if (!$this->verifyHashPassword($user->getPassword(), $oldHash['password'])) {
 			throw new PasswordsAreNotSameException('Actual password is not correct!');
@@ -158,7 +159,7 @@ class RegisteredUser extends Validator
 	 */
 	private function updatePassword(UserDetail $userDetail): void
 	{
-		$query = 'update theatre.users set password = ? where email = ?';
+		$query = 'update theatre.user set password = ? where email = ?';
 		$password = $userDetail->getPassword();
 		$email = $this->getUserBySessionID()->getEmail();
 
