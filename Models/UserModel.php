@@ -9,7 +9,7 @@ use Exceptions\LoggedUserException;
 use Exceptions\NoUserException;
 
 
-class UserModel extends aBaseModel
+class UserModel extends baseModel
 {
 	public function isLogged(): bool
 	{
@@ -54,11 +54,28 @@ class UserModel extends aBaseModel
 		return FALSE;
 	}
 
-	public function getUserInfo(): UserInformation
+	public function getUserInfo(): UserDetail
 	{
 		$userRole = $this->auth->role()->getRoleBySessionID();
 		return $userRole->getUserBySessionID();
 	}
+
+	public function editProfile(): void
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$role = $this->auth->role()->getRoleBySessionID();
+			$role->editProfile();
+		}
+	}
+
+	public function editPassword()
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$role = $this->auth->role()->getRoleBySessionID();
+			$role->editPassword();
+		}
+	}
+
 
 	public function createReservation()
 	{
@@ -68,6 +85,11 @@ class UserModel extends aBaseModel
 	public function getReservationByID()
 	{
 
+	}
+
+	public function default(): void
+	{
+		return;
 	}
 
 }

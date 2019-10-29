@@ -4,7 +4,7 @@
 namespace Controllers;
 
 
-class AuthController extends aController
+class AuthController extends baseController
 {
 
 	/**
@@ -16,7 +16,9 @@ class AuthController extends aController
 		$this->view = 'auth';
 		if(!isset($_SESSION['user_id']))
 		{
+			$this->alert('Permission denied');
 			$this->redirect('login');
+
 		}
 		$user = $this->getModelFactory()->createUserModel();
 		$userInfo = $user->getUserInfo();

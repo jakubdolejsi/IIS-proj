@@ -4,7 +4,7 @@
 namespace Controllers;
 
 
-class SearchController extends aController
+class SearchController extends baseController
 {
 
 	/**

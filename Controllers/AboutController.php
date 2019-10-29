@@ -4,7 +4,7 @@
 namespace Controllers;
 
 
-class AboutController extends aController
+class AboutController extends baseController
 {
 
 	/**

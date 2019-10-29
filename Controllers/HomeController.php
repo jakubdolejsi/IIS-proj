@@ -8,7 +8,7 @@ namespace Controllers;
  * Class HomeController
  * @package Controllers
  */
-class HomeController extends aController
+class HomeController extends baseController
 {
 	/**
 	 * @param array $params

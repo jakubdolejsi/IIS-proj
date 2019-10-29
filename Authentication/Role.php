@@ -1,17 +1,18 @@
 <?php
 
 
-namespace Authentification;
+namespace Authentication;
 
 
-use Authentification\Roles\Admin;
-use Authentification\Roles\Cashier;
-use Authentification\Roles\Editor;
-use Authentification\Roles\RegisteredUser;
+use Authentication\Roles\Admin;
+use Authentication\Roles\Cashier;
+use Authentication\Roles\Editor;
+use Authentication\Roles\RegisteredUser;
 use Database\Db;
+use Models\UserDetail;
 
 
-class Role extends PostDataValidator
+class Role extends Validator
 {
 	protected $db;
 
@@ -22,9 +23,9 @@ class Role extends PostDataValidator
 
 	public function getRoleByEmailPOST()
 	{
-		$data = $this->getPostDataAndValidate();
+		$data = new UserDetail($this->getPostDataAndValidate());
 		$query = ('select usr.role from theatre.users as usr where usr.email = ?');
-		$res = $this->db->run($query, $data['email'])->fetchAll();
+		$res = $this->db->run($query, $data->getEmail())->fetchAll();
 		if (empty($res)) {
 			return NULL;
 		}

@@ -4,7 +4,7 @@
 namespace DI;
 
 
-use Authentification\Auth;
+use Authentication\Auth;
 use Database\Db;
 use Helpers\Sessions\Session;
 

@@ -10,10 +10,10 @@ use DI\ViewFactory;
 
 
 /**
- * Class aController
+ * Class baseController
  * @package Controllers
  */
-abstract class aController
+abstract class baseController
 {
 
 	protected $view;
@@ -52,16 +52,19 @@ abstract class aController
 
 	/**
 	 * @param string $url
-	 * @param string $time
 	 */
-	protected function redirect(string $url, $time = ''): void
+	protected function redirect(string $url): void
 	{
-		if (!empty($time)) {
-			header('Refresh:' . $time);
-		}
-		header("Location: /$url");
-		header('Connection: close');
-		exit;
+		echo "<script>
+				window.location.href='$url';
+			</script>";
+	}
+
+	protected function alert($message): void
+	{
+		echo "<script>
+				alert('$message');
+			</script>";
 	}
 
 	/**

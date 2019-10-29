@@ -4,7 +4,7 @@
 namespace Models;
 
 
-class UserInformation
+class UserDetail
 {
 	protected $firstName;
 
@@ -62,9 +62,11 @@ class UserInformation
 		return $this->password;
 	}
 
-	public function setPassword($passwordHash): void
+	public function setPassword($passwordHash): UserDetail
 	{
 		$this->password = $passwordHash;
+
+		return $this;
 	}
 
 	public function getRole()
@@ -72,20 +74,26 @@ class UserInformation
 		return $this->role;
 	}
 
-	public function setRole($role): void
+	public function setRole($role): UserDetail
 	{
 		$this->role = $role;
+
+		return $this;
 	}
 
-	public function unsetControlPassword(): void
+	public function unsetControlPassword(): UserDetail
 	{
 		unset($this->controlPassword);
+
+		return $this;
 	}
 
-	private function setLoginDataOnly(array $user): void
+	private function setLoginDataOnly(array $user): UserDetail
 	{
 		$this->email = $user['email'];
 		$this->password = $user['password'];
+
+		return $this;
 	}
 
 	/** TODO: Predelat, je to hrozne staticky..
@@ -101,4 +109,10 @@ class UserInformation
 			$this->controlPassword = $user['password2'];
 		}
 	}
+
+	public function comparePassword(): bool
+	{
+		return $this->password === $this->controlPassword;
+	}
+
 }

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Authentification\Roles;
+namespace Authentication\Roles;
 
 class Admin extends Editor
 {

@@ -2,7 +2,7 @@
 
 namespace Router;
 
-use Controllers\aController;
+use Controllers\baseController;
 use Exceptions\ViewLoadException;
 use ViewRenderer\ViewRenderer;
 
@@ -11,14 +11,14 @@ use ViewRenderer\ViewRenderer;
  * Class Router
  * @package Router
  */
-final class Router extends aController
+final class Router extends baseController
 {
 	/**
 	 * @var ViewRenderer
 	 */
 	private $viewRenderer;
 	/**
-	 * @var aController
+	 * @var baseController
 	 */
 	protected $controller;
 
@@ -69,9 +69,9 @@ final class Router extends aController
 
 	/**
 	 * @param string $class
-	 * @return aController
+	 * @return baseController
 	 */
-	private function loadClass(string $class): aController
+	private function loadClass(string $class): baseController
 	{
 		$cls = $class . '.php';
 		// TODO: recursive search...

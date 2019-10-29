@@ -3,16 +3,16 @@
 
 namespace Models;
 
-use Authentification\Auth;
+use Authentication\Auth;
 use Database\Db;
 use Helpers\Sessions\Session;
 
 
 /**
- * Class aBaseModel
+ * Class baseModel
  * @package Models
  */
-abstract class aBaseModel
+abstract class baseModel
 {
 	protected $auth;
 

@@ -4,7 +4,7 @@
 namespace Controllers;
 
 
-class RegistrationController extends aController
+class RegistrationController extends baseController
 {
 
 	/**
@@ -13,7 +13,7 @@ class RegistrationController extends aController
 	 */
 	public function process(array $params): void
 	{
-		$this->view = 'Registration';
+		$this->view = 'registration';
 		$registrationModel = $this->getModelFactory()->createUserModel();
 		$registeredOK = $registrationModel->register();
 		if ($registeredOK) {

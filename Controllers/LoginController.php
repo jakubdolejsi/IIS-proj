@@ -9,7 +9,7 @@ use Exceptions\LoggedUserException;
 use Exceptions\NoUserException;
 
 
-class LoginController extends aController
+class LoginController extends baseController
 {
 
 	/**
@@ -27,10 +27,10 @@ class LoginController extends aController
 			$user->login();
 		}
 		catch (InvalidPasswordException $exception) {
-			var_dump($exception->getMessage());
+			$this->alert($exception->getMessage());
 		}
 		catch (NoUserException $exception) {
-			var_dump($exception->getMessage());
+			$this->alert($exception->getMessage());
 		}
 		catch (LoggedUserException $exception) {
 			$this->redirect('auth');

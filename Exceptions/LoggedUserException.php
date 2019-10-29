@@ -4,6 +4,6 @@
 namespace Exceptions;
 
 
-class LoggedUserException extends aBaseException
+class LoggedUserException extends baseException
 {
 }

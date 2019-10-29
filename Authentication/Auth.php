@@ -1,11 +1,10 @@
 <?php
 
 
-namespace Authentification;
+namespace Authentication;
 
 
-
-use Authentification\Roles\RegisteredUser;
+use Authentication\Roles\RegisteredUser;
 use Database\Db;
 
 

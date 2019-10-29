@@ -7,10 +7,10 @@ use Exception;
 
 
 /**
- * Class aBaseException
+ * Class baseException
  * @package Exceptions
  */
-class aBaseException extends Exception
+class baseException extends Exception
 {
 
 	public function errorMessage(string $inputMsg = ''): string

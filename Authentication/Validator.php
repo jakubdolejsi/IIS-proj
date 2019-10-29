@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Authentification;
+namespace Authentication;
 
 
-abstract class PostDataValidator
+abstract class Validator
 {
 	/**
 	 * @param $password
@@ -25,6 +25,7 @@ abstract class PostDataValidator
 		return password_verify($password, $hash);
 	}
 
+	// TODO mohl by rovnou vracet model uzivatele
 	protected function getPostDataAndValidate(): array
 	{
 		return (array_map([$this, 'parseInput'], $_POST));

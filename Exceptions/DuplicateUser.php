@@ -1,4 +1,7 @@
 <?php
 
 namespace Exceptions;
-class DuplicateUser extends aBaseException {}
+
+class DuplicateUser extends baseException
+{
+}

@@ -4,5 +4,5 @@
 namespace Exceptions;
 
 
-class ViewLoadException extends aBaseException
+class ViewLoadException extends baseException
 {}
