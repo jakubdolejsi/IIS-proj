@@ -34,7 +34,7 @@ class ViewRenderer implements IViewable
 	public function render(): void
 	{
 		if ($this->controllerView) {
-			//			extract($this->data);
+			extract($this->data);
 			require ($this->controllerView);
 		}
 	}
