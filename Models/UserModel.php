@@ -7,6 +7,9 @@ use Exception;
 use Exceptions\InvalidPasswordException;
 use Exceptions\LoggedUserException;
 use Exceptions\NoUserException;
+use Exceptions\PasswordsAreNotSameException;
+use Exceptions\UpdateProfileException;
+use Exceptions\UpdateProfileSuccess;
 
 
 class UserModel extends baseModel
@@ -68,7 +71,12 @@ class UserModel extends baseModel
 		}
 	}
 
-	public function editPassword()
+	/**
+	 * @throws PasswordsAreNotSameException
+	 * @throws UpdateProfileException
+	 * @throws UpdateProfileSuccess
+	 */
+	public function editPassword(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$role = $this->auth->role()->getRoleBySessionID();

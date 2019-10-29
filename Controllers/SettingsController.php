@@ -4,7 +4,9 @@
 namespace Controllers;
 
 
+use Exceptions\PasswordsAreNotSameException;
 use Exceptions\UpdateProfileException;
+use Exceptions\UpdateProfileSuccess;
 
 
 class SettingsController extends baseController
@@ -23,7 +25,15 @@ class SettingsController extends baseController
 		try {
 			$user->{$action}();
 		}
+		catch (UpdateProfileSuccess $exception) {
+			$this->alert($exception->getMessage());
+			$this->redirect('settings');
+		}
 		catch (UpdateProfileException $exception) {
+			$this->alert($exception->getMessage());
+			$this->redirect('settings');
+		}
+		catch (PasswordsAreNotSameException $exception) {
 			$this->alert($exception->getMessage());
 		}
 

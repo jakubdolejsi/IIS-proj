@@ -10,6 +10,7 @@ use Authentication\Roles\Editor;
 use Authentication\Roles\RegisteredUser;
 use Database\Db;
 use Models\UserDetail;
+use PDO;
 
 
 class Role extends Validator
@@ -25,11 +26,12 @@ class Role extends Validator
 	{
 		$data = new UserDetail($this->getPostDataAndValidate());
 		$query = ('select usr.role from theatre.users as usr where usr.email = ?');
-		$res = $this->db->run($query, $data->getEmail())->fetchAll();
+		$res = $this->db->run($query, $data->getEmail())->fetch(PDO::FETCH_ASSOC);
 		if (empty($res)) {
 			return NULL;
 		}
-		return $this->setRole($res[0]['role']);
+
+		return $this->setRole($res['role']);
 	}
 
 	public function getRoleBySessionID()
@@ -39,9 +41,9 @@ class Role extends Validator
 			// nejaka exceptiona, asi ze uzivatel neni prihlaseny..
 		}
 		$query = 'select usr.role from theatre.users as usr where usr.id = ?';
-		$res = $this->db->run($query, $sessionID)->fetchAll();
+		$res = $this->db->run($query, $sessionID)->fetch(PDO::FETCH_ASSOC);
 
-		return $this->setRole($res[0]['role']);
+		return $this->setRole($res['role']);
 	}
 
 	private function setRole($role)

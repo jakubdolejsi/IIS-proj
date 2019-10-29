@@ -16,30 +16,36 @@ class UserDetail
 
 	protected $controlPassword;
 
+	protected $newPassword;
+
+	protected $newPasswordRetype;
+
 	protected $role;
 
 	public function __construct(array $user)
 	{
-		if (count($user) === 2) {
-			$this->setLoginDataOnly($user);
-		} else {
-			$this->setRegistrationData($user);
-		}
+		$this->initProperties($user);
 	}
 
 	public function getAllProperties(): array
 	{
 		$arr = [];
 		foreach ($this as $key => $value) {
-			$arr[] = $value;
+			if (isset($value)) {
+				$arr[] = $value;
+			}
 		}
-
 		return $arr;
 	}
 
 	public function getControlPassword()
 	{
 		return $this->controlPassword;
+	}
+
+	public function getNewPassword()
+	{
+		return $this->newPassword;
 	}
 
 	public function getEmail()
@@ -69,6 +75,13 @@ class UserDetail
 		return $this;
 	}
 
+	public function setNewPassword($passwordHash): UserDetail
+	{
+		$this->newPassword = $passwordHash;
+
+		return $this;
+	}
+
 	public function getRole()
 	{
 		return $this->role;
@@ -77,42 +90,41 @@ class UserDetail
 	public function setRole($role): UserDetail
 	{
 		$this->role = $role;
+		return $this;
+	}
+
+	public function setEmail($email)
+	{
+		$this->email = $email;
 
 		return $this;
 	}
+
 
 	public function unsetControlPassword(): UserDetail
 	{
 		unset($this->controlPassword);
-
 		return $this;
 	}
 
-	private function setLoginDataOnly(array $user): UserDetail
-	{
-		$this->email = $user['email'];
-		$this->password = $user['password'];
-
-		return $this;
-	}
-
-	/** TODO: Predelat, je to hrozne staticky..
-	 * @param array $user
-	 */
-	private function setRegistrationData(array $user): void
-	{
-		$this->firstName = $user['firstName'];
-		$this->lastName = $user['lastName'];
-		$this->email = $user['email'];
-		$this->password = $user['password'];
-		if (isset($user['password2'])) {
-			$this->controlPassword = $user['password2'];
-		}
-	}
-
-	public function comparePassword(): bool
+	public function compareActualPassword(): bool
 	{
 		return $this->password === $this->controlPassword;
 	}
+
+	public function compareNewPassword(): bool
+	{
+		return $this->newPassword === $this->newPasswordRetype;
+	}
+
+	private function initProperties(array $user): void
+	{
+		while ($property = current($user)) {
+			$this->{key($user)} = $property;
+			next($user);
+		}
+	}
+
+
 
 }

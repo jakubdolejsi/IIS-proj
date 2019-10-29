@@ -40,11 +40,16 @@ class UserProfileEditModel
 		return $this->oldPassword;
 	}
 
+	public function comparePassword(): bool
+	{
+		return $this->newPassword === $this->newPasswordRetype;
+	}
+
 	private function initProperties(array $user): void
 	{
-		$properties = ['email', 'oldPassword', 'newPassword', 'newPasswordRetype'];
-		foreach ($properties as $property) {
-			$this->{$property} = $user[ $property ];
+		while ($property = current($user)) {
+			$this->{key($user)} = $property;
+			next($user);
 		}
 	}
 }
