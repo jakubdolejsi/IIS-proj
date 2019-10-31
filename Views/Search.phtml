@@ -44,8 +44,8 @@
 
 	<?php foreach ($events as $event) : ?>
         <div class="concreteItem">
-            <input type="button" onclick="location.href= 'search/<?= str_replace(' ', '%20', $event['name'])
-	        ?>';" value="Prejit na stranku udalosti"/>
+            <input type="button" onclick="location.href= 'search/<?= str_replace(' ', '%20', $event['name']) ?>';" value="Prejit na stranku udalosti"/>
+            <input type="button" onclick="location.href = 'reservation/<?= str_replace(' ', '%20', $event['name']) ?>';" value="Rezervovat"/>
 			<?php foreach ($event as $item => $value) : ?>
 				<?= $item ?> : <?= $value ?> &nbsp;|
 			<?php endforeach ?>

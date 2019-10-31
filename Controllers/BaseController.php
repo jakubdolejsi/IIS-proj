@@ -13,7 +13,7 @@ use DI\ViewFactory;
  * Class baseController
  * @package Controllers
  */
-abstract class baseController
+abstract class BaseController
 {
 
 	protected $view;
