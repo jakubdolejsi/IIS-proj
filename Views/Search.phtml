@@ -41,10 +41,11 @@
             <button type="submit"><i class="fa fa-search"> Hledat</i></button>
         </form>
     </div>
-    <!--    <div class="concreteItem">-->
-	<?php foreach ($events as $event) : ?>
 
+	<?php foreach ($events as $event) : ?>
         <div class="concreteItem">
+            <input type="button" onclick="location.href= 'search/<?= str_replace(' ', '%20', $event['name'])
+	        ?>';" value="Prejit na stranku udalosti"/>
 			<?php foreach ($event as $item => $value) : ?>
 				<?= $item ?> : <?= $value ?> &nbsp;|
 			<?php endforeach ?>

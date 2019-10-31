@@ -36,18 +36,9 @@ function searchInList()
     }
 }
 
-function insertDiv(data)
+function redirect(event)
 {
+    alert(event);
+    // window.location.href= data[0];
 }
 
-function ifChecked()
-{
-    var checkBox = document.getElementById("myCheck");
-    var text = document.getElementById("text");
-    if (checkBox.checked == true) {
-        text.style.display = "block";
-    }
-    else {
-        text.style.display = "none";
-    }
-}

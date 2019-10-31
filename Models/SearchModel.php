@@ -29,7 +29,6 @@ class SearchModel extends BaseModel
 			if ($this->arrayEmpty($data)) {
 				return $this->getAllEvents();
 			}
-
 			return $this->getConcreteEvents($data);
 		}
 

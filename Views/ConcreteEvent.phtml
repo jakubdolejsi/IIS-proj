@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html lang="cs-cz">
+<head>
+    <meta charset="UTF-8"/>
+    <base href="/localhost"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+</head>
+
+<body>
+<div class="generalSettings">
+	<?php foreach ($events as $event) : ?>
+        <div class="concreteItem">
+			<?php foreach ($event as $item => $value) : ?>
+				<?= $item ?> : <?= $value ?> &nbsp;|
+			<?php endforeach ?>
+        </div>
+	<?php endforeach ?>
+    <div class="settings">
+        <input type=button value="Back" onclick="window.location.href='search'">
+    </div>
+</div>
+</body>

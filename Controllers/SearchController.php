@@ -13,11 +13,17 @@ class SearchController extends baseController
 	 */
 	public function process(array $params): void
 	{
-		$search = $this->getModelFactory()->createSearchModel();
-		$events = $search->process();
+
+
+		if (isset($params[1])) {
+			$events = $this->getModelFactory()->createCultureWork()->getCultureWorkByEvent($params[1]);
+			$this->view = 'concreteEvent';
+		} else {
+			$search = $this->getModelFactory()->createSearchModel();
+			$events = $search->process();
+			$this->view = 'search';
+		}
 
 		$this->data['events'] = $events;
-		$this->view = 'search';
-		// TODO: Implement process() method.
 	}
 }
