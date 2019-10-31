@@ -5,12 +5,53 @@
     <meta charset="UTF-8"/>
     <base href="/localhost"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--    <link rel="script" href="Views/JS/actions.js">-->
 </head>
 <body>
 
-<form method="post">
-    <div id="login-box" class="welcome">
-        Zde budes vyhledavat kulturni akce ty jeden negramoto...
+
+<div id="ticketItem">
+    <h3>Vyhledavani kulturnich udalosti</h3>
+    <div>
+
+        <form method="post">
+            <div id="text">
+                <div class="item">
+                    <label for="date_from">Datum od</label>
+                    <input type="date" name="date_from" id="date_from" size="30">
+                </div>
+                <div class="item">
+                    <label for="type">Typ</label>
+                    <input list="browsers" name="type" id="type">
+
+                    <datalist id="browsers">
+                        <option value="Promitani filmu">
+                        <option value="Prednaska">
+                        <option value="Prezentace">
+                        <option value="Divadelní představení">
+                        <option value="Stand-up">
+                    </datalist>
+                </div>
+                <div class="item">
+                    <label for="name" class="name">Nazev</label>
+                    <input type="text" placeholder="Zadejte nazev udalosti" name="name" id="name">
+                </div>
+            </div>
+            <button type="submit"><i class="fa fa-search"> Hledat</i></button>
+        </form>
     </div>
-</form>
+    <!--    <div class="concreteItem">-->
+	<?php foreach ($events as $event) : ?>
+
+        <div class="concreteItem">
+			<?php foreach ($event as $item => $value) : ?>
+				<?= $item ?> : <?= $value ?> &nbsp;|
+			<?php endforeach ?>
+        </div>
+	<?php endforeach ?>
+</div>
+<!--</div>-->
+<script type="text/javascript" src="Views/JS/actions.js">
+</script>
 </body>

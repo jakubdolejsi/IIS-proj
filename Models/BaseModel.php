@@ -4,6 +4,7 @@
 namespace Models;
 
 use Authentication\Auth;
+use Authentication\Validator;
 use Database\Db;
 use Helpers\Sessions\Session;
 
@@ -12,7 +13,7 @@ use Helpers\Sessions\Session;
  * Class baseModel
  * @package Models
  */
-abstract class BaseModel
+abstract class BaseModel extends Validator
 {
 	protected $auth;
 

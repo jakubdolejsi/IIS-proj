@@ -41,7 +41,7 @@ class ViewRenderer implements IViewable
 
 
 	/**
-	 * Render base View like menu, navigation bar
+	 *
 	 */
 	public function renderBase(): void
 	{

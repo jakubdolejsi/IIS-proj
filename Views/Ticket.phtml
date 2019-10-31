@@ -10,18 +10,15 @@
 
 <body>
 
-<div style="text-align: center">
-    <div class="tickets">
+<div id="ticketItem" style="text-align: center">
         <h1>Seznam listku</h1>
 		<?php foreach ($ticket as $concrete) : ?>
-            ------------------------------------------------------------------------------------------------------------------------
-            <br>
+
+            <div class="concreteItem">
 			<?php foreach ($concrete as $item => $value) : ?>
 				<?= $item ?> : <?= $value ?> &nbsp;|
 			<?php endforeach ?>
-            <br>------------------------------------------------------------------------------------------------------------------------
-            <br>
+            </div>
 		<?php endforeach ?>
     </div>
-</div>
 </body>

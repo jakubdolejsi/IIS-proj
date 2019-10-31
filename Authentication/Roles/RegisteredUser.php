@@ -4,7 +4,7 @@
 namespace Authentication\Roles;
 
 
-use Authentication\Validator;
+use Authentication\Password;
 use Database\Db;
 use Exceptions\{DuplicateUser,
 	InvalidPasswordException,
@@ -16,7 +16,7 @@ use Models\UserDetail;
 use PDO;
 
 
-class RegisteredUser extends Validator
+class RegisteredUser extends Password
 {
 
 	protected $db;

@@ -38,7 +38,7 @@ final class Db extends PDO
 	public function run(string $sql, $args = NULL)
 	{
 		$stmt = $this->prepare($sql);
-		$stmt->execute($this->toArray($args));
+		$stmt->execute($this->toArray($this->nullCheck($args)));
 
 		return $stmt;
 	}
@@ -50,6 +50,15 @@ final class Db extends PDO
 	private function toArray($args): array
 	{
 		return (is_string($args)) ? [$args] : $args;
+	}
+
+	/**
+	 * @param $args
+	 * @return array
+	 */
+	private function nullCheck($args)
+	{
+		return $args ?? [];
 	}
 
 }
