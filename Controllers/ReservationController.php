@@ -6,7 +6,6 @@ namespace Controllers;
 
 class ReservationController extends BaseController
 {
-
 	/**
 	 * @param $params
 	 * @return mixed

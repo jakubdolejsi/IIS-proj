@@ -11,35 +11,36 @@
 <body>
 
 <ul>
-    <li><a href="home">Home</a></li>
+    <li><a href="home">Domu</a></li>
+
+    <li><a href="search">Hledat</a></li>
     <li id="registration">
 		<?php
 		if (empty($_SESSION['user_id'])) {
-			echo '<a href="registration">Registration</a>';
+			echo '<a href="registration">Registrace</a>';
 		} ?>
     </li>
-    <li><a href="search">Search</a></li>
-    <li style="float:right" id="about"><a href="about">About us</a></li>
+    <li style="float:right" id="about"><a href="about">O nas</a></li>
     <li style="float: right">
 		<?php
 		if (empty($_SESSION['user_id'])) {
-			echo '<a href="login">Login</a>';
+			echo '<a href="login">Prihlasit</a>';
 		} else {
-			echo '<a href="logout">Logout</a>';
+			echo '<a href="logout">Odhlasit</a>';
 		}
 		?>
     </li>
     <li style="float:right" id="settings">
 		<?php
 		if (!empty($_SESSION['user_id'])) {
-			echo '<a href="settings">Settings</a>';
+			echo '<a href="settings">Nastaveni</a>';
 		}
 		?>
     </li>
     <li style="float:right" id="settings">
 		<?php
 		if (!empty($_SESSION['user_id'])) {
-			echo '<a href="ticket">Your tickets</a>';
+			echo '<a href="ticket">Listky</a>';
 		}
 		?>
     </li>
