@@ -12,10 +12,15 @@ class TicketController extends BaseController
 	 */
 	public function process(array $params): void
 	{
-		$userEmail = $this->getModelFactory()->createUserModel()->getUserInfo()->getEmail();
+		$user = $this->getModelFactory()->createUserModel();
+		if (!$user->isLogged()) {
+			$this->alert('Permission denied');
+			$this->redirect('login');
+		}
+		$email = $user->getUserInfo()->getEmail();
 		$ticketManager = $this->getModelFactory()->createTicketManager();
 
-		$ticket = $ticketManager->getTicketByEmail($userEmail);
+		$ticket = $ticketManager->getTicketByEmail($email);
 		$this->data['ticket'] = $ticket;
 		$this->view = 'Ticket';
 	}

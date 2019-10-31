@@ -18,8 +18,12 @@ class SettingsController extends baseController
 	 */
 	public function process(array $params): void
 	{
-		$action = '';
 		$user = $this->getModelFactory()->createUserModel();
+
+		if (!$user->isLogged()) {
+			$this->redirect('auth');
+		}
+
 		[$this->view, $action] = $this->selectAction($params);
 
 		try {
@@ -46,7 +50,6 @@ class SettingsController extends baseController
 
 	private function selectAction(array $params): array
 	{
-		$view = '';
 		$action = ($params[1] ?? NULL);
 		switch ($action) {
 			case 'edit':
