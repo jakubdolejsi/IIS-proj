@@ -1,0 +1,18 @@
+/*--- culture_event ---*/
+
+Jedna INSTANCE kulturniho dila -> konkretni cas, v konkretnim sale
+
+N:1 vztah se salem
+Ma presny datum a cas
+V pripade ze by ve stejny cas bylo promitani stejneho filmu ve vice salech, existovali by 2 instance dane udalosti
+
+
+/*--- ticket ---*/
+
+Bude obsahovat i sedacku na kterou je rezervovana
+
+Pokud chci zjistit ktere sedacky jsou volne, ziskam spojenim tabulek <culture_event>, <ticket>, <hall>
+
+Stejne tak pokud by se rezervovali 2 uzivatele naraz, jeden byl rychlejsi, overilo by se zda uz tam takovy zaznam neni
+
+
