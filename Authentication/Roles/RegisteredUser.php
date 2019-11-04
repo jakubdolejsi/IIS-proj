@@ -260,17 +260,17 @@ class RegisteredUser extends Password
 		}
 
 		$cultureEventIdQueryParams = [$urlParams['label'], $urlParams['begin'], $urlParams['type'], $urlParams['name']];
-		$cultureEventIdQuery = 'select ce.id  from theatre.culture_event as ce
+		$cultureEventIdQuery = 'select ce.id, ce.price from theatre.culture_event as ce
 							join theatre.culture_work as cw on ce.id_culture_work = cw.id
 							join theatre.hall as h on ce.id_hall = h.id
 							where h.label = ? and ce.begin = ? and ce.type = ? and cw.name = ?';
-		$cultureId = $this->db->run($cultureEventIdQuery, $cultureEventIdQueryParams)->fetch(PDO::FETCH_ASSOC)['id'];
-		if (!isset($cultureId)) {
+		$cultureEventRes = $this->db->run($cultureEventIdQuery, $cultureEventIdQueryParams)->fetch(PDO::FETCH_ASSOC);
+		if (!isset($cultureEventRes['id'])) {
 			throw new InvalidRequestException('Wrong URL');
 		}
 
 		// TODO fixne dana cena a sleva
-		$queryParams = [$userId, $cultureId, 500, $seatInfo, 0];
+		$queryParams = [$userId, $cultureEventRes['id'], $cultureEventRes['price'], $seatInfo, 0];
 		$query = 'insert into theatre.ticket (id_user, id_culture_event, price, seat, discount) 
 				values (?, ?, ?, ?, ?)';
 
