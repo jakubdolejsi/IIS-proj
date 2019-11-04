@@ -6,10 +6,14 @@ namespace Authentication\Roles;
 
 use Authentication\Password;
 use Database\Db;
-use Exceptions\{DuplicateUser,
+use Exceptions\{AlreadyOccupiedSeatException,
+	DuplicateUser,
 	InvalidPasswordException,
+	InvalidRequestException,
 	NoUserException,
 	PasswordsAreNotSameException,
+	ReservationSuccessException,
+	SqlSomethingGoneWrongException,
 	UpdateProfileException,
 	UpdateProfileSuccess};
 use Models\UserDetail;
@@ -90,7 +94,6 @@ class RegisteredUser extends Password
 		if (!$this->verifyHashPassword($password, $hash)) {
 			throw new InvalidPasswordException('Invalid password');
 		}
-
 		$_SESSION['user_id'] = $user['id'];
 	}
 
@@ -169,4 +172,113 @@ class RegisteredUser extends Password
 		}
 		throw new UpdateProfileSuccess('Your password was successfully updated');
 	}
+
+
+	/**
+	 * @param $params
+	 * @throws AlreadyOccupiedSeatException
+	 * @throws InvalidRequestException
+	 * @throws ReservationSuccessException
+	 * @throws SqlSomethingGoneWrongException
+	 */
+	public function createNewReservation($params): void
+	{
+		$urlParams = $this->getUrlParams($params);
+		$seatInfo = $this->joinSeat($this->getPostDataAndValidate());
+		if (!$this->isSeatFree($urlParams, $seatInfo)) {
+			throw new AlreadyOccupiedSeatException('Seat is already registered');
+		}
+		$this->createNewTicket($urlParams, $seatInfo);
+	}
+
+
+	/**
+	 * @param $params
+	 * @return array
+	 * @throws InvalidRequestException
+	 */
+	private function getUrlParams($params): array
+	{
+		unset($params[0]);
+		$arr = [];
+		$values = ['type', 'name', 'label', 'begin'];
+		$i = 0;
+		foreach ($params as $key => $value) {
+			$arr[ $values[ $i ] ] = str_replace('%20', ' ', $value);
+			if (empty($value)) {
+				throw new InvalidRequestException('Wrong URL');
+			}
+			$i++;
+		}
+		if (count($params) !== 4) {
+			throw new InvalidRequestException('Wrong URL');
+		}
+
+		return $arr;
+	}
+
+	/**
+	 * @param $seat
+	 * @return string
+	 */
+	private function joinSeat($seat): string
+	{
+		return $seat['column'] . $seat['row'];
+	}
+
+	/**
+	 * @param $urlParams
+	 * @param $seatInfo
+	 * @return bool
+	 */
+	private function isSeatFree($urlParams, $seatInfo): bool
+	{
+		$existingReservationQuery = 'select * from theatre.ticket as t 
+									join theatre.culture_event as ce on t.id_culture_event = ce.id
+									join theatre.culture_work as cw on ce.id_culture_work = cw.id
+									join theatre.hall as h on ce.id_hall = h.id
+									where h.label = ? and ce.begin = ? and ce.type = ? and cw.name = ? and t.seat = ?';
+
+		$queryParams = [$urlParams['label'], $urlParams['begin'], $urlParams['type'], $urlParams['name'], $seatInfo];
+
+		return empty($this->db->run($existingReservationQuery, $queryParams)->fetchAll(PDO::FETCH_ASSOC));
+	}
+
+	/**
+	 * @param $urlParams
+	 * @param $seatInfo
+	 * @throws ReservationSuccessException
+	 * @throws SqlSomethingGoneWrongException
+	 * @throws InvalidRequestException
+	 */
+	private function createNewTicket($urlParams, $seatInfo): void
+	{
+		$userIdQuery = 'select u.id from theatre.user as u where u.email = ?';
+		$userId = $this->db->run($userIdQuery, $this->getUserBySessionID()->getEmail())->fetch(PDO::FETCH_ASSOC)['id'];
+		if (!isset($userId)) {
+			throw new InvalidRequestException('Wrong URL');
+		}
+
+		$cultureEventIdQueryParams = [$urlParams['label'], $urlParams['begin'], $urlParams['type'], $urlParams['name']];
+		$cultureEventIdQuery = 'select ce.id  from theatre.culture_event as ce
+							join theatre.culture_work as cw on ce.id_culture_work = cw.id
+							join theatre.hall as h on ce.id_hall = h.id
+							where h.label = ? and ce.begin = ? and ce.type = ? and cw.name = ?';
+		$cultureId = $this->db->run($cultureEventIdQuery, $cultureEventIdQueryParams)->fetch(PDO::FETCH_ASSOC)['id'];
+		if (!isset($cultureId)) {
+			throw new InvalidRequestException('Wrong URL');
+		}
+
+		// TODO fixne dana cena a sleva
+		$queryParams = [$userId, $cultureId, 500, $seatInfo, 0];
+		$query = 'insert into theatre.ticket (id_user, id_culture_event, price, seat, discount) 
+				values (?, ?, ?, ?, ?)';
+
+		$res = $this->db->run($query, $queryParams);
+		if ($res->rowCount() === '0') {
+			throw new SqlSomethingGoneWrongException('Internal error occured');
+		}
+		throw new ReservationSuccessException('Reservation was successfully created!');
+	}
+
 }

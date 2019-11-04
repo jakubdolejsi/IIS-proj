@@ -9,13 +9,14 @@ use PDO;
 
 class CultureWork extends BaseModel
 {
-	public function getCultureWorkByEvent($eventName): array
+	public function getCultureWorkByEvent($eventType): array
 	{
-		$eventName = str_replace('%20', ' ', $eventName);
-		$query = 'select cw.name, cw.type, cw.actors, cw.genre, cw.ranking from theatre.culture_work as cw join theatre.culture_event as ce on cw.id = ce.id_culture_work
-				where ce.name = ?';
+		$eventType = str_replace('%20', ' ', $eventType);
+		$query = 'select * from theatre.culture_work as cw 
+				join theatre.culture_event as ce on cw.id = ce.id_culture_work
+				where ce.type = ?';
 
-		return $this->db->run($query, $eventName)->fetchAll(PDO::FETCH_ASSOC);
+		return $this->db->run($query, $eventType)->fetchAll(PDO::FETCH_ASSOC);
 	}
 
 }

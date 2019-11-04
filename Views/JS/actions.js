@@ -36,9 +36,15 @@ function searchInList()
     }
 }
 
-function redirect(event)
+function f(x)
 {
-    alert(event);
-    // window.location.href= data[0];
+    var input = "reservation/" + x['type'] + "/" + x['name'] + "/" + x['label'] + "/" + x['begin'];
+    document.getElementById('test').setAttribute("href", input);
 }
+
+function redirectTo()
+{
+
+}
+
 

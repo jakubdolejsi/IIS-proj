@@ -9,9 +9,36 @@
 
 <body>
 <div class="searchGeneral">
-    rezervace pro prihlasenyho uzivatele
+    Rezervace pro udalost:
 	<div>
-		<input type=button value="Zpet" onclick="window.location.href='search'">
-	</div>
+        <form method="post">
+            <div class="item">
+                <label for="column">Sloupec</label>
+                <input type="number" id="column" name="column" min="0" max="15" required>
+
+                <label for="row">Rada</label>
+                <input list="rows" name="row" id="row" required>
+
+                <datalist id="rows">
+                    <option value="A">
+                    <option value="B">
+                    <option value="C">
+                    <option value="D">
+                    <option value="E">
+                    <option value="F">
+                    <option value="G">
+                </datalist>
+
+            </div>
+            <div class="item">
+
+            </div>
+            <div class="item">
+                <input type="submit" value="Potvrdit">
+                <input type=button value="Zpet" onclick="window.location.href='search'">
+            </div>
+        </form>
+
+    </div>
 </div>
 </body>

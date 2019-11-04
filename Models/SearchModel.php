@@ -14,7 +14,9 @@ class SearchModel extends BaseModel
 	 */
 	public function getAllEvents(): array
 	{
-		$query = 'select ce.name, ce.type, ce.date_from, ce.date_to from theatre.culture_event as ce';
+		$query = 'select cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label from theatre.culture_event as ce 
+				join theatre.culture_work as cw on ce.id_culture_work = cw.id
+				join theatre.hall as h on ce.id_hall = h.id';
 
 		return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -29,6 +31,7 @@ class SearchModel extends BaseModel
 			if ($this->arrayEmpty($data)) {
 				return $this->getAllEvents();
 			}
+
 			return $this->getConcreteEvents($data);
 		}
 
@@ -52,16 +55,19 @@ class SearchModel extends BaseModel
 	 */
 	private function getConcreteEvents($data): array
 	{
-		$query = 'select * from theatre.culture_event as ce where ';
+		$query = 'select cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label from theatre.culture_event as ce 
+				join theatre.culture_work as cw on ce.id_culture_work = cw.id
+				join theatre.hall as h on ce.id_hall = h.id 
+				where ';
 
 		foreach ($data as $key => $value) {
 			if (!empty($value)) {
-				$query .= "ce.$key = ? and";
+				$query .= " ce.$key = ? and";
 			} else {
 				unset($data[ $key ]);
 			}
 		}
-		$query = substr_replace($query, '', -3);
+		$query = substr_replace($query, '', -3) . ' order by ce.date asc';
 
 		return $this->db->run($query, array_values($data))->fetchAll(PDO::FETCH_ASSOC);
 	}

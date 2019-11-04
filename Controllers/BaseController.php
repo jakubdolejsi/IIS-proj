@@ -55,8 +55,9 @@ abstract class BaseController
 	 */
 	protected function redirect(string $url): void
 	{
+		// todo snad funguje dobre...
 		echo "<script>
-				window.location.href='$url';
+				window.location.href='/$url';
 			</script>";
 	}
 

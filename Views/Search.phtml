@@ -6,7 +6,7 @@
     <base href="/localhost"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!--    <link rel="script" href="Views/JS/actions.js">-->
+    <link rel="script" href="Views/JS/actions.js">
 </head>
 <body>
 
@@ -18,15 +18,19 @@
         <form method="post">
             <div id="text">
                 <div class="item">
-                    <label for="date_from">Datum od</label>
-                    <input type="date" name="date_from" id="date_from" size="30">
+                    <label for="date">Datum</label>
+                    <input type="date" name="date" id="date" size="30">
+                </div>
+                <div>
+                    <label for="begin">Zacatek</label>
+                    <input type="time" name="begin" id="begin">
                 </div>
                 <div class="item">
                     <label for="type">Typ</label>
                     <input list="browsers" name="type" id="type">
 
                     <datalist id="browsers">
-                        <option value="Promitani filmu">
+                        <option value="Film">
                         <option value="Prednaska">
                         <option value="Prezentace">
                         <option value="Divadelní představení">
@@ -42,11 +46,17 @@
         </form>
     </div>
 
+
 	<?php foreach ($events as $event) : ?>
         <div class="concreteItem">
-            <input type="button" onclick="location.href= 'search/<?= str_replace(' ', '%20', $event['name']) ?>';" value="Prejit na stranku udalosti"/>
-            <input type="button" onclick="location.href = 'reservation/<?= str_replace(' ', '%20', $event['name']) ?>';" value="Rezervovat"/>
-			<?php foreach ($event as $item => $value) : ?>
+            <input type="button" onclick="location.href= 'search/<?= str_replace(' ', '%20', $event['name'])
+	        ?>';" value="Prejit na stranku udalosti"/>
+            <input type="button" onclick="location.href = 'reservation/<?= str_replace(' ', '%20',
+		        $event['type']) ?>/<?= str_replace(' ', '%20', $event['name']) ?>/<?= $event['label'] ?>/<?=
+	        str_replace(' ', '%20', $event['begin']) ?>';"
+                   value="Rezervovat"/>
+
+	        <?php foreach ($event as $item => $value) : ?>
 				<?= $item ?> : <?= $value ?> &nbsp;|
 			<?php endforeach ?>
         </div>

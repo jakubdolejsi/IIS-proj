@@ -16,14 +16,13 @@ class TicketManager extends BaseModel
 	 */
 	public function getTicketByEmail($email)
 	{
-		$query = 'select t.price, ce.name, cw.name, h.label, s.seat_column, s.seat_row, ce.name as cen 
-				 from theatre.ticket as t join theatre.user on t.id_user = user.id
-				 join theatre.culture_event as ce on t.id_culture_event = ce.id
-				 join theatre.culture_work  as cw on ce.id_culture_work = cw.id
-				 join theatre.hall as h on ce.id = h.id_event
-				 join theatre.seat as s on h.id_seat = s.id
-				 where user.email = ?
-				 order by ce.date_to';
+		// todo nejak to vyhazuje dva vysledky
+		$query = 'select cw.name, ce.begin, ce.date, t.price, t.seat, h.label from theatre.ticket as t 
+				join theatre.user as u on t.id_user = u.id
+				join theatre.culture_event as ce on t.id_culture_event = ce.id
+				join theatre.culture_work as cw on ce.id_culture_work = cw.id
+				join theatre.hall as h on ce.id_hall = h.id
+				where u.email = ?';
 
 		return $this->db->run($query, $email)->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -31,8 +30,7 @@ class TicketManager extends BaseModel
 
 	public function createNewUserTicket($price, $discount, $type)
 	{
-		$query = 'insert into theatre.ticket (price, discount, type, id, id_user, id_culture_event) 
-				values (?,?,?,?,?,?)';
 	}
+
 
 }

@@ -4,11 +4,15 @@
 namespace Models;
 
 
+use Exceptions\AlreadyOccupiedSeatException;
 use Exceptions\DuplicateUser;
 use Exceptions\InvalidPasswordException;
+use Exceptions\InvalidRequestException;
 use Exceptions\LoggedUserException;
 use Exceptions\NoUserException;
 use Exceptions\PasswordsAreNotSameException;
+use Exceptions\ReservationSuccessException;
+use Exceptions\SqlSomethingGoneWrongException;
 use Exceptions\UpdateProfileException;
 use Exceptions\UpdateProfileSuccess;
 
@@ -52,9 +56,11 @@ class UserModel extends baseModel
 	public function register(): bool
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-				$this->auth->registeredUser()->register();
-				return TRUE;
+			$this->auth->registeredUser()->register();
+
+			return TRUE;
 		}
+
 		return FALSE;
 	}
 
@@ -64,6 +70,7 @@ class UserModel extends baseModel
 	public function getUserInfo(): UserDetail
 	{
 		$userRole = $this->auth->role()->getRoleBySessionID();
+
 		return $userRole->getUserBySessionID();
 	}
 
@@ -89,12 +96,22 @@ class UserModel extends baseModel
 	}
 
 
-	public function createReservation()
+	/**
+	 * @param $params
+	 * @throws AlreadyOccupiedSeatException
+	 * @throws InvalidRequestException
+	 * @throws ReservationSuccessException
+	 * @throws SqlSomethingGoneWrongException
+	 */
+	public function createReservation($params): void
 	{
-
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$role = $this->auth->role()->getRoleBySessionID();
+			$role->createNewReservation($params);
+		}
 	}
 
-	public function getReservationByID()
+	public function getReservationByEmail($email)
 	{
 
 	}

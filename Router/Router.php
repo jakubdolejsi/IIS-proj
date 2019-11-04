@@ -69,9 +69,9 @@ final class Router extends baseController
 
 	/**
 	 * @param string $class
-	 * @return baseController
+	 * @return BaseController
 	 */
-	private function loadClass(string $class): baseController
+	private function loadClass(string $class): BaseController
 	{
 		$cls = $class . '.php';
 		// TODO: recursive search...
