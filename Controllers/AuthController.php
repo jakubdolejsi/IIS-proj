@@ -13,13 +13,27 @@ class AuthController extends baseController
 	 */
 	public function process(array $params): void
 	{
-		$this->view = 'auth';
 		$user = $this->getModelFactory()->createUserModel();
-		if (!$user->isLogged()) {
+
+		if (!$user->isLogged() || !$user->hasPermission($user->getRole())) {
 			$this->alert('Permission denied');
 			$this->redirect('login');
 		}
-		$userInfo = $user->getUserInfo();
-		$this->data['firstName'] = $userInfo->getFirstName();
+		$role = $user->getUserInfo()->getRole();
+		switch ($role) {
+			case 'admin':
+				$this->redirect('admin');
+				break;
+			case 'editor':
+				$this->redirect('editor');
+				break;
+			case 'cashier':
+				$this->redirect('cashier');
+				break;
+		}
+		//		var_dump($role);
+		//		$this->data['firstName'] = $user->getUserInfo()->getFirstName();
+		//		$this->view = 'auth';
 	}
+
 }

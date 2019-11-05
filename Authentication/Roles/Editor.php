@@ -4,7 +4,7 @@
 namespace Authentication\Roles;
 
 
-class Editor extends RegisteredUser
+class Editor extends Cashier
 {
 
 	public function addAuditorium(){}

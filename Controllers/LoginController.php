@@ -21,7 +21,7 @@ class LoginController extends baseController
 		$user = $this->getModelFactory()->createUserModel();
 
 		if ($user->isLogged()) {
-			$this->redirect('auth');
+			$this->redirect('home');
 		}
 		try {
 			$user->login();
@@ -33,7 +33,7 @@ class LoginController extends baseController
 			$this->alert($exception->getMessage());
 		}
 		catch (LoggedUserException $exception) {
-			$this->redirect('auth');
+			$this->redirect('home');
 		}
 	}
 }

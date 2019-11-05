@@ -4,12 +4,18 @@
 namespace Controllers;
 
 
+use Exceptions\DuplicateUser;
+use Exceptions\PasswordsAreNotSameException;
+
+
 class RegistrationController extends baseController
 {
 
 	/**
-	 * @param $params
+	 * @param array $params
 	 * @return mixed
+	 * @throws DuplicateUser
+	 * @throws PasswordsAreNotSameException
 	 */
 	public function process(array $params): void
 	{
@@ -17,7 +23,7 @@ class RegistrationController extends baseController
 		$registrationModel = $this->getModelFactory()->createUserModel();
 		$registeredOK = $registrationModel->register();
 		if ($registeredOK) {
-			$this->redirect('auth');
+			$this->redirect('home');
 		}
 	}
 }

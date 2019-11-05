@@ -281,4 +281,9 @@ class RegisteredUser extends Password
 		throw new ReservationSuccessException('Reservation was successfully created!');
 	}
 
+	public function __toString()
+	{
+		return __CLASS__;
+	}
+
 }

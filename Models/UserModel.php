@@ -4,6 +4,7 @@
 namespace Models;
 
 
+use Authentication\Roles\Cashier;
 use Exceptions\AlreadyOccupiedSeatException;
 use Exceptions\DuplicateUser;
 use Exceptions\InvalidPasswordException;
@@ -74,6 +75,10 @@ class UserModel extends baseModel
 		return $userRole->getUserBySessionID();
 	}
 
+	/**
+	 * @throws UpdateProfileException
+	 * @throws UpdateProfileSuccess
+	 */
 	public function editProfile(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -111,14 +116,23 @@ class UserModel extends baseModel
 		}
 	}
 
-	public function getReservationByEmail($email)
+	public function hasPermission($obj)
 	{
+		$testClass = Cashier::class;
+		$objectClass = get_class($obj);
 
+		return $objectClass === $testClass || is_subclass_of($objectClass, $testClass);
 	}
 
-	public function default(): void
+
+	public function getRole()
 	{
-		return;
+		return $this->auth->role()->getRoleBySessionID();
+	}
+
+	public function default()
+	{
+
 	}
 
 }

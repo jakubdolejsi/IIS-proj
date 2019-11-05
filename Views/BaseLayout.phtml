@@ -14,6 +14,12 @@
     <li><a href="home">Domu</a></li>
 
     <li><a href="search">Hledat</a></li>
+    <li id="auth">
+		<?php
+		if (!empty($_SESSION['user_id'])) {
+			echo '<a href="auth">Auth stuff</a>';
+		} ?>
+    </li>
     <li id="registration">
 		<?php
 		if (empty($_SESSION['user_id'])) {

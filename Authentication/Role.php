@@ -57,9 +57,6 @@ class Role extends Validator
 				return new Editor($this->db);
 			case 'admin':
 				return new Admin($this->db);
-			default:
-				return NULL;
 		}
 	}
-
 }
