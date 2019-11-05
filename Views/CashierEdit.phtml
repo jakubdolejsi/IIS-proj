@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="cs-cz">
+<head>
+    <meta charset="UTF-8"/>
+    <base href="/localhost"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+</head>
+
+<body>
+<form method="post">
+    <div class="generalSettings">
+        <div class="settings">
+            <label for="price ">Price :</label>
+            <input type="text" id="price" name="price" value="<?= $tickets[1] ?>">
+        </div>
+        <div class="settings">
+            <label for="seat ">Seat :</label>
+            <input type="text" id="seat" name="seat" value="<?= $tickets[2] ?>">
+        </div>
+        <div class="settings">
+            <label for="discount">Discount :</label>
+            <input type="text" id="discount" name="discount" value="<?= $tickets[3] ?>">
+        </div>
+        <div class="settings">
+            <label for="email">Email :</label>
+            <input type="text" id="email" name="email" value="<?= $tickets[4] ?>">
+        </div>
+        <div class="settings">
+            <input type="submit" id="submit" name="submit" value="Potvrdit">
+        </div>
+        <div class="settings">
+            <input type=button value="Zpet" onclick="window.location.href='cashier'">
+        </div>
+
+    </div>
+</form>
+</body>

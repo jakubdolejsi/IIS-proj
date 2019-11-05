@@ -8,7 +8,28 @@
 </head>
 <body>
 <div class="welcome">
-    Jsme nejlepsi kulturni portal ve vsech vesmirech i nevesmirech
+    Edit reservations:
 </div>
+<form method="post">
+    <div class="searchGeneral">
+        <label for="searchEmail">Zadejte email pro zobrazeni listku</label>
+        <input type="text" id="searchEmail" name="searchEmail">
+        <input type="submit" class="fa fa-search" value="hledat">
+    </div>
+
+	<?php foreach ($tickets as $ticket) : ?>
+        <div class="concreteItem">
+            <input type="button" onclick="location.href = 'cashier/<?= str_replace(' ', '%20',
+				$ticket['price']) ?>/<?= str_replace(' ', '%20', $ticket['seat']) ?>/<?= $ticket['discount']
+			?>/<?=
+			str_replace(' ', '%20', $ticket['email']) ?>';"
+                   value="Upravit"/>
+
+			<?php foreach ($ticket as $item => $value) : ?>
+				<?= $item ?> : <?= $value ?> &nbsp;|
+			<?php endforeach ?>
+        </div>
+	<?php endforeach ?>
+</form>
 </body>
 </html>
