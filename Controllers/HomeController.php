@@ -15,9 +15,7 @@ class HomeController extends baseController
 	 */
 	public function process(array $params): void
 	{
-		$this->view = 'home';
-		$this->data['data'] = 'mojekurvaData';
-//		$model->setX(10)->setY(10);
+		$this->loadView('home');
 	}
 
 }

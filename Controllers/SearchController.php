@@ -15,11 +15,11 @@ class SearchController extends baseController
 	{
 		if (isset($params[1])) {
 			$events = $this->getModelFactory()->createCultureWork()->getCultureWorkByEvent($params[1]);
-			$this->view = 'concreteEvent';
+			$this->loadView('concreteEvent');
 		} else {
 			$search = $this->getModelFactory()->createSearchModel();
 			$events = $search->process();
-			$this->view = 'search';
+			$this->loadView('search');
 		}
 
 		$this->data['events'] = $events;

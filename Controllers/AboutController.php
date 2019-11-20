@@ -13,6 +13,6 @@ class AboutController extends baseController
 	 */
 	public function process(array $params): void
 	{
-		$this->view = 'about';
+		$this->loadView('about');
 	}
 }

@@ -16,9 +16,9 @@ class ReservationController extends BaseController
 	{
 		$user = $this->getModelFactory()->createUserModel();
 		if (!$user->isLogged()) {
-			$this->view = 'reservationUnauthorized';
+			$this->loadView('reservationUnauthorized');
 		} else {
-			$this->view = 'reservation';
+			$this->loadView('reservation');
 		}
 		try {
 			$user->createReservation($params);

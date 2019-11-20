@@ -58,21 +58,20 @@ class ViewRenderer implements IViewable
 	public function loadBaseView($view): void
 	{
 		$validView = $this->validateView($view);
-		if($validView) {
-			$this->baseView = $validView;
+		if (!$validView) {
+			throw new ViewLoadException('View is not setted!');
 		}
+		$this->baseView = $validView;
 	}
 
 	/**
 	 * @param string $view
 	 * @throws aBaseException
 	 */
-	public function loadControllerView(string $view): void
+	public function loadControllerView(?string $view): void
 	{
 		$validView = $this->validateView($view);
-		if($validView) {
-			$this->controllerView = $validView;
-		}
+		$this->controllerView = $validView;
 	}
 
 	/**
@@ -95,7 +94,7 @@ class ViewRenderer implements IViewable
 		$path = $folder . $view . '.phtml';
 		if (!is_file($path)) {
 			// jaka vyjimka se vyhodi??
-			throw new ViewLoadException();
+			throw new ViewLoadException('View is not setted!');
 		}
 		return $path;
 	}

@@ -14,6 +14,6 @@ class PaymentCOntroller extends BaseController
 	public function process(array $params): void
 	{
 		// TODO: Implement process() method.
-		$this->view = 'payment';
+		$this->loadView('payment');
 	}
 }

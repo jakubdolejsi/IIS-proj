@@ -13,6 +13,14 @@ class EditorController extends BaseController
 	 */
 	public function process(array $params): void
 	{
-		$this->view = 'editor';
+		$this->loadView('editor');
+		//		$x = 'Response is : ' . $_POST['price'];
+		//		var_dump($x);
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			var_dump('postttt');
+		}
+		if (isset($_POST['price'])) {
+			$this->data['price'] = $_POST['price'];
+		}
 	}
 }

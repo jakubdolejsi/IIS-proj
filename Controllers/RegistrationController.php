@@ -19,7 +19,7 @@ class RegistrationController extends baseController
 	 */
 	public function process(array $params): void
 	{
-		$this->view = 'registration';
+		$this->loadView('registration');
 		$registrationModel = $this->getModelFactory()->createUserModel();
 		$registeredOK = $registrationModel->register();
 		if ($registeredOK) {

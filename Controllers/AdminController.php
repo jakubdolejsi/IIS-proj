@@ -13,6 +13,6 @@ class AdminController extends BaseController
 	 */
 	public function process(array $params): void
 	{
-		$this->view = 'admin';
+		$this->loadView('admin');
 	}
 }

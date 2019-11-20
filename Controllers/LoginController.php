@@ -17,7 +17,7 @@ class LoginController extends baseController
 	 */
 	public function process(array $params): void
 	{
-		$this->view = 'login';
+		$this->loadView('login');
 		$user = $this->getModelFactory()->createUserModel();
 
 		if ($user->isLogged()) {

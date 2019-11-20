@@ -16,26 +16,6 @@ function login()
     }
 }
 
-
-function searchInList()
-{
-    let input, filter, ul, li, a, i, txtValue;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("myUL");
-    li = ul.getElementsByTagName("li");
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("a")[0];
-        txtValue = a.textContent || a.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        }
-        else {
-            li[i].style.display = "none";
-        }
-    }
-}
-
 function f(x)
 {
     var input = "reservation/" + x['type'] + "/" + x['name'] + "/" + x['label'] + "/" + x['begin'];
@@ -45,6 +25,47 @@ function f(x)
 function redirectTo()
 {
 
+}
+
+function editorAjax()
+{
+
+    var price = document.getElementById('price').value;
+    var dataString = 'price=' + price;
+
+    $.ajax({
+        type: "post",
+        // url: "Editor",
+        data: dataString,
+        cache: false,
+        success: function (html) {
+            $('#msg').html(html);
+        }
+    });
+
+    return false;
+}
+
+function ajaxForm()
+{
+
+    var price = document.getElementById('price');
+    var seat = document.getElementById('seat');
+    var discount = document.getElementById('discount');
+    var email = document.getElementById('email');
+    var dataString = 'price=' + price + '&seat=' + seat + '&discount=' + discount + '&email=' + email;
+
+    $.ajax({
+        type: "post",
+        url: "CashierController",
+        data: dataString,
+        cache: false,
+        success: function (html) {
+            $('#msg').html(html);
+        }
+    });
+
+    return false;
 }
 
 

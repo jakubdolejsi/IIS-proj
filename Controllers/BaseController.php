@@ -79,7 +79,7 @@ abstract class BaseController
 	/**
 	 * @return string
 	 */
-	public function getView(): string
+	public function getView(): ?string
 	{
 		return $this->view;
 	}
@@ -145,5 +145,11 @@ abstract class BaseController
 		return $this->viewFactory;
 	}
 
-
+	/**
+	 * @param string $view
+	 */
+	protected function loadView(string $view): void
+	{
+		$this->view = $view;
+	}
 }

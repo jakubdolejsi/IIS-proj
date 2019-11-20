@@ -4,7 +4,6 @@
 namespace Models;
 
 
-use Exceptions\UpdateProfileSuccess;
 use PDO;
 
 
@@ -43,8 +42,10 @@ class TicketManager extends BaseModel
 		}
 
 		$email = $data['searchEmail'];
-		$query = 'select t.price, t.seat, t.discount, u.email from theatre.ticket as t 
+		$query = 'select t.price, t.seat, t.discount, u.email, ce.date, ce.begin, cw.name from theatre.ticket as t 
 				join theatre.user as u on t.id_user = u.id
+				join theatre.culture_event as ce on t.id_culture_event = ce.id
+				join theatre.culture_work as cw on ce.id_culture_work = cw.id
 				where u.email = ?';
 
 		return $this->db->run($query, $email)->fetchAll(PDO::FETCH_ASSOC);
@@ -55,18 +56,16 @@ class TicketManager extends BaseModel
 	 */
 	private function getAllTickets(): array
 	{
-		$query = 'select t.price, t.seat, t.discount, u.email from theatre.ticket as t 
-				join theatre.user as u on t.id_user = u.id';
+		$query = 'select t.price, t.seat, t.discount, u.email, ce.date, ce.begin, cw.name  from theatre.ticket as t 
+				join theatre.user as u on t.id_user = u.id
+				join theatre.culture_event as ce on t.id_culture_event = ce.id
+				join theatre.culture_work as cw on ce.id_culture_work = cw.id';
 
 		return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	/**
-	 * @param $data
-	 * @return mixed
-	 * @throws UpdateProfileSuccess
-	 */
-	public function processUpdate($data)
+
+	public function processUpdate($data, &$updateOk)
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$dataToQuery = $this->getPostDataAndValidate();
@@ -78,10 +77,11 @@ class TicketManager extends BaseModel
 			$res = $this->db->run($query, [$dataToQuery['price'], $dataToQuery['seat'], $dataToQuery['discount'], $dataToQuery['email']]);
 
 			if ($res->errorCode() === '00000') {
-				throw new UpdateProfileSuccess('Update was ok');
+				$updateOk = TRUE;
 			}
 		}
+		$keys = ['controller', 'price', 'seat', 'discount', 'email'];
 
-		return $data;
+		return array_combine($keys, $data);
 	}
 }
