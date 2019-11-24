@@ -93,7 +93,7 @@ class UserDetail
 		return $this;
 	}
 
-	public function setEmail($email)
+	public function setEmail($email): UserDetail
 	{
 		$this->email = $email;
 
