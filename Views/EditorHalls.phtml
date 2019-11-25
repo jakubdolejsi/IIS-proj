@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html lang="cs-cz">
+<head>
+    <meta charset="UTF-8"/>
+    <base href="/localhost"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="Views/JS/actions.js"></script>
+</head>
+<body>
+
+<div class="settings">
+    <input type="button" value="Pridat novy sal" onclick="location.href='editor/halls/new'">
+	<?php foreach ($halls as $event) : ?>
+        <div class="concreteItem">
+            <input type="button" value="upravit" onclick="location.href= 'editor/halls/edit/<?= str_replace
+			(' ',
+				'%20', $event['id'])
+			?>';"/>
+            <input type="button" value="smazat" onclick="location.href= 'editor/halls/remove/<?=
+			str_replace
+			(' ',
+				'%20', $event['id'])
+			?>';"/>
+
+			<?php foreach ($event as $item => $value) : ?>
+				<?= $item ?> : <?= $value ?> &nbsp;|
+			<?php endforeach ?>
+        </div>
+	<?php endforeach ?>
+    <input type="submit" value="Zpet" onclick=window.location.href='editor'>
+
+</div>
+</body>
+</html>

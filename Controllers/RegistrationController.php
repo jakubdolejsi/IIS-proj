@@ -8,7 +8,7 @@ use Exceptions\DuplicateUser;
 use Exceptions\PasswordsAreNotSameException;
 
 
-class RegistrationController extends baseController
+class RegistrationController extends BaseController
 {
 
 	/**

@@ -4,6 +4,10 @@
 namespace Controllers;
 
 
+use Exceptions\UpdateException;
+use Exceptions\UpdateSuccess;
+
+
 class EditorController extends BaseController
 {
 
@@ -13,14 +17,31 @@ class EditorController extends BaseController
 	 */
 	public function process(array $params): void
 	{
-		$this->loadView('editor');
-		//		$x = 'Response is : ' . $_POST['price'];
-		//		var_dump($x);
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			var_dump('postttt');
+		try {
+			$user = $this->getModelFactory()->createUserModel();
+			$view = '';
+			if (!isset($params[1])) {
+				$this->loadView('editor');
+			} elseif ($params[1] === 'events') {
+				$this->loadView('editorEvents');
+				$user->eventAction($params);
+			} elseif ($params[1] === 'works') {
+				$this->loadView('editorWorks');
+			} elseif ($params[1] === 'halls') {
+				$halls = $this->getModelFactory()->createHallModel();
+				[$view, $data] = $user->hallAction($params, $halls);
+				$this->loadView($view);
+				$this->data['halls'] = $data;
+			} else {
+				$this->loadView('error404');
+			}
 		}
-		if (isset($_POST['price'])) {
-			$this->data['price'] = $_POST['price'];
+		catch (UpdateSuccess $exception) {
+			$this->alert($exception->getMessage());
+			$this->redirect('editor');
+		}
+		catch (UpdateException $exception) {
+			$this->alert($exception->getMessage());
 		}
 	}
 }

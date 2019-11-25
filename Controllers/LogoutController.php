@@ -4,7 +4,7 @@
 namespace Controllers;
 
 
-class LogoutController extends baseController
+class LogoutController extends BaseController
 {
 
 	/**

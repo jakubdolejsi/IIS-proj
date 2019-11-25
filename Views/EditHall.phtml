@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="cs-cz">
+<head>
+    <meta charset="UTF-8"/>
+    <base href="/localhost"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="Views/JS/actions.js"></script>
+</head>
+<body>
+<form method="post">
+    <div class="generalSettings">
+        <div class="settings">
+            <label for="label">Label:</label>
+            <input type="text" id="label" name="label" value="<?= $halls['label'] ?>">
+        </div>
+        <div class="settings">
+            <label for="schema">Schema:</label>
+            <input type="text" id="schema" name="schema" value="<?= $halls['seat_schema'] ?>">
+        </div>
+        <div class="settings">
+            <label for="capacity">Capacity:</label>
+            <input type="text" id="capacity" name="capacity" value="<?= $halls['capacity'] ?>">
+        </div>
+        <div class="settings">
+            <label for="row">Row Count:</label>
+            <input type="text" id="row" name="row" value="<?= $halls['row_count'] ?>">
+        </div>
+        <div class="settings">
+            <label for="column">Column Count:</label>
+            <input type="text" id="column" name="column" value="<?= $halls['column_count'] ?>">
+        </div>
+        <div class="settings">
+            <input type=submit value="Ulozit" onclick="window.location.href='editor/halls/edit/;<?= str_replace
+			(' ',
+				'%20', $halls['id'])
+			?>">
+        </div>
+        <div class="settings">
+            <input type=button value="Zpet" onclick="window.location.href='editor/halls'">
+        </div>
+</form>
+</body>
+</html>
