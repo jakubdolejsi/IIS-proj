@@ -21,9 +21,21 @@ class RegistrationController extends baseController
 	{
 		$this->loadView('registration');
 		$registrationModel = $this->getModelFactory()->createUserModel();
-		$registeredOK = $registrationModel->register();
-		if ($registeredOK) {
-			$this->redirect('home');
+		try{
+            $registeredOK = $registrationModel->register();
+        }
+        catch (PasswordsAreNotSameException $e){
+            $this->alert($e->getMessage());
+        }
+        catch (DuplicateUser $e){
+            $this->alert($e->getMessage());
+            $this->redirect('emailVerification');
+        }
+
+		if (isset($registeredOK)) {
+		    if($registeredOK){
+                $this->redirect('home');
+            }
 		}
 	}
 }

@@ -4,6 +4,7 @@
 namespace Authentication;
 
 
+use Authentication\Roles\NotRegisteredUser;
 use Authentication\Roles\RegisteredUser;
 use Database\Db;
 
@@ -32,5 +33,13 @@ class Auth
 	{
 		return new RegisteredUser($this->db);
 	}
+
+    /** @return NotRegisteredUser
+     * @internal Vola se pouze pri rezervaci jako neregistrovany uzivatel
+     */
+    public function notRegisteredUser(): NotRegisteredUser
+    {
+        return new NotRegisteredUser($this->db);
+    }
 
 }

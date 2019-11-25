@@ -7,6 +7,7 @@ namespace Authentication;
 use Authentication\Roles\Admin;
 use Authentication\Roles\Cashier;
 use Authentication\Roles\Editor;
+use Authentication\Roles\NotRegisteredUser;
 use Authentication\Roles\RegisteredUser;
 use Database\Db;
 use Models\UserDetail;
@@ -34,14 +35,9 @@ class Role extends Validator
 		return $this->setRole($res['role']);
 	}
 
-	public function getRoleBySessionID()
+	public function getRoleFromeSession()
 	{
-		$sessionID = $_SESSION['user_id'] ?? '';
-		if (empty($sessionID)) {
-			// nejaka exceptiona, asi ze uzivatel neni prihlaseny..
-		}
-		$query = 'select usr.role from theatre.user as usr where usr.id = ?';
-		$res = $this->db->run($query, $sessionID)->fetch(PDO::FETCH_ASSOC);
+        $res['role'] = $_SESSION['role'];
 
 		return $this->setRole($res['role']);
 	}
@@ -49,6 +45,8 @@ class Role extends Validator
 	private function setRole($role)
 	{
 		switch ($role) {
+            case 'notRegisteredUser':
+                return new NotRegisteredUser($this->db);
 			case 'registeredUser':
 				return new RegisteredUser($this->db);
 			case 'cashier':

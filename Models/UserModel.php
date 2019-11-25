@@ -45,7 +45,7 @@ class UserModel extends baseModel
 
 	public function logout(): void
 	{
-		$role = $this->auth->role()->getRoleBySessionID();
+		$role = $this->auth->role()->getRoleFromeSession();
 		$role->logout();
 	}
 
@@ -65,12 +65,42 @@ class UserModel extends baseModel
 		return FALSE;
 	}
 
+    /**
+     * @return bool
+     */
+    public function oneTimeRegister(): bool
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->auth->notRegisteredUser()->oneTimeRegister();
+
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    /**
+     * @return bool
+     * @throws DuplicateUser
+     * @throws PasswordsAreNotSameException
+     */
+    public function verifyEmail(): bool
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $this->auth->notRegisteredUser()->verifyEmail();
+
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
 	/**
 	 * @return UserDetail
 	 */
 	public function getUserInfo(): UserDetail
 	{
-		$userRole = $this->auth->role()->getRoleBySessionID();
+		$userRole = $this->auth->role()->getRoleFromeSession();
 
 		return $userRole->getUserBySessionID();
 	}
@@ -82,7 +112,7 @@ class UserModel extends baseModel
 	public function editProfile(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$role = $this->auth->role()->getRoleBySessionID();
+			$role = $this->auth->role()->getRoleFromeSession();
 			$role->editProfile();
 		}
 	}
@@ -95,7 +125,7 @@ class UserModel extends baseModel
 	public function editPassword(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$role = $this->auth->role()->getRoleBySessionID();
+			$role = $this->auth->role()->getRoleFromeSession();
 			$role->editPassword();
 		}
 	}
@@ -111,10 +141,11 @@ class UserModel extends baseModel
 	public function createReservation($params): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$role = $this->auth->role()->getRoleBySessionID();
+			$role = $this->auth->role()->getRoleFromeSession();
 			$role->createNewReservation($params);
 		}
 	}
+
 
 	public function hasPermission($obj)
 	{
@@ -127,7 +158,7 @@ class UserModel extends baseModel
 
 	public function getRole()
 	{
-		return $this->auth->role()->getRoleBySessionID();
+		return $this->auth->role()->getRoleFromeSession();
 	}
 
 	public function default()

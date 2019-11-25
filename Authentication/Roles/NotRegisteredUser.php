@@ -93,14 +93,37 @@ class NotRegisteredUser extends Password{
     {
         $userDetail = new UserDetail($this->getPostDataAndValidate());
         $user = $this->getUserByEmail($userDetail->getEmail());
-        if ($user) {
-            throw new DuplicateUser('User already exists');
+        if($user){
+            if ($user['role'] != NULL) {        //Uzivatel se jiz registroval
+                throw new DuplicateUser('User already exists');
+            }
+        else{  //Uzivatel se chce doregistrovat
+            throw new DuplicateUser('Doregistrace');    //TODO
+            //TODO uzivatel musi mit pravo se doregistrovat
         }
+        }
+
         $this->processRegistrationPassword($userDetail);
         $query = 'INSERT INTO theatre.user(firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)';
         $this->db->run($query, $userDetail->getAllProperties());
         $_SESSION['user_id'] = $this->db->lastInsertId();
         $_SESSION['role'] = $userDetail->getRole();
+    }
+
+    /**
+     * @return bool
+     * @throws DuplicateUser
+     * @throws PasswordsAreNotSameException
+     */
+    public function verifyEmail(): bool
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->auth->registeredUser()->register();
+
+            return TRUE;
+        }
+
+        return FALSE;
     }
 
 
@@ -118,23 +141,6 @@ class NotRegisteredUser extends Password{
             ->setPassword($this->hashPassword($password))
             ->unsetControlPassword()
             ->setRole('registeredUser');
-    }
-
-    /**
-     * @param $params
-     * @throws AlreadyOccupiedSeatException
-     * @throws InvalidRequestException
-     * @throws ReservationSuccessException
-     * @throws SqlSomethingGoneWrongException
-     */
-    public function createNewReservationUnregistered($params): void
-    {
-        $urlParams = $this->getUrlParams($params);
-        $seatInfo = $this->joinSeat($this->getPostDataAndValidate());
-        if (!$this->isSeatFree($urlParams, $seatInfo)) {
-            throw new AlreadyOccupiedSeatException('Seat is already registered');
-        }
-        $this->createNewTicketUnregistered($urlParams, $seatInfo);
     }
 
 
@@ -190,6 +196,22 @@ class NotRegisteredUser extends Password{
         return empty($this->db->run($existingReservationQuery, $queryParams)->fetchAll(PDO::FETCH_ASSOC));
     }
 
+    /**
+     * @param $params
+     * @throws AlreadyOccupiedSeatException
+     * @throws InvalidRequestException
+     * @throws ReservationSuccessException
+     * @throws SqlSomethingGoneWrongException
+     */
+    public function createNewReservation($params): void
+    {
+        $urlParams = $this->getUrlParams($params);
+        $seatInfo = $this->joinSeat($this->getPostDataAndValidate());
+        if (!$this->isSeatFree($urlParams, $seatInfo)) {
+            throw new AlreadyOccupiedSeatException('Seat is already registered');
+        }
+        $this->createNewTicket($urlParams, $seatInfo);
+    }
 
     /**
      * @param $urlParams
