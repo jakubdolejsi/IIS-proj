@@ -7,6 +7,7 @@ namespace Authentication\Roles;
 use Authentication\Password;
 use Database\Db;
 use Exceptions\AlreadyOccupiedSeatException;
+use Exceptions\CompleteRegistrationException;
 use Exceptions\DuplicateUser;
 use Exceptions\InvalidPasswordException;
 use Exceptions\InvalidRequestException;
@@ -15,6 +16,7 @@ use Exceptions\PasswordsAreNotSameException;
 use Exceptions\ReservationSuccessException;
 use Exceptions\SqlSomethingGoneWrongException;
 use Models\UserDetail;
+use MongoDB\Driver\Query;
 use PDO;
 
 
@@ -28,6 +30,13 @@ class NotRegisteredUser extends Password{
         $this->db = $db;
     }
 
+
+    public function generateHash(){
+        $seed = rand(0, 10000);
+        $hashCode = hash('md5', $seed);
+
+        return $hashCode;
+    }
 
     /**
      * @param $email
@@ -51,6 +60,16 @@ class NotRegisteredUser extends Password{
         $query = 'select * from theatre.user where id=?';
 
         return new UserDetail($this->db->run($query, [$id])->fetchAll()[0]);
+    }
+
+    /**
+     * @return UserDetail
+     */
+    public function getNotRegisteredUserByEmail($email): UserDetail
+    {
+        $query = 'select * from theatre.user where email=?';
+
+        return new UserDetail($this->db->run($query, [$email])->fetchAll()[0]);
     }
 
 
@@ -88,6 +107,7 @@ class NotRegisteredUser extends Password{
     /**
      * @throws PasswordsAreNotSameException
      * @throws DuplicateUser
+     * @throws CompleteRegistrationException
      */
     public function register(): void
     {
@@ -97,10 +117,9 @@ class NotRegisteredUser extends Password{
             if ($user['role'] != NULL) {        //Uzivatel se jiz registroval
                 throw new DuplicateUser('User already exists');
             }
-        else{  //Uzivatel se chce doregistrovat
-            throw new DuplicateUser('Doregistrace');    //TODO
-            //TODO uzivatel musi mit pravo se doregistrovat
-        }
+            else {  //Uzivatel se chce doregistrovat
+                throw new CompleteRegistrationException('Na vas email, byl odeslan overovaci kod');
+            }
         }
 
         $this->processRegistrationPassword($userDetail);
@@ -198,29 +217,30 @@ class NotRegisteredUser extends Password{
 
     /**
      * @param $params
+     * @return string
      * @throws AlreadyOccupiedSeatException
      * @throws InvalidRequestException
      * @throws ReservationSuccessException
      * @throws SqlSomethingGoneWrongException
      */
-    public function createNewReservation($params): void
+    public function createNewReservation($params)
     {
         $urlParams = $this->getUrlParams($params);
         $seatInfo = $this->joinSeat($this->getPostDataAndValidate());
         if (!$this->isSeatFree($urlParams, $seatInfo)) {
             throw new AlreadyOccupiedSeatException('Seat is already registered');
         }
-        $this->createNewTicket($urlParams, $seatInfo);
+        return $this->createNewTicket($urlParams, $seatInfo);
     }
 
     /**
      * @param $urlParams
      * @param $seatInfo
-     * @throws ReservationSuccessException
-     * @throws SqlSomethingGoneWrongException
+     * @return string
      * @throws InvalidRequestException
+     * @throws SqlSomethingGoneWrongException
      */
-    private function createNewTicket($urlParams, $seatInfo): void
+    private function createNewTicket($urlParams, $seatInfo)
     {
         $data = $this->getPostDataAndValidate();
         $userIdQuery = 'select u.id from theatre.user as u where u.email = ?';
@@ -248,7 +268,9 @@ class NotRegisteredUser extends Password{
         if ($res->rowCount() === '0') {
             throw new SqlSomethingGoneWrongException('Internal error occured');
         }
-        throw new ReservationSuccessException('Reservation was successfully created!');
+
+        return $this->db->lastInsertId();
+//        throw new ReservationSuccessException('Reservation was successfully created!');
     }
 
     public function __toString()

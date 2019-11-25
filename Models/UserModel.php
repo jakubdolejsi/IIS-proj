@@ -16,6 +16,7 @@ use Exceptions\ReservationSuccessException;
 use Exceptions\SqlSomethingGoneWrongException;
 use Exceptions\UpdateProfileException;
 use Exceptions\UpdateProfileSuccess;
+use Exceptions\CompleteRegistrationException;
 
 
 class UserModel extends baseModel
@@ -49,11 +50,12 @@ class UserModel extends baseModel
 		$role->logout();
 	}
 
-	/**
-	 * @return bool
-	 * @throws DuplicateUser
-	 * @throws PasswordsAreNotSameException
-	 */
+    /**
+     * @return bool
+     * @throws DuplicateUser
+     * @throws PasswordsAreNotSameException
+     * @throws CompleteRegistrationException
+     */
 	public function register(): bool
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -79,20 +81,9 @@ class UserModel extends baseModel
         return FALSE;
     }
 
-    /**
-     * @return bool
-     * @throws DuplicateUser
-     * @throws PasswordsAreNotSameException
-     */
-    public function verifyEmail(): bool
+    public function getHashCode()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $this->auth->notRegisteredUser()->verifyEmail();
-
-            return TRUE;
-        }
-
-        return FALSE;
+        return $this->auth->notRegisteredUser()->generateHash();
     }
 
 	/**
@@ -131,18 +122,19 @@ class UserModel extends baseModel
 	}
 
 
-	/**
-	 * @param $params
-	 * @throws AlreadyOccupiedSeatException
-	 * @throws InvalidRequestException
-	 * @throws ReservationSuccessException
-	 * @throws SqlSomethingGoneWrongException
-	 */
-	public function createReservation($params): void
+    /**
+     * @param $params
+     * @return string|void
+     * @throws AlreadyOccupiedSeatException
+     * @throws InvalidRequestException
+     * @throws ReservationSuccessException
+     * @throws SqlSomethingGoneWrongException
+     */
+	public function createReservation($params)
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$role = $this->auth->role()->getRoleFromeSession();
-			$role->createNewReservation($params);
+			return $role->createNewReservation($params);
 		}
 	}
 
