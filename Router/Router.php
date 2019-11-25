@@ -2,7 +2,7 @@
 
 namespace Router;
 
-use Controllers\baseController;
+use Controllers\BaseController;
 use Exceptions\ViewLoadException;
 use ViewRenderer\ViewRenderer;
 
