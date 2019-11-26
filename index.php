@@ -7,11 +7,13 @@ use Router\Router;
 
 require_once 'autoloader.php';
 
-
 Enviroment::setVersion(Enviroment::VERSION['DEVEL']);
 Enviroment::setEncoding();
 Enviroment::setErrorNotification();
-//session_start();
+session_start();
+if(!isset($_SESSION['role'])){
+    $_SESSION['role'] = 'notRegisteredUser';
+}
 
 $container = new Container;
 $router = new Router($container);

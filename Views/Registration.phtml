@@ -3,11 +3,11 @@
 <form method="post">
     <div>
         <h1>Sign up</h1>
-        <input type="text" name="firstName" id="firstName" placeholder="First Name"/>
-        <input type="text" name="lastName" id="lastName" placeholder="Last Name"/>
-        <input type="text" name="email" id="email" placeholder="E-mail"/>
-        <input type="password" name="password" id="password" placeholder="Password"/>
-        <input type="password" name="controlPassword" id="controlPassword" placeholder="Retype password"/>
+        <input type="text" name="firstName" id="firstName" value="<?= isset($_POST['firstName']) ? $_POST['firstName'] : ''; ?>" placeholder="First Name" required/>
+        <input type="text" name="lastName" id="lastName" value="<?= isset($_POST['lastName']) ? $_POST['lastName'] : ''; ?>" placeholder="Last Name" required/>
+        <input type="email" name="email" id="email" value="<?= isset($_POST['email']) ? $_POST['email'] : ''; ?>" placeholder="E-mail" required/>
+        <input type="password" name="password" id="password" placeholder="Password" required/>
+        <input type="password" name="controlPassword" id="controlPassword" placeholder="Retype password" required/>
         <input type="submit" value="Sign me up"/>
 	  </div>
 </form>

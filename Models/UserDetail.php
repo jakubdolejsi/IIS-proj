@@ -22,6 +22,8 @@ class UserDetail
 
 	protected $role;
 
+	protected $hashCode;
+
 	public function __construct(array $user)
 	{
 		$this->initProperties($user);
@@ -116,6 +118,11 @@ class UserDetail
 	{
 		return $this->newPassword === $this->newPasswordRetype;
 	}
+
+	public function getHash():bool
+    {
+        return $this->hashCode;
+    }
 
 	private function initProperties(array $user): void
 	{
