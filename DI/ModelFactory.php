@@ -7,6 +7,7 @@ namespace DI;
 use Authentication\Auth;
 use Database\Db;
 use Helpers\Sessions\Session;
+use Models\AdminModel;
 use Models\AuthModel;
 use Models\CultureWork;
 use Models\HallModel;
@@ -76,4 +77,9 @@ final class ModelFactory
 	{
 		return new HallModel($this->auth, $this->db, $this->session);
 	}
+
+    public function createAdminModel(): AdminModel
+    {
+        return new AdminModel($this->auth, $this->db, $this->session);
+    }
 }

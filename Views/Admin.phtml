@@ -7,8 +7,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 </head>
 <body>
-<div class="welcome">
-    Jsme nejlepsi kulturni portal ve vsech vesmirech i nevesmirech
+
+
+
+<div id="userModify">
+    <h3>Správa uživatelů</h3>
+    <div class="searchButton">
+        <input type="button" onclick="location.href='admin/add'" value="Přidat uživatele"/>
+    </div>
+    <div class="searchButton">
+        <form method="post">
+            <input type="submit" onclick="location.href='admin'" value="Vyhledat uživatele"/>
+            <div class="item">
+                <input type="text" id="email" name="email" placeholder="E-mailová adresa">
+                <input list="roles" name="role" id="role" value="<?= isset($_POST['role']) ? $_POST['role'] : ''; ?>">
+
+                <datalist id="roles">
+                    <option value="neregistrovanyUzivatel">
+                    <option value="registrovanyUzivatel">
+                    <option value="pokladni">
+                    <option value="admin">
+                    <option value="editor">
+                </datalist>
+            </div>
+        </form>
+    </div>
+
+    <?php foreach ($users as $user) : ?>
+        <div class="concreteItem">
+            <input type="button" value="Upravit" onclick="location.href= 'admin/edit/<?= str_replace
+            (' ',
+                '%20', $user['id'])
+            ?>';"/>
+            <input type="button" value="Smazat" onclick="location.href= 'admin/delete/<?=
+            str_replace
+            (' ',
+                '%20', $user['id'])
+            ?>';"/>
+
+            <?php foreach ($user as $item => $value) : ?>
+                <?= $item ?> : <?= $value ?> &nbsp;|
+            <?php endforeach ?>
+        </div>
+    <?php endforeach ?>
+
 </div>
 </body>
 </html>

@@ -15,8 +15,8 @@ use Exceptions\NoUserException;
 use Exceptions\PasswordsAreNotSameException;
 use Exceptions\ReservationSuccessException;
 use Exceptions\SqlSomethingGoneWrongException;
-use Exceptions\UpdateProfileException;
-use Exceptions\UpdateProfileSuccess;
+use Exceptions\UpdateException;
+use Exceptions\UpdateSuccess;
 use Models\UserDetail;
 use MongoDB\Driver\Query;
 use PDO;
@@ -145,9 +145,10 @@ class NotRegisteredUser extends Password{
         $userDetail = new UserDetail($this->getPostDataAndValidate());
         $user = $this->getUserByEmail($userDetail->getEmail());
         if (empty($user)) {    //Neni potreba vkladat zaznam
-            $query = 'INSERT INTO theatre.user(firstName, lastName, email, role) VALUES (?, ?, ?, ?)';
-            $queryParams = [$userDetail->getFirstName(), $userDetail->getLastName(), $userDetail->getEmail(), $userDetail->getRole()];
-            $this->db->run($query, $queryParams);        //TODO
+            $query = 'INSERT INTO theatre.user(email, role) VALUES (?, ?, ?, ?)';
+            $userDetail->setRole('notRegisteredUser');
+            $queryParams = [$userDetail->getEmail(), $userDetail->getRole()];
+            $this->db->run($query, $queryParams);
         }
     }
 
@@ -161,7 +162,7 @@ class NotRegisteredUser extends Password{
         $userDetail = new UserDetail($this->getPostDataAndValidate());
         $user = $this->getUserByEmail($userDetail->getEmail());
         if($user){
-            if ($user['role'] != NULL) {        //Uzivatel se jiz registroval
+            if ($user['role'] != 'notRegisteredUser') {        //Uzivatel se jiz registroval
                 throw new DuplicateUser('User already exists');
             }
             else {  //Uzivatel se chce doregistrovat
@@ -172,8 +173,6 @@ class NotRegisteredUser extends Password{
         $this->processRegistrationPassword($userDetail);
         $query = 'INSERT INTO theatre.user(firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)';
         $this->db->run($query, $userDetail->getAllProperties());
-        $_SESSION['user_id'] = $this->db->lastInsertId();
-        $_SESSION['role'] = $userDetail->getRole();
     }
 
 
@@ -301,7 +300,6 @@ class NotRegisteredUser extends Password{
         }
 
         return $this->db->lastInsertId();
-//        throw new ReservationSuccessException('Reservation was successfully created!');
     }
 
     public function __toString()

@@ -32,14 +32,14 @@ class emailSender
     }
 
     private function setTicketInfo(PHPMailer $mailer, $ticketInfo){
-        $message = "<h1>Provedl jste tuto rezervaci</h1> <b>Jmeno:</b> $_POST[firstName] <b>Prijmeni:</b> $_POST[lastName]<br> <b>Nazev udalosti:</b> $ticketInfo[name]<br> <b>Zacatek udalosti:</b> $ticketInfo[begin] <b>Datum:</b> $ticketInfo[date]
-        <br><b>Cena:</b> $ticketInfo[price] <br><b>Sedadlo:</b> $ticketInfo[seat] <b>Sal:</b> $ticketInfo[label]";
+        $message = "<h1>Potvrzení Vaší rezervace</h1><br><h3>Informace o rezervaci:</h3> <b>Jméno:</b> $_POST[firstName] <b>Příjmení:</b> $_POST[lastName]<br> <b>Název události:</b> $ticketInfo[name]<br> <b>Začátek události:</b> $ticketInfo[begin] <b>Datum:</b> $ticketInfo[date]
+        <br><b>Cena:</b> $ticketInfo[price] <br><b>Sedadlo:</b> $ticketInfo[seat] <b>Sál:</b> $ticketInfo[label]";
 
         $mailer->isHTML(true);
-        $mailer->Subject = "Listek na udalost $ticketInfo[name]";
+        $mailer->Subject = "Potvrzení rezervace $ticketInfo[name]";
         $mailer->Body = $message;
-        $mailer->AltBody = "Provedl jste tuto rezervaci\nNazev udalosti: $ticketInfo[name]\nZacatek udalosti: $ticketInfo[begin]\nDatum: $ticketInfo[date]\n
-        Cena: $ticketInfo[price]\nSedadlo: $ticketInfo[seat]\nSal: $ticketInfo[label]";
+        $mailer->AltBody = "Potvrzení Vaší rezervace\nInformace o rezervaci:\nJméno: $_POST[firstName] Příjmení: $_POST[lastName]\nNázev události: $ticketInfo[name]\nZačátek události: $ticketInfo[begin] Datum: $ticketInfo[date]
+        \nCena: $ticketInfo[price]\nSedadlo: $ticketInfo[seat] Sál: $ticketInfo[label]";
     }
 
     /**
@@ -65,7 +65,7 @@ class emailSender
 
             $mailer->setFrom('iis.test587@gmail.com');
         } catch (Exception $e) {
-            echo "Nepodarilo se odeslat verifikacni email. Error: {$mailer->ErrorInfo}";
+            echo "Nepodařilo se odeslat email s ověřovacím kódem. Chyba: {$mailer->ErrorInfo}";
         }
     }
 
@@ -76,8 +76,8 @@ class emailSender
     private function setCode(PHPMailer $mailer, $code): void
     {
         $mailer->isHTML(true);
-        $mailer->Subject = 'Overeni registrace';
-        $mailer->Body = "<h1>Verifikacni kod</h1> Tento kod prosim zadejte pro dokonceni registrace: <b>$code</b>";
-        $mailer->AltBody = "Verifikacni kod: $code";
+        $mailer->Subject = 'Ověření registrace';
+        $mailer->Body = "<h1>Verifikační kód</h1> Tento kód prosím zadejte pro dokončení registrace: <b>$code</b>";
+        $mailer->AltBody = "Ověřovací kod: $code";
     }
 }
