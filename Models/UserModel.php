@@ -89,6 +89,7 @@ class UserModel extends baseModel
         return $this->auth->notRegisteredUser()->generateHash();
     }
 
+
 	/**
 	 * @return UserDetail
 	 */

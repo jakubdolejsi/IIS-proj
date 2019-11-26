@@ -62,6 +62,8 @@ class emailSender
             $mailer->Username   = 'iis.test587@gmail.com';
             $mailer->Password   = 'Testheslo123';
             $mailer->Port       = 587;
+            $mailer->CharSet = 'UTF-8';
+            $mailer->Encoding = 'base64';
 
             $mailer->setFrom('iis.test587@gmail.com');
         } catch (Exception $e) {

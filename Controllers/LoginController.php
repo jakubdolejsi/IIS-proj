@@ -7,6 +7,7 @@ namespace Controllers;
 use Exceptions\InvalidPasswordException;
 use Exceptions\LoggedUserException;
 use Exceptions\NoUserException;
+use Exceptions\UserNotVerifiedException;
 
 
 class LoginController extends BaseController
@@ -32,6 +33,9 @@ class LoginController extends BaseController
 		catch (NoUserException $exception) {
 			$this->alert($exception->getMessage());
 		}
+		catch (UserNotVerifiedException $exception){
+		    $this->alert($exception->getMessage());
+        }
 		catch (LoggedUserException $exception) {
 			$this->redirect('home');
 		}

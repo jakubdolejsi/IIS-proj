@@ -17,6 +17,7 @@ use Exceptions\ReservationSuccessException;
 use Exceptions\SqlSomethingGoneWrongException;
 use Exceptions\UpdateException;
 use Exceptions\UpdateSuccess;
+use Exceptions\UserNotVerifiedException;
 use Models\UserDetail;
 use MongoDB\Driver\Query;
 use PDO;
@@ -72,7 +73,8 @@ class NotRegisteredUser extends Password{
     {
         $data = $this->getPostDataAndValidate();
         $query = 'select * from theatre.user where email=?';
-        return new UserDetail($this->db->run($query, [$data['email']])->fetchAll()[0]);
+        $x = $this->db->run($query, [$data['email']])->fetch(PDO::FETCH_ASSOC);
+        return new UserDetail($this->db->run($query, [$data['email']])->fetch(PDO::FETCH_ASSOC));
     }
 
     public function insertHash($hashCode)
@@ -123,6 +125,7 @@ class NotRegisteredUser extends Password{
     /**
      * @throws InvalidPasswordException
      * @throws NoUserException
+     * @throws UserNotVerifiedException
      */
     public function login(): void
     {
@@ -130,6 +133,9 @@ class NotRegisteredUser extends Password{
         $user = $this->getUserByEmail($userDetail->getEmail());
         if (empty($user)) {
             throw new NoUserException('User does not exists');
+        }
+        if($user['is_verified'] === '0'){
+            throw new UserNotVerifiedException('Přihlášení se nezdařilo, účet je nutné ověřit pomocí kódu, který vám přišel na email!');
         }
         $password = $userDetail->getPassword();
         $hash = $user['password'];
@@ -145,7 +151,7 @@ class NotRegisteredUser extends Password{
         $userDetail = new UserDetail($this->getPostDataAndValidate());
         $user = $this->getUserByEmail($userDetail->getEmail());
         if (empty($user)) {    //Neni potreba vkladat zaznam
-            $query = 'INSERT INTO theatre.user(email, role) VALUES (?, ?, ?, ?)';
+            $query = 'INSERT INTO theatre.user(email, role) VALUES (?, ?)';
             $userDetail->setRole('notRegisteredUser');
             $queryParams = [$userDetail->getEmail(), $userDetail->getRole()];
             $this->db->run($query, $queryParams);
@@ -166,13 +172,32 @@ class NotRegisteredUser extends Password{
                 throw new DuplicateUser('User already exists');
             }
             else {  //Uzivatel se chce doregistrovat
-                throw new CompleteRegistrationException('Na vas email, byl odeslan overovaci kod');
+                throw new CompleteRegistrationException();
             }
         }
 
         $this->processRegistrationPassword($userDetail);
         $query = 'INSERT INTO theatre.user(firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)';
         $this->db->run($query, $userDetail->getAllProperties());
+    }
+
+    public function completeRegistration():bool
+    {
+        $userDetail = new UserDetail($this->getPostDataAndValidate());
+        $user = $this->getUserByEmail($userDetail->getEmail());
+        $this->processRegistrationPassword($userDetail);
+
+        $query = 'UPDATE theatre.user SET firstName=?, lastName=?, password=? where email=?';
+        $queryParams = [$userDetail->getFirstName(), $userDetail->getLastName(), $userDetail->getPassword(), $userDetail->getEmail()];
+        $this->db->run($query, $queryParams);
+        return TRUE;
+    }
+
+    public function completeVerification($email)
+    {
+        $query = 'UPDATE theatre.user SET role=?, is_verified=? where email=?';
+        $queryParams = ['registeredUser', TRUE, $email];
+        $this->db->run($query, $queryParams);
     }
 
 
