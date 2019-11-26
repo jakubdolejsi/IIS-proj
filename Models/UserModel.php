@@ -16,8 +16,8 @@ use Exceptions\NoUserException;
 use Exceptions\PasswordsAreNotSameException;
 use Exceptions\ReservationSuccessException;
 use Exceptions\SqlSomethingGoneWrongException;
-use Exceptions\UpdateProfileException;
-use Exceptions\UpdateProfileSuccess;
+use Exceptions\UpdateException;
+use Exceptions\UpdateSuccess;
 use Exceptions\CompleteRegistrationException;
 use Helpers\Sessions\Session;
 
@@ -99,10 +99,10 @@ class UserModel extends baseModel
 		return $userRole->getUserBySessionID();
 	}
 
-	/**
-	 * @throws UpdateProfileException
-	 * @throws UpdateProfileSuccess
-	 */
+    /**
+     * @throws UpdateException
+     * @throws UpdateSuccess
+     */
 	public function editProfile(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -111,11 +111,11 @@ class UserModel extends baseModel
 		}
 	}
 
-	/**
-	 * @throws PasswordsAreNotSameException
-	 * @throws UpdateProfileException
-	 * @throws UpdateProfileSuccess
-	 */
+    /**
+     * @throws PasswordsAreNotSameException
+     * @throws UpdateException
+     * @throws UpdateSuccess
+     */
 	public function editPassword(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -164,11 +164,7 @@ class UserModel extends baseModel
 		return $this->auth->role()->getRoleFromSession();
 	}
 
-	public function default()
-	{
 
-	}
-  
     public function eventAction($action)
         {
             if (isset($action[1], $action[2])) {
