@@ -4,61 +4,82 @@
 <head>
     <meta charset="UTF-8"/>
     <base href="/localhost"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="Views/CSS/baseStyle.css"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 
-<ul>
-    <li><a href="home">Domu</a></li>
+<nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-primary ">
+			<div class="navbar-nav">
+				<a class="nav-item nav-link text-xl" href="home">Domů</a>
+				<a class="nav-item nav-link" href="search">Hledat</a>
+			</div>
 
-    <li><a href="search">Hledat</a></li>
-    <li id="auth">
-		<?php
-		if (!empty($_SESSION['user_id'])) {
-			echo '<a href="auth">Auth stuff</a>';
-		} ?>
-    </li>
-    <li id="registration">
-		<?php
-		if (empty($_SESSION['user_id'])) {
-			echo '<a href="registration">Registrace</a>';
-		} ?>
-    </li>
-    <li style="float:right" id="about"><a href="about">O nas</a></li>
-    <li style="float: right">
-		<?php
-		if (empty($_SESSION['user_id'])) {
-			echo '<a href="login">Prihlasit</a>';
-		} else {
-			echo '<a href="logout">Odhlasit</a>';
-		}
-		?>
-    </li>
-    <li style="float:right" id="settings">
-		<?php
-		if (!empty($_SESSION['user_id'])) {
-			echo '<a href="settings">Nastaveni</a>';
-		}
-		?>
-    </li>
-    <li style="float:right" id="settings">
-		<?php
-		if (!empty($_SESSION['user_id'])) {
-			echo '<a href="ticket">Listky</a>';
-		}
-		?>
-    </li>
-    <li style="float: right">
-        <input type="text" placeholder="Type event name..." name="search">
-        <input type=button class="searchButton" value="Search">
-    </li>
-</ul>
+			<div class="navbar-nav mx-auto">
+				<div class="input-group w-auto">
+					<input type="text" class="form-control" placeholder="Zadejte název události..." name="search">
+					<div class="input-group-append">
+						<input type=button class="btn btn-secondary" class="searchButton" value="Hledat">
+					</div>
+				</div>
+			</div>
+
+			<div class="navbar-nav mr-0">
+				<div id="auth">
+					<?php
+						if (!empty($_SESSION['user_id'])) {
+							echo '<a class="nav-item nav-link" href="auth">Auth stuff</a>';
+						}
+					?>
+				</div>
+
+				<div id="registration">
+					<?php
+						if (empty($_SESSION['user_id'])) {
+							echo '<a class="nav-item nav-link" href="registration">Registrace</a>';
+						}
+					?>
+				</div>
+
+				<div id="login">
+					<?php
+						if (empty($_SESSION['user_id'])) {
+							echo '<a class="nav-item nav-link" href="login">Přihlášení</a>';
+						} else {
+							echo '<a class="nav-item nav-link" href="logout">Odhlášení</a>';
+						}
+					?>
+				</div>
+
+				<div id="settings">
+					<?php
+						if (!empty($_SESSION['user_id'])) {
+							echo '<a class="nav-item nav-link" href="ticket">Lístky</a>';
+						}
+					?>
+				</div>
+
+				<div id="settings">
+					<?php
+						if (!empty($_SESSION['user_id'])) {
+							echo '<a class="nav-item nav-link"  href="settings">Nastavení</a>';
+						}
+					?>
+				</div>
+
+				<a class="nav-item nav-link" href="about" id="about">O nás</a>
+			</div>
+		</div>			
+</nav>
+
+
 
 <article>
-    <!--	--><?php //$this->view = $this->controller->view; // nastaveni pohledu aktualniho kontroleru
-	$this->render(); ?>
+    <?php //$this->view = $this->controller->view; // nastaveni pohledu aktualniho kontroleru
+		$this->render();
+	?>
 </article>
 
 </body>

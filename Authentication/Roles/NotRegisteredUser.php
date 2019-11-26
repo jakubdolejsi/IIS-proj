@@ -73,7 +73,6 @@ class NotRegisteredUser extends Password{
     {
         $data = $this->getPostDataAndValidate();
         $query = 'select * from theatre.user where email=?';
-        $x = $this->db->run($query, [$data['email']])->fetch(PDO::FETCH_ASSOC);
         return new UserDetail($this->db->run($query, [$data['email']])->fetch(PDO::FETCH_ASSOC));
     }
 

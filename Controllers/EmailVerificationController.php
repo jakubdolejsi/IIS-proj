@@ -33,8 +33,5 @@ class EmailVerificationController extends baseController
                 $this->alert('Zadaný kód není správný!');
             }
         }
-//        else{
-//            $this->alert("Nepodarilo se vygenerovat verifikanci kod, zkuste opakovat registraci!");
-//        }
     }
 }
