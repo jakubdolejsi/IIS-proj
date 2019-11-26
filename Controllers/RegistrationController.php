@@ -12,7 +12,7 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 
-class RegistrationController extends baseController
+class RegistrationController extends BaseController
 {
 
 	/**

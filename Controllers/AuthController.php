@@ -4,7 +4,7 @@
 namespace Controllers;
 
 
-class AuthController extends baseController
+class AuthController extends BaseController
 {
 
 	/**

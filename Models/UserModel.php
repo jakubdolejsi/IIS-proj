@@ -4,7 +4,9 @@
 namespace Models;
 
 
+use Authentication\Auth;
 use Authentication\Roles\Cashier;
+use Database\Db;
 use Exceptions\AlreadyOccupiedSeatException;
 use Exceptions\DuplicateUser;
 use Exceptions\InvalidPasswordException;
@@ -17,6 +19,7 @@ use Exceptions\SqlSomethingGoneWrongException;
 use Exceptions\UpdateProfileException;
 use Exceptions\UpdateProfileSuccess;
 use Exceptions\CompleteRegistrationException;
+use Helpers\Sessions\Session;
 
 
 class UserModel extends baseModel
@@ -81,7 +84,7 @@ class UserModel extends baseModel
         return FALSE;
     }
 
-    public function getHashCode()
+    public function getHashCode():string
     {
         return $this->auth->notRegisteredUser()->generateHash();
     }
@@ -138,8 +141,16 @@ class UserModel extends baseModel
 		}
 	}
 
+	public function checkVerificationCode($params)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $role = $this->auth->role()->getRoleFromeSession();
+            return $role->verifyHash($params);
+        }
+    }
 
-	public function hasPermission($obj)
+
+    public function hasPermission($obj)
 	{
 		$testClass = Cashier::class;
 		$objectClass = get_class($obj);
@@ -157,5 +168,71 @@ class UserModel extends baseModel
 	{
 
 	}
+  
+public function eventAction($action)
+	{
+		if (isset($action[1], $action[2])) {
+		}
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$role = $this->auth->role()->getRoleBySessionID();
+			switch ($action) {
+				case 'add':
+					$role->addHall();
+					break;
+				case 'remove':
+					$role->removeHallbyId();
+					break;
+				case 'edit':
+					$role->editHallbyId();
+					break;
+			}
+		}
+	}
+
+  
+  
+  public function hallAction($action, HallModel $halls)
+	{
+		$view = '';
+		if (!isset($action[2])) {
+			return ['editorHalls', $halls->getAllHalls()];
+		}
+		$role = $this->auth->role()->getRoleBySessionID();
+		switch ($action[2]) {
+			case 'new':
+				if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+					$role->addHall($this->getPostDataAndValidate());
+				}
+				$data = '';
+				$view = 'newHall';
+				break;
+			case 'edit':
+				if (isset($action[3])) {
+					if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+						// uprav dany sal
+						$data = $role->editHallbyId($this->getPostDataAndValidate(), $action[3]);
+					} else {
+						$data = $role->getHallById($action[3]);
+						$view = 'editHall';
+					}
+				} else {
+					$view = 'error404';
+				}
+				break;
+			case 'remove':
+				if (isset($action[3])) {
+					$role->removeHallbyId($action[3]);
+				}
+				$view = 'removeHall';
+				$role->removeHallbyId();
+				break;
+			default:
+				$view = 'editorHalls';
+				break;
+		}
+		return [$view, $data];
+	}
+
+  
 
 }

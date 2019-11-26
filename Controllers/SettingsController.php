@@ -5,11 +5,11 @@ namespace Controllers;
 
 
 use Exceptions\PasswordsAreNotSameException;
-use Exceptions\UpdateProfileException;
-use Exceptions\UpdateProfileSuccess;
+use Exceptions\UpdateException;
+use Exceptions\UpdateSuccess;
 
 
-class SettingsController extends baseController
+class SettingsController extends BaseController
 {
 
 	/**
@@ -29,11 +29,11 @@ class SettingsController extends baseController
 		try {
 			$user->{$action}();
 		}
-		catch (UpdateProfileSuccess $exception) {
+		catch (UpdateSuccess $exception) {
 			$this->alert($exception->getMessage());
 			$this->redirect('settings');
 		}
-		catch (UpdateProfileException $exception) {
+		catch (UpdateException $exception) {
 			$this->alert($exception->getMessage());
 			$this->redirect('settings');
 		}

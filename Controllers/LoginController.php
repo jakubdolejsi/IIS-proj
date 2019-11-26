@@ -9,7 +9,7 @@ use Exceptions\LoggedUserException;
 use Exceptions\NoUserException;
 
 
-class LoginController extends baseController
+class LoginController extends BaseController
 {
 
 	/**
