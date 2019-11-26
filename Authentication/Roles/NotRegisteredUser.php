@@ -15,6 +15,8 @@ use Exceptions\NoUserException;
 use Exceptions\PasswordsAreNotSameException;
 use Exceptions\ReservationSuccessException;
 use Exceptions\SqlSomethingGoneWrongException;
+use Exceptions\UpdateProfileException;
+use Exceptions\UpdateProfileSuccess;
 use Models\UserDetail;
 use MongoDB\Driver\Query;
 use PDO;
@@ -31,7 +33,8 @@ class NotRegisteredUser extends Password{
     }
 
 
-    public function generateHash(){
+    public function generateHash():string
+    {
         $seed = rand(0, 10000);
         $hashCode = hash('md5', $seed);
 
@@ -65,11 +68,55 @@ class NotRegisteredUser extends Password{
     /**
      * @return UserDetail
      */
-    public function getNotRegisteredUserByEmail($email): UserDetail
+    public function getNotRegisteredUserByEmail(): UserDetail
     {
+        $data = $this->getPostDataAndValidate();
         $query = 'select * from theatre.user where email=?';
+        return new UserDetail($this->db->run($query, [$data['email']])->fetchAll()[0]);
+    }
 
-        return new UserDetail($this->db->run($query, [$email])->fetchAll()[0]);
+    public function insertHash($hashCode)
+    {
+        $userDetail = new UserDetail($this->getPostDataAndValidate());
+        $user = $this->getUserByEmail($userDetail->getEmail());
+        if (empty($user)) {
+            throw new NoUserException('User does not exists');
+        }
+        $query = 'UPDATE theatre.user SET user.hash=? where user.email=?';
+        $queryParams = [$hashCode, $user['email']];
+        $this->db->run($query, $queryParams);
+    }
+
+    public function getRegisterPassword(){
+        $password = $this->getPostDataAndValidate()['password'];
+        return $password;
+    }
+
+    public function setRoleToRegisterByEmail($userMail)
+    {
+        $query = 'UPDATE theatre.user SET user.role=? where user.email=?';
+        $this->db->run($query, ['registeredUser', $userMail]);
+    }
+
+    public function setPassword($userMail, $password)
+    {
+        $query = 'UPDATE theatre.user SET user.password=? where user.email=?';
+        $queryParams = [$this->hashPassword($password), $userMail];
+        $this->db->run($query, $queryParams);
+    }
+
+
+    public function verifyHash($userMail)
+    {
+        $insertedCode = $this->getPostDataAndValidate()['code'];
+        $query = 'select user.hash from theatre.user where email=?';
+        $userHash = $this->db->run($query, [$userMail])->fetch();
+
+        if($insertedCode === $userHash['hash'])
+        {
+            return TRUE;
+        }
+        return FALSE;
     }
 
 
@@ -127,22 +174,6 @@ class NotRegisteredUser extends Password{
         $this->db->run($query, $userDetail->getAllProperties());
         $_SESSION['user_id'] = $this->db->lastInsertId();
         $_SESSION['role'] = $userDetail->getRole();
-    }
-
-    /**
-     * @return bool
-     * @throws DuplicateUser
-     * @throws PasswordsAreNotSameException
-     */
-    public function verifyEmail(): bool
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->auth->registeredUser()->register();
-
-            return TRUE;
-        }
-
-        return FALSE;
     }
 
 

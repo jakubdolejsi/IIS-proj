@@ -6,6 +6,7 @@ namespace Controllers;
 
 use Exceptions\CompleteRegistrationException;
 use Exceptions\DuplicateUser;
+use Exceptions\NoUserException;
 use Exceptions\PasswordsAreNotSameException;
 use PHPMailer\emailSender;
 use PHPMailer\PHPMailer\Exception;
@@ -37,15 +38,25 @@ class RegistrationController extends baseController
         catch (CompleteRegistrationException $e){
             $mail = new PHPMailer(true);
             $settings = new emailSender();
+            $recipient = $registrationModel->getRole()->getNotRegisteredUserByEmail();
             try{
-                $settings->setupVerificationEmail($mail, $registrationModel->getHashCode());
-                $settings->setRecipient($mail, $registrationModel->getUserInfo()->getEmail());
+                $hashCode = $registrationModel->getHashCode();
+                $settings->setupVerificationEmail($mail, $hashCode);
+                $settings->setRecipient($mail, $recipient->getEmail());
                 $settings->sendEmail($mail);
+                try{
+                    $registrationModel->getRole()->insertHash($hashCode);
+                }
+                catch (NoUserException $e){
+                    $this->alert($e->getMessage());
+                }
+                $_SESSION['password'] = $registrationModel->getRole()->getRegisterPassword();
+                $_SESSION['recipient'] = $recipient->getEmail();
+                $this->alert($e->getMessage());
+                $this->redirect('emailVerification');
             } catch (Exception $e) {
                 echo "Nepodarilo se odeslat verifikacni email. Error: {$mail->ErrorInfo}";
             }
-		    $this->alert($e->getMessage());
-            $this->redirect('emailVerification');
         }
 
 		if (isset($registeredOK)) {

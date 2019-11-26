@@ -4,7 +4,9 @@
 namespace Models;
 
 
+use Authentication\Auth;
 use Authentication\Roles\Cashier;
+use Database\Db;
 use Exceptions\AlreadyOccupiedSeatException;
 use Exceptions\DuplicateUser;
 use Exceptions\InvalidPasswordException;
@@ -17,6 +19,7 @@ use Exceptions\SqlSomethingGoneWrongException;
 use Exceptions\UpdateProfileException;
 use Exceptions\UpdateProfileSuccess;
 use Exceptions\CompleteRegistrationException;
+use Helpers\Sessions\Session;
 
 
 class UserModel extends baseModel
@@ -81,7 +84,7 @@ class UserModel extends baseModel
         return FALSE;
     }
 
-    public function getHashCode()
+    public function getHashCode():string
     {
         return $this->auth->notRegisteredUser()->generateHash();
     }
@@ -138,8 +141,16 @@ class UserModel extends baseModel
 		}
 	}
 
+	public function checkVerificationCode($params)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $role = $this->auth->role()->getRoleFromeSession();
+            return $role->verifyHash($params);
+        }
+    }
 
-	public function hasPermission($obj)
+
+    public function hasPermission($obj)
 	{
 		$testClass = Cashier::class;
 		$objectClass = get_class($obj);

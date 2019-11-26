@@ -32,8 +32,8 @@ class emailSender
     }
 
     private function setTicketInfo(PHPMailer $mailer, $ticketInfo){
-        $message = "<h1>Provedl jste tuto rezervaci</h1> <b>Jmeno:</b> $_POST[firstName] <b>Prijmeni:</b> $_POST[lastName] <b>Nazev udalosti:</b> $ticketInfo[name]<br> <b>Zacatek udalosti:</b> $ticketInfo[begin]</br> <b>Datum:</b> $ticketInfo[date]
-        <br><b>Cena:</b> $ticketInfo[price] <br><b>Sedadlo:</b> $ticketInfo[seat]</br> <b>Sal:</b> $ticketInfo[label]";
+        $message = "<h1>Provedl jste tuto rezervaci</h1> <b>Jmeno:</b> $_POST[firstName] <b>Prijmeni:</b> $_POST[lastName]<br> <b>Nazev udalosti:</b> $ticketInfo[name]<br> <b>Zacatek udalosti:</b> $ticketInfo[begin] <b>Datum:</b> $ticketInfo[date]
+        <br><b>Cena:</b> $ticketInfo[price] <br><b>Sedadlo:</b> $ticketInfo[seat] <b>Sal:</b> $ticketInfo[label]";
 
         $mailer->isHTML(true);
         $mailer->Subject = "Listek na udalost $ticketInfo[name]";
