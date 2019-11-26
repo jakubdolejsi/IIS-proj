@@ -14,8 +14,8 @@ use Exceptions\{AlreadyOccupiedSeatException,
 	PasswordsAreNotSameException,
 	ReservationSuccessException,
 	SqlSomethingGoneWrongException,
-	UpdateProfileException,
-	UpdateProfileSuccess};
+	UpdateException,
+	UpdateSuccess};
 use Models\UserDetail;
 use PDO;
 
@@ -87,8 +87,8 @@ class RegisteredUser extends NotRegisteredUser
     }
 
 	/**
-	 * @throws UpdateProfileException
-	 * @throws UpdateProfileSuccess
+	 * @throws UpdateException
+	 * @throws UpdateSuccess
 	 */
 	public function editProfile(): void
 	{
@@ -97,15 +97,15 @@ class RegisteredUser extends NotRegisteredUser
 		$query = 'update theatre.user set email = ? where email = ?';
 		$res = $this->db->run($query, [$newEmail, $actualEmail]);
 		if ($res->errorCode() !== '00000') {
-			throw new UpdateProfileException('Updating profile was not successfully completed!');
+			throw new UpdateException('Updating profile was not successfully completed!');
 		}
-		throw new UpdateProfileSuccess('Your email was successfully updated to ' . $newEmail);
+		throw new UpdateSuccess('Your email was successfully updated to ' . $newEmail);
 	}
 
 	/**
 	 * @throws PasswordsAreNotSameException
-	 * @throws UpdateProfileException
-	 * @throws UpdateProfileSuccess
+	 * @throws UpdateException
+	 * @throws UpdateSuccess
 	 */
 	public function editPassword(): void
 	{
@@ -125,8 +125,8 @@ class RegisteredUser extends NotRegisteredUser
 
 	/**
 	 * @param UserDetail $userDetail
-	 * @throws UpdateProfileException
-	 * @throws UpdateProfileSuccess
+	 * @throws UpdateException
+	 * @throws UpdateSuccess
 	 */
 	private function updatePassword(UserDetail $userDetail): void
 	{
@@ -136,9 +136,9 @@ class RegisteredUser extends NotRegisteredUser
 
 		$res = $this->db->run($query, [$password, $email]);
 		if ($res->errorCode() !== '00000') {
-			throw new UpdateProfileException('Updating profile was not successfully completed!');
+			throw new UpdateException('Updating profile was not successfully completed!');
 		}
-		throw new UpdateProfileSuccess('Your password was successfully updated');
+		throw new UpdateSuccess('Your password was successfully updated');
 	}
 
 }

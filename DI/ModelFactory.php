@@ -9,6 +9,7 @@ use Database\Db;
 use Helpers\Sessions\Session;
 use Models\AuthModel;
 use Models\CultureWork;
+use Models\HallModel;
 use Models\SearchModel;
 use Models\TicketManager;
 use Models\UserModel;
@@ -69,5 +70,10 @@ final class ModelFactory
 	public function createAuthModel(): AuthModel
 	{
 		return new AuthModel($this->auth, $this->db, $this->session);
+	}
+
+	public function createHallModel(): HallModel
+	{
+		return new HallModel($this->auth, $this->db, $this->session);
 	}
 }

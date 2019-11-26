@@ -2,7 +2,7 @@
 
 namespace Router;
 
-use Controllers\baseController;
+use Controllers\BaseController;
 use Exceptions\ViewLoadException;
 use ViewRenderer\ViewRenderer;
 
@@ -11,14 +11,14 @@ use ViewRenderer\ViewRenderer;
  * Class Router
  * @package Router
  */
-final class Router extends baseController
+final class Router extends BaseController
 {
 	/**
 	 * @var ViewRenderer
 	 */
 	private $viewRenderer;
 	/**
-	 * @var baseController
+	 * @var BaseController
 	 */
 	protected $controller;
 

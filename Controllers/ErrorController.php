@@ -4,7 +4,7 @@
 namespace Controllers;
 
 
-class ErrorController extends baseController
+class ErrorController extends BaseController
 {
 
 	/**

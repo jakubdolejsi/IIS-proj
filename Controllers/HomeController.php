@@ -8,7 +8,7 @@ namespace Controllers;
  * Class HomeController
  * @package Controllers
  */
-class HomeController extends baseController
+class HomeController extends BaseController
 {
 	/**
 	 * @param array $params
@@ -17,5 +17,4 @@ class HomeController extends baseController
 	{
 		$this->loadView('home');
 	}
-
 }
