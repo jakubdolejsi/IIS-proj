@@ -7,65 +7,70 @@ namespace Controllers;
 use Exceptions\PasswordsAreNotSameException;
 use Exceptions\UpdateException;
 use Exceptions\UpdateSuccess;
+use Models\UserModel;
 
 
 class SettingsController extends BaseController
 {
 
-	/**
-	 * @param $params
-	 * @return mixed
-	 */
-	public function process(array $params): void
+	public function actionEdit(): void
 	{
 		$user = $this->getModelFactory()->createUserModel();
 
 		if (!$user->isLogged()) {
 			$this->redirect('auth');
 		}
-
-		[$this->view, $action] = $this->selectAction($params);
-
+		$view = 'settingsEdit';
+		$action = 'editProfile';
 		try {
-			$user->{$action}();
-		}
-		catch (UpdateSuccess $exception) {
-			$this->alert($exception->getMessage());
-			$this->redirect('settings');
-		}
-		catch (UpdateException $exception) {
-			$this->alert($exception->getMessage());
-			$this->redirect('settings');
-		}
-		catch (PasswordsAreNotSameException $exception) {
-			$this->alert($exception->getMessage());
+			$user->editProfile();
+		} catch (UpdateSuccess $e) {
+			$this->alert($e->getMessage());
 		}
 
+		$this->loadView('settingsEdit');
+		$this->setData($user);
+	}
+
+	public function actionPassword(): void
+	{
+		$user = $this->getModelFactory()->createUserModel();
+
+		if (!$user->isLogged()) {
+			$this->redirect('auth');
+		}
+		try {
+			$user->editPassword();
+		}
+		catch (PasswordsAreNotSameException $e) {
+			$this->alert($e->getMessage());
+		}
+		catch (UpdateSuccess $e) {
+			$this->alert($e->getMessage());
+		}
+
+		$this->loadView('settingsPassword');
+		$this->setData($user);
+	}
+
+	public function actionDefault(): void
+	{
+		$user = $this->getModelFactory()->createUserModel();
+
+		if (!$user->isLogged()) {
+			$this->redirect('auth');
+		}
+		$this->loadView('settings');
+		$this->setData($user);
+
+	}
+
+
+	private function setData(UserModel $user): void
+	{
 		$userInformation = $user->getUserInfo();
 		$this->data['firstName'] = $userInformation->getFirstName();
 		$this->data['lastName'] = $userInformation->getLastName();
 		$this->data['email'] = $userInformation->getEmail();
-	}
-
-
-	private function selectAction(array $params): array
-	{
-		$action = ($params[1] ?? NULL);
-		switch ($action) {
-			case 'edit':
-				$view = 'settingsEdit';
-				$action = 'editProfile';
-				break;
-			case 'password':
-				$view = 'settingsPassword';
-				$action = 'editPassword';
-				break;
-			default:
-				$view = 'settings';
-				$action = 'default';
-				break;
-		}
-
-		return [$view, $action];
 	}
 }

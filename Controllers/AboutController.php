@@ -7,11 +7,7 @@ namespace Controllers;
 class AboutController extends BaseController
 {
 
-	/**
-	 * @param $params
-	 * @return mixed
-	 */
-	public function process(array $params): void
+	public function actionDefault(): void
 	{
 		$this->loadView('about');
 	}

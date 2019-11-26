@@ -12,10 +12,7 @@ use Exceptions\NoUserException;
 class LoginController extends BaseController
 {
 
-	/**
-	 * @param array $params
-	 */
-	public function process(array $params): void
+	public function actionDefault(): void
 	{
 		$this->loadView('login');
 		$user = $this->getModelFactory()->createUserModel();

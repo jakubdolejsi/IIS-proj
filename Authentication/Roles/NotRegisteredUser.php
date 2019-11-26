@@ -201,7 +201,6 @@ class NotRegisteredUser extends Password{
      */
     protected function getUrlParams($params): array
     {
-        unset($params[0]);
         $arr = [];
         $values = ['type', 'name', 'label', 'begin'];
         $i = 0;

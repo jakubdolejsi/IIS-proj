@@ -7,11 +7,7 @@ namespace Controllers;
 class AuthController extends BaseController
 {
 
-	/**
-	 * @param $params
-	 * @return mixed
-	 */
-	public function process(array $params): void
+	public function actionDefault(): void
 	{
 		$user = $this->getModelFactory()->createUserModel();
 
@@ -31,9 +27,5 @@ class AuthController extends BaseController
 				$this->redirect('cashier');
 				break;
 		}
-		//		var_dump($role);
-		//		$this->data['firstName'] = $user->getUserInfo()->getFirstName();
-		//		$this->view = 'auth';
 	}
-
 }

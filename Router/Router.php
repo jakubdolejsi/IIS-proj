@@ -31,7 +31,11 @@ final class Router extends BaseController
 		$this->viewRenderer = $this->getViewFactory()->getViewRenderer();
 		$url = $this->parseUrl($params);
 		$this->controller = $this->loadClass($this->getControllerClass($url));
-		$this->controller->process($url);
+
+		$method = 'action'. ucwords($url[1] ?? 'default');
+		unset($url[0],$url[1]);
+		method_exists($this->controller, $method) ? $this->controller->$method(array_values($url)) : $this->redirect('error');
+//		$this->controller->process($url);
 
 		try {
 			$this->initView();
@@ -39,7 +43,6 @@ final class Router extends BaseController
 		catch (ViewLoadException $exception) {
 			print_r($exception->errorMessage());
 			exit();
-//			$this->redirect('error');
 		}
 	}
 
@@ -84,6 +87,11 @@ final class Router extends BaseController
 		return new $class($this->getContainer());
 	}
 
+
+	private function getMethod()
+	{
+	}
+
 	public function getViewRenderer()
 	{
 		return $this->viewRenderer;
@@ -99,4 +107,8 @@ final class Router extends BaseController
 		$this->viewRenderer->loadData($this->controller->getData());
 	}
 
+	public function actionDefault(): void
+	{
+		// TODO: Implement actionDefault() method.
+	}
 }

@@ -27,8 +27,7 @@ class RegisteredUser extends NotRegisteredUser
 	 */
 	public function logout(): void
 	{
-		unset($_SESSION['user_id']);
-        unset($_SESSION['role']);
+		unset($_SESSION['user_id'], $_SESSION['role']);
 		session_destroy();
 	}
 

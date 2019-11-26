@@ -97,7 +97,7 @@ class TicketManager extends BaseModel
 				$updateOk = TRUE;
 			}
 		}
-		$keys = ['controller', 'price', 'seat', 'discount', 'email'];
+		$keys = ['price', 'seat', 'discount', 'email'];
 
 		return array_combine($keys, $data);
 	}

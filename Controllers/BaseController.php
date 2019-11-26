@@ -44,15 +44,13 @@ abstract class BaseController
 		$this->container = $container;
 	}
 
-	/**
-	 * @param $params
-	 * @return mixed
-	 */
-	abstract public function process(array $params): void;
+
+	abstract public function actionDefault(): void;
 
 	/**
 	 * @param string $url
 	 */
+
 	protected function redirect(string $url): void
 	{
 		// todo snad funguje dobre...

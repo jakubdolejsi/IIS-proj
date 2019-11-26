@@ -7,11 +7,7 @@ namespace Controllers;
 class LogoutController extends BaseController
 {
 
-	/**
-	 * @param $params
-	 * @return mixed
-	 */
-	public function process(array $params): void
+	public function actionDefault(): void
 	{
 		$user = $this->getModelFactory()->createUserModel();
 		if (!$user->isLogged()) {

@@ -4,11 +4,11 @@
 namespace Controllers;
 
 
-class AdminController extends BaseController
+class PaymentController extends BaseController
 {
 
 	public function actionDefault(): void
 	{
-		$this->loadView('admin');
+		$this->loadView('payment');
 	}
 }

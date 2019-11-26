@@ -4,9 +4,7 @@
 namespace Models;
 
 
-use Authentication\Auth;
 use Authentication\Roles\Cashier;
-use Database\Db;
 use Exceptions\AlreadyOccupiedSeatException;
 use Exceptions\DuplicateUser;
 use Exceptions\InvalidPasswordException;
@@ -16,10 +14,7 @@ use Exceptions\NoUserException;
 use Exceptions\PasswordsAreNotSameException;
 use Exceptions\ReservationSuccessException;
 use Exceptions\SqlSomethingGoneWrongException;
-use Exceptions\UpdateProfileException;
-use Exceptions\UpdateProfileSuccess;
 use Exceptions\CompleteRegistrationException;
-use Helpers\Sessions\Session;
 
 
 class UserModel extends baseModel
@@ -49,8 +44,8 @@ class UserModel extends baseModel
 
 	public function logout(): void
 	{
-		$role = $this->auth->role()->getRoleFromSession();
-		$role->logout();
+		$x = $this->auth->role()->getRoleFromSession();
+		$x->logout();
 	}
 
     /**
