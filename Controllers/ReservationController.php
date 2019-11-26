@@ -52,15 +52,16 @@ class ReservationController extends BaseController
 
                     $mail = new PHPMailer(true);
                     $settings = new emailSender();
-                    $user =  $user->getRole()->getNotRegisteredUserByEmail($_POST['email']);
+                    $user =  $user->getRole()->getNotRegisteredUserByEmail();
                     try{
                         $settings->setupReservationEmail($mail, $ticket);
                         $settings->setRecipient($mail, $user->getEmail());
                         $settings->sendEmail($mail);
                     } catch (Exception $e) {
-                        echo "Nepodarilo se odeslat verifikacni email. Error: {$mail->ErrorInfo}";
+                        echo "Nepodařilo se odeslat ověřovací email. Chyba: {$mail->ErrorInfo}";
+                        $this->redirect('reservation');
                     }
-                    $this->alert("Na vas email byly odeslany informace o rezervaci");
+                    $this->alert("Na Váš email byly odeslány informace o rezervaci!");
                     $this->redirect('home');
                 }
                 catch (InvalidRequestException $e) {

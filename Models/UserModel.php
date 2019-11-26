@@ -16,8 +16,8 @@ use Exceptions\NoUserException;
 use Exceptions\PasswordsAreNotSameException;
 use Exceptions\ReservationSuccessException;
 use Exceptions\SqlSomethingGoneWrongException;
-use Exceptions\UpdateProfileException;
-use Exceptions\UpdateProfileSuccess;
+use Exceptions\UpdateException;
+use Exceptions\UpdateSuccess;
 use Exceptions\CompleteRegistrationException;
 use Helpers\Sessions\Session;
 
@@ -89,6 +89,7 @@ class UserModel extends baseModel
         return $this->auth->notRegisteredUser()->generateHash();
     }
 
+
 	/**
 	 * @return UserDetail
 	 */
@@ -99,10 +100,10 @@ class UserModel extends baseModel
 		return $userRole->getUserBySessionID();
 	}
 
-	/**
-	 * @throws UpdateProfileException
-	 * @throws UpdateProfileSuccess
-	 */
+    /**
+     * @throws UpdateException
+     * @throws UpdateSuccess
+     */
 	public function editProfile(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -111,11 +112,11 @@ class UserModel extends baseModel
 		}
 	}
 
-	/**
-	 * @throws PasswordsAreNotSameException
-	 * @throws UpdateProfileException
-	 * @throws UpdateProfileSuccess
-	 */
+    /**
+     * @throws PasswordsAreNotSameException
+     * @throws UpdateException
+     * @throws UpdateSuccess
+     */
 	public function editPassword(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -164,74 +165,70 @@ class UserModel extends baseModel
 		return $this->auth->role()->getRoleFromSession();
 	}
 
-	public function default()
-	{
 
-	}
-  
-public function eventAction($action)
-	{
-		if (isset($action[1], $action[2])) {
-		}
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$role = $this->auth->role()->getRoleBySessionID();
-			switch ($action) {
-				case 'add':
-					$role->addHall();
-					break;
-				case 'remove':
-					$role->removeHallbyId();
-					break;
-				case 'edit':
-					$role->editHallbyId();
-					break;
-			}
-		}
-	}
+    public function eventAction($action)
+        {
+            if (isset($action[1], $action[2])) {
+            }
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $role = $this->auth->role()->getRoleFromSession();
+                switch ($action) {
+                    case 'add':
+                        //$role->addHall();
+                        break;
+                    case 'remove':
+                        //$role->removeHallbyId();
+                        break;
+                    case 'edit':
+                        //$role->editHallbyId();
+                        break;
+                }
+            }
+        }
 
   
   
-  public function hallAction($action, HallModel $halls)
-	{
-		$view = '';
-		if (!isset($action[2])) {
-			return ['editorHalls', $halls->getAllHalls()];
-		}
-		$role = $this->auth->role()->getRoleBySessionID();
-		switch ($action[2]) {
-			case 'new':
-				if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-					$role->addHall($this->getPostDataAndValidate());
-				}
-				$data = '';
-				$view = 'newHall';
-				break;
-			case 'edit':
-				if (isset($action[3])) {
-					if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-						// uprav dany sal
-						$data = $role->editHallbyId($this->getPostDataAndValidate(), $action[3]);
-					} else {
-						$data = $role->getHallById($action[3]);
-						$view = 'editHall';
-					}
-				} else {
-					$view = 'error404';
-				}
-				break;
-			case 'remove':
-				if (isset($action[3])) {
-					$role->removeHallbyId($action[3]);
-				}
-				$view = 'removeHall';
-				$role->removeHallbyId();
-				break;
-			default:
-				$view = 'editorHalls';
-				break;
-		}
-		return [$view, $data];
-	}
+      public function hallAction($action, HallModel $halls)
+        {
+            $view = '';
+            if (!isset($action[2])) {
+                return ['editorHalls', $halls->getAllHalls()];
+            }
+            $role = $this->auth->role()->getRoleFromSession();
+            switch ($action[2]) {
+                case 'new':
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $role->addHall($this->getPostDataAndValidate());
+                    }
+                    $data = '';
+                    $view = 'newHall';
+                    break;
+                case 'edit':
+                    if (isset($action[3])) {
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                            // uprav dany sal
+                            $data = $role->editHallbyId($this->getPostDataAndValidate(), $action[3]);
+                        } else {
+                            $data = $role->getHallById($action[3]);
+                            $view = 'editHall';
+                        }
+                    } else {
+                        $view = 'error404';
+                    }
+                    break;
+                case 'remove':
+                    if (isset($action[3])) {
+                        $role->removeHallbyId($action[3]);
+                    }
+                    $view = 'removeHall';
+                    $role->removeHallbyId();
+                    break;
+                default:
+                    $view = 'editorHalls';
+                    break;
+            }
+            return [$view, $data];
+        }
 
   
 
