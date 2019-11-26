@@ -49,7 +49,7 @@ class UserModel extends baseModel
 
 	public function logout(): void
 	{
-		$role = $this->auth->role()->getRoleFromeSession();
+		$role = $this->auth->role()->getRoleFromSession();
 		$role->logout();
 	}
 
@@ -94,7 +94,7 @@ class UserModel extends baseModel
 	 */
 	public function getUserInfo(): UserDetail
 	{
-		$userRole = $this->auth->role()->getRoleFromeSession();
+		$userRole = $this->auth->role()->getRoleFromSession();
 
 		return $userRole->getUserBySessionID();
 	}
@@ -106,7 +106,7 @@ class UserModel extends baseModel
 	public function editProfile(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$role = $this->auth->role()->getRoleFromeSession();
+			$role = $this->auth->role()->getRoleFromSession();
 			$role->editProfile();
 		}
 	}
@@ -119,7 +119,7 @@ class UserModel extends baseModel
 	public function editPassword(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$role = $this->auth->role()->getRoleFromeSession();
+			$role = $this->auth->role()->getRoleFromSession();
 			$role->editPassword();
 		}
 	}
@@ -136,7 +136,7 @@ class UserModel extends baseModel
 	public function createReservation($params)
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$role = $this->auth->role()->getRoleFromeSession();
+			$role = $this->auth->role()->getRoleFromSession();
 			return $role->createNewReservation($params);
 		}
 	}
@@ -144,7 +144,7 @@ class UserModel extends baseModel
 	public function checkVerificationCode($params)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $role = $this->auth->role()->getRoleFromeSession();
+            $role = $this->auth->role()->getRoleFromSession();
             return $role->verifyHash($params);
         }
     }
@@ -161,7 +161,7 @@ class UserModel extends baseModel
 
 	public function getRole()
 	{
-		return $this->auth->role()->getRoleFromeSession();
+		return $this->auth->role()->getRoleFromSession();
 	}
 
 	public function default()
