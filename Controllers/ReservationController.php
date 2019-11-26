@@ -52,7 +52,7 @@ class ReservationController extends BaseController
 
                     $mail = new PHPMailer(true);
                     $settings = new emailSender();
-                    $user =  $user->getRole()->getNotRegisteredUserByEmail($_POST['email']);
+                    $user =  $user->getRole()->getNotRegisteredUserByEmail();
                     try{
                         $settings->setupReservationEmail($mail, $ticket);
                         $settings->setRecipient($mail, $user->getEmail());
