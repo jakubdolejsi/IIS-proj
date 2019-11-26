@@ -35,7 +35,7 @@ class Role extends Validator
 		return $this->setRole($res['role']);
 	}
 
-	public function getRoleFromeSession()
+	public function getRoleFromSession()
 	{
         $res['role'] = $_SESSION['role'];
 
