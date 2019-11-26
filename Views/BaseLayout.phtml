@@ -11,7 +11,7 @@
 <body>
 
 <ul>
-    <li><a href="home">Domu</a></li>
+    <li><a href="home">Domů</a></li>
 
     <li><a href="search">Hledat</a></li>
     <li id="auth">
@@ -26,33 +26,33 @@
 			echo '<a href="registration">Registrace</a>';
 		} ?>
     </li>
-    <li style="float:right" id="about"><a href="about">O nas</a></li>
+    <li style="float:right" id="about"><a href="about">O nás</a></li>
     <li style="float: right">
 		<?php
 		if (empty($_SESSION['user_id'])) {
-			echo '<a href="login">Prihlasit</a>';
+			echo '<a href="login">Přihlásit</a>';
 		} else {
-			echo '<a href="logout">Odhlasit</a>';
+			echo '<a href="logout">Odhlásit</a>';
 		}
 		?>
     </li>
     <li style="float:right" id="settings">
 		<?php
 		if (!empty($_SESSION['user_id'])) {
-			echo '<a href="settings">Nastaveni</a>';
+			echo '<a href="settings">Nastavení</a>';
 		}
 		?>
     </li>
     <li style="float:right" id="settings">
 		<?php
 		if (!empty($_SESSION['user_id'])) {
-			echo '<a href="ticket">Listky</a>';
+			echo '<a href="ticket">Lístky</a>';
 		}
 		?>
     </li>
     <li style="float: right">
-        <input type="text" placeholder="Type event name..." name="search">
-        <input type=button class="searchButton" value="Search">
+        <input type="text" placeholder="Zadejte název události..." name="search">
+        <input type=button class="searchButton" value="Hledat">
     </li>
 </ul>
 
