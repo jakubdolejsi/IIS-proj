@@ -126,10 +126,13 @@ class UserDetail
 
 	private function initProperties(array $user): void
 	{
-		while ($property = current($user)) {
-			$this->{key($user)} = $property;
-			next($user);
-		}
+	    foreach ($user as $key=>$value){
+	        $this->$key = $value;
+        }
+//		while ($property = current($user)) {
+//			$this->{key($user)} = $property;
+//			next($user);
+//		}
 	}
 
 
