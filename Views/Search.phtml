@@ -17,13 +17,13 @@
             <div class="form-group row">
                 <label for="date" class="col-3 col-form-label">Datum</label>
                 <div class="col-9">
-                    <input type="date" name="date" id="date" class="form-control">
+                    <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="begin" class="col-3 col-form-label">Začátek</label>
                 <div class="col-9">
-                    <input type="time" name="begin" id="begin" class="form-control">
+                    <input type="time" name="begin" id="begin" class="form-control" value="<?= date('H:i') ?>">
                 </div>
             </div>
             <div class="form-group row">

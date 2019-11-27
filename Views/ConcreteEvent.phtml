@@ -9,15 +9,17 @@
 
 <body>
 <div class="generalSettings">
-	<?php foreach ($events as $event) : ?>
+
+	<?php foreach ($event as $item => $value) : ?>
         <div class="concreteItem">
-			<?php foreach ($event as $item => $value) : ?>
-				<?= $item ?> : <?= $value ?> &nbsp;|
-			<?php endforeach ?>
+			<?php if ($item === 'image') {
+				break;
+			} ?>
+			<?= $item ?> : <?= $value ?> &nbsp;|
         </div>
 	<?php endforeach ?>
-    <div class="settings">
-        <input type=button value="Zpet" onclick="window.location.href='search'">
-    </div>
+
+    <img src= <?= $event['image'] ?> alt="pf">
+    <input type=button value="Zpet" onclick="window.location.href='search'">
 </div>
 </body>

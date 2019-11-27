@@ -8,29 +8,14 @@
 </head>
 <body>
 <div class="welcome">
-    Edit reservations:
+    <h3>Správa rezervací</h3>
 </div>
-<form method="post">
-    <div class="searchGeneral">
-        <label for="searchEmail">Zadejte email pro zobrazeni listku</label>
-        <input type="text" id="searchEmail" name="searchEmail">
-        <input type="submit" class="fa fa-search" value="hledat">
+
+    <div>
+        <input type="submit" value="Přidat rezervaci" onclick=window.location.href='cashier/add'>
+        <input type="submit" value="Vyhledat rezervaci" onclick=window.location.href='cashier/confirm'>
     </div>
 
-	<?php foreach ($tickets as $ticket) : ?>
-        <div class="concreteItem">
-            <input type="button" onclick="location.href = 'cashier/edit/<?= str_replace(' ', '%20',
-				$ticket['price']) ?>/<?= str_replace(' ', '%20', $ticket['seat']) ?>/<?= $ticket['discount']
-			?>/<?=
-			str_replace(' ', '%20', $ticket['email']) ?>';"
-                   value="Upravit"/>
-
-			<?php foreach ($ticket as $item => $value) : ?>
-				<?= $item ?> : <?= $value ?> &nbsp;|
-			<?php endforeach ?>
-        </div>
-	<?php endforeach ?>
 </form>
-<p id="msg"></p>
 </body>
 </html>

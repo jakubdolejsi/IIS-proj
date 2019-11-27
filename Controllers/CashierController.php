@@ -6,6 +6,27 @@ namespace Controllers;
 
 class CashierController extends BaseController
 {
+    public function actionAdd($params):void
+    {
+        $search = $this->getModelFactory()->createSearchModel();
+        $events = $search->process();
+        $this->loadView('cashierAdd');
+        $this->data['events'] = $events;
+    }
+
+    public function actionConfirm($params):void
+    {
+        $cashier = $this->getModelFactory()->createCashierModel();
+        $tickets = $cashier->checkSearchParameters();
+        if($tickets === null){
+            $this->data['tickets'] = [];
+        }else{
+            $this->data['tickets'] = $tickets;
+        }
+
+
+        $this->loadView('cashierConfirm');
+    }
 
 	public function actionEdit($params): void
 	{
@@ -22,9 +43,6 @@ class CashierController extends BaseController
 
 	public function actionDefault(): void
 	{
-		$ticket = $this->getModelFactory()->createTicketManager();
-		$ticketsToShow = $ticket->getTicket();
 		$this->loadView('cashier');
-		$this->data['tickets'] = $ticketsToShow;
 	}
 }

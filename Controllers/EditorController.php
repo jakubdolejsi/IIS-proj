@@ -13,8 +13,9 @@ class EditorController extends BaseController
 
 	public function actionEvents($params): void
 	{
-		$user = $this->getModelFactory()->createUserModel();
 		$editor = $this->getModelFactory()->createEditorModel();
+
+
 		$method = $this->getMethod($params, __FUNCTION__);
 		try {
 			[$data, $view] = method_exists($editor, $method) ? $editor->$method($params) : $this->redirect('error');
@@ -30,20 +31,27 @@ class EditorController extends BaseController
 
 	public function actionWorks($params): void
 	{
-		$user = $this->getModelFactory()->createUserModel();
+		$editor = $this->getModelFactory()->createEditorModel();
 		$method = $this->getMethod($params, __FUNCTION__);
+		try {
+			[$data, $view] = method_exists($editor, $method) ? $editor->$method($params) : $this->redirect('error');
+		}
+		catch (UpdateException $exception) {
+			$this->alert($exception->getMessage());
+			$this->redirect('editor/events');
+		}
 
-		$this->loadView('editorWorks');
+		$this->loadView($view);
+		$this->data['works'] = $data;
 	}
 
 	public function actionHalls($params): void
 	{
 		$editor = $this->getModelFactory()->createEditorModel();
 
-
 		$method = $this->getMethod($params, __FUNCTION__);
 		try {
-			[$data, $view] = $editor->$method($params);
+			[$data, $view] = method_exists($editor, $method) ? $editor->$method($params) : $this->redirect('error');
 		}
 		catch (UpdateException $exception) {
 			$this->alert($exception->getMessage());

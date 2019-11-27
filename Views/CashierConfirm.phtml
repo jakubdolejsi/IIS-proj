@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html lang="cs-cz">
+<head>
+    <meta charset="UTF-8"/>
+    <base href="/localhost"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+</head>
+<body>
+<div class="welcome">
+    <h3>Vyhledání rezervace</h3>
+</div>
+<form method="post">
+    <div class="searchGeneral">
+        <label for="lastName">Číslo rezervace</label>
+        <input type="text" id="id" name="id">
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email">
+        <input type="submit" class="fa fa-search" value="Hledat">
+    </div>
+</form>
+<?php foreach ($tickets as $ticket) : ?>
+    <div class="concreteItem">
+        <input type="button" value="Potvrdit úhradu" onclick="ajaxForm()">
+        <input type="button" value="Zrušit rezervaci" onclick="location.href= 'cashier/confirmation/remove<?=
+        str_replace
+        (' ',
+            '%20', $ticket['id'])
+        ?>';"/>
+
+        <?php foreach ($ticket as $item => $value) : ?>
+            <?= $item ?> : <?= $value ?> &nbsp;|
+        <?php endforeach?>
+    </div>
+<?php endforeach ?>
+
+<p id="msg"></p>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="cs-cz">
+<head>
+    <meta charset="UTF-8"/>
+    <base href="/localhost"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+</head>
+
+<body>
+<div class="searchGeneral">
+    Rezervace pro událost - pokladní:
+    <div>
+
+        <form method="post">
+            <div id="text">
+                <div class="item">
+                    <label for="date">Datum</label>
+                    <input type="date" name="date" id="date" size="30" value="<?php echo date('Y-m-d'); ?>">
+                </div>
+                <div>
+                    <label for="begin">Zacatek</label>
+                    <input type="time" name="begin" id="begin" value="<?php echo date('H:i') ?>">
+                </div>
+                <div class="item">
+                    <label for="type">Typ</label>
+                    <input list="browsers" name="type" id="type">
+
+                    <datalist id="browsers">
+                        <option value="Film">
+                        <option value="Prednaska">
+                        <option value="Prezentace">
+                        <option value="Divadelní představení">
+                        <option value="Stand-up">
+                    </datalist>
+                </div>
+                <div class="item">
+                    <label for="name" class="name">Nazev</label>
+                    <input type="text" placeholder="Zadejte nazev udalosti" name="name" id="name">
+                </div>
+            </div>
+            <button type="submit"><i class="fa fa-search"> Hledat</i></button>
+        </form>
+    </div>
+    <?php foreach ($events as $event) : ?>
+        <div class="concreteItem">
+            <input type="button" onclick="location.href = 'reservation/create/<?= str_replace(' ', '%20',
+                $event['type']) ?>/<?= str_replace(' ', '%20', $event['name']) ?>/<?= $event['label'] ?>/<?=
+            str_replace(' ', '%20', $event['begin']) ?>';"
+                   value="Rezervovat"/>
+
+            <?php foreach ($event as $item => $value) : ?>
+                <?= $item ?> : <?= $value ?> &nbsp;|
+            <?php endforeach ?>
+        </div>
+    <?php endforeach ?>
+</div>
+</body>
