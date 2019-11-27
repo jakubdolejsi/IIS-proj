@@ -22,7 +22,14 @@ class UserDetail
 
 	protected $role;
 
-	protected $hashCode;
+	protected $hash;
+
+	protected $id;
+
+	public function getId()
+    {
+	    return $this->id;
+    }
 
 	public function __construct(array $user)
 	{
@@ -121,20 +128,14 @@ class UserDetail
 
 	public function getHash():bool
     {
-        return $this->hashCode;
+        return $this->hash;
     }
+
 
 	private function initProperties(array $user): void
 	{
 	    foreach ($user as $key=>$value){
 	        $this->$key = $value;
         }
-//		while ($property = current($user)) {
-//			$this->{key($user)} = $property;
-//			next($user);
-//		}
 	}
-
-
-
 }

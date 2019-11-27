@@ -84,11 +84,16 @@ class NotRegisteredUser extends Password{
     }
 
 
-    public function verifyHash($userMail)
+    public function verifyHash()
     {
-        $insertedCode = $this->getPostDataAndValidate()['code'];
-        $query = 'select user.hash from theatre.user where email=?';
-        $userHash = $this->db->run($query, [$userMail])->fetch();
+        if(isset($_GET['user'])){
+            $id = $this->getGetDataAndValidate()['id'];
+        }else{
+            $id = $_SESSION['user'];
+        }
+        $insertedCode =$this->getGetDataAndValidate()['hash'];
+        $query = 'select user.hash from theatre.user where id=? and hash=?';
+        $userHash = $this->db->run($query, [$id, $insertedCode])->fetch(PDO::FETCH_ASSOC);
 
 	    return $insertedCode === $userHash['hash'];
     }
@@ -165,10 +170,15 @@ class NotRegisteredUser extends Password{
         return TRUE;
     }
 
-    public function completeVerification($email)
+    public function completeVerification()
     {
-        $query = 'UPDATE theatre.user SET role=?, is_verified=? where email=?';
-        $queryParams = ['registeredUser', TRUE, $email];
+        if(isset($_GET['user'])){
+            $id = $this->getGetDataAndValidate()['id'];
+        }else{
+            $id = $_SESSION['user'];
+        }
+        $query = 'UPDATE theatre.user SET role=?, is_verified=? where id=?';
+        $queryParams = ['registeredUser', TRUE, $id];
         $this->db->run($query, $queryParams);
     }
 

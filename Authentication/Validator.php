@@ -17,4 +17,8 @@ abstract class Validator
 		return (htmlspecialchars(stripslashes(trim($data))));
 	}
 
+    protected function getGetDataAndValidate(): array
+    {
+        return (array_map([$this, 'parseInput'], $_GET));
+    }
 }

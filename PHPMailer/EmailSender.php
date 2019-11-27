@@ -10,9 +10,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class EmailSender
 {
-    public function setupVerificationEmail(PHPMailer $mailer, $verificationCode): void{
+    public function setupVerificationEmail(PHPMailer $mailer, $verificationCode, $userId): void{
         $this->configureSetting($mailer);
-        $this->setCode($mailer, $verificationCode);
+        $this->setCode($mailer, $verificationCode, $userId);
     }
 
     public function setupReservationEmail(PHPMailer $mailer, $ticketInfo)
@@ -71,14 +71,21 @@ class EmailSender
     }
 
     /**
-     * @param $mailer
+     * @param PHPMailer $mailer
      * @param $code
+     * @param $userId
      */
-    private function setCode(PHPMailer $mailer, $code): void
+    private function setCode(PHPMailer $mailer, $code, $userId): void
     {
+        if(isset($_SERVER['HTTPS'])){
+            $https = 'https://';
+        }else{
+            $https = 'http://';
+        }
+        $link = "$https"."$_SERVER[HTTP_HOST]/"."emailVerification?"."id=$userId&"."hash=$code";
         $mailer->isHTML(true);
         $mailer->Subject = 'Ověření registrace';
-        $mailer->Body = "<h1>Verifikační kód</h1> Tento kód prosím zadejte pro dokončení registrace: <b>$code</b>";
-        $mailer->AltBody = "Ověřovací kod: $code";
+        $mailer->Body = "<h1>Verifikační kód</h1> Tento kód prosím zadejte pro dokončení registrace: <b>$code</b><br><br>Ověření lze provést i kliknutím na následující odkaz: $link";
+        $mailer->AltBody = "Ověřovací kod: $code, $link";
     }
 }

@@ -19,12 +19,12 @@ use Exceptions\UpdateSuccess;
 
 class UserModel extends baseModel
 {
-	public function checkVerificationCode($params)
+	public function checkVerificationCode()
 	{
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 			$role = $this->auth->role()->getRoleFromSession();
 
-			return $role->verifyHash($params);
+			return $role->verifyHash();
 		}
 	}
 
