@@ -6,6 +6,10 @@ namespace Controllers;
 
 class CashierController extends BaseController
 {
+    public function actionAdd($patams):void
+    {
+
+    }
 
 	public function actionEdit($params): void
 	{
