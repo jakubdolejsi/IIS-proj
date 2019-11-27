@@ -10,12 +10,7 @@ require_once 'autoloader.php';
 Enviroment::setVersion(Enviroment::VERSION['DEVEL']);
 Enviroment::setEncoding();
 Enviroment::setErrorNotification();
-if(!isset($_SESSION)) {
-	session_start();
-}
-if(!isset($_SESSION['role'])){
-	$_SESSION['role'] = 'notRegisteredUser';
-}
+Enviroment::setSessions();
 
 $container = new Container;
 $router = new Router($container);
