@@ -66,14 +66,14 @@ class NotRegisteredUser extends Password{
      */
     public function getNotRegisteredUserByEmail(): UserDetail
     {
-        $data = $this->getPostDataAndValidate();
+	    $data = $this->loadPOST();
         $query = 'select * from theatre.user where email=?';
         return new UserDetail($this->db->run($query, [$data['email']])->fetch(PDO::FETCH_ASSOC));
     }
 
     public function insertHash($hashCode)
     {
-        $userDetail = new UserDetail($this->getPostDataAndValidate());
+	    $userDetail = new UserDetail($this->loadPOST());
         $user = $this->getUserByEmail($userDetail->getEmail());
         if (empty($user)) {
             throw new NoUserException('User does not exists');
@@ -87,11 +87,11 @@ class NotRegisteredUser extends Password{
     public function verifyHash()
     {
         if(isset($_GET['user'])){
-            $id = $this->getGetDataAndValidate()['id'];
+	        $id = $this->loadGET()['id'];
         }else{
             $id = $_SESSION['user'];
         }
-        $insertedCode =$this->getGetDataAndValidate()['hash'];
+	    $insertedCode = $this->loadGET()['hash'];
         $query = 'select user.hash from theatre.user where id=? and hash=?';
         $userHash = $this->db->run($query, [$id, $insertedCode])->fetch(PDO::FETCH_ASSOC);
 
@@ -106,7 +106,7 @@ class NotRegisteredUser extends Password{
      */
     public function login(): void
     {
-        $userDetail = new UserDetail($this->getPostDataAndValidate());
+	    $userDetail = new UserDetail($this->loadPOST());
         $user = $this->getUserByEmail($userDetail->getEmail());
         if (empty($user)) {
             throw new NoUserException('User does not exists');
@@ -125,7 +125,7 @@ class NotRegisteredUser extends Password{
 
     public function oneTimeRegister(): void
     {
-        $userDetail = new UserDetail($this->getPostDataAndValidate());
+	    $userDetail = new UserDetail($this->loadPOST());
         $user = $this->getUserByEmail($userDetail->getEmail());
         if (empty($user)) {    //Neni potreba vkladat zaznam
             $query = 'INSERT INTO theatre.user(email, role) VALUES (?, ?)';
@@ -143,7 +143,7 @@ class NotRegisteredUser extends Password{
     public function register(): void
     {
 
-        $userDetail = new UserDetail($this->getPostDataAndValidate());
+	    $userDetail = new UserDetail($this->loadPOST());
         $user = $this->getUserByEmail($userDetail->getEmail());
         if($user){
 	        if ($user['role'] !== 'notRegisteredUser') {        //Uzivatel se jiz registroval
@@ -161,14 +161,14 @@ class NotRegisteredUser extends Password{
 
 	public function verifiedUser(): void
 	{
-		$email = $this->getPostDataAndValidate()['email'];
+		$email = $this->loadPOST()['email'];
 		$query = 'update theatre.user set is_verified = 1';
 		$this->db->run($query, $email);
 	}
 
     public function completeRegistration():bool
     {
-        $userDetail = new UserDetail($this->getPostDataAndValidate());
+	    $userDetail = new UserDetail($this->loadPOST());
         $user = $this->getUserByEmail($userDetail->getEmail());
         $this->processRegistrationPassword($userDetail);
 
@@ -181,7 +181,7 @@ class NotRegisteredUser extends Password{
     public function completeVerification()
     {
         if(isset($_GET['user'])){
-            $id = $this->getGetDataAndValidate()['id'];
+	        $id = $this->loadGET()['id'];
         }else{
             $id = $_SESSION['user'];
         }
@@ -269,7 +269,7 @@ class NotRegisteredUser extends Password{
     public function createNewReservation($params)
     {
         $urlParams = $this->getUrlParams($params);
-        $seatInfo = $this->joinSeat($this->getPostDataAndValidate());
+	    $seatInfo = $this->joinSeat($this->loadPOST());
         if (!$this->isSeatFree($urlParams, $seatInfo)) {
             throw new AlreadyOccupiedSeatException('Seat is already registered');
         }
@@ -285,7 +285,7 @@ class NotRegisteredUser extends Password{
      */
     private function createNewTicket($urlParams, $seatInfo)
     {
-        $data = $this->getPostDataAndValidate();
+	    $data = $this->loadPOST();
         $userIdQuery = 'select u.id from theatre.user as u where u.email = ?';
         $userId = $this->db->run($userIdQuery, $data['email'])->fetch(PDO::FETCH_ASSOC)['id'];
         if (!isset($userId)) {

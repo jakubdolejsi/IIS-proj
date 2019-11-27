@@ -27,7 +27,7 @@ class SearchModel extends BaseModel
 	public function process(): array
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$data = $this->auth->role()->getPostDataAndValidate();
+			$data = $this->auth->role()->loadPOST();
 			if ($this->arrayEmpty($data)) {
 				return $this->getAllEvents();
 			}

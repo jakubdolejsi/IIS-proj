@@ -48,7 +48,7 @@ class TicketManager extends BaseModel
 		if (!$_SERVER['REQUEST_METHOD'] === 'POST') {
 			return $this->getAllTickets();
 		}
-		$data = $this->getPostDataAndValidate();
+		$data = $this->loadPOST();
 
 		if (!isset($data['searchEmail'])) {
 			return $this->getAllTickets();
@@ -84,7 +84,7 @@ class TicketManager extends BaseModel
 	public function processUpdate($data, &$updateOk)
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$dataToQuery = $this->getPostDataAndValidate();
+			$dataToQuery = $this->loadPOST();
 			$query = 'update theatre.ticket as t join theatre.user as u on t.id_user = u.id
 					join theatre.culture_event as ce on t.id_culture_event = ce.id
 					set t.price =?, t.seat = ?, t.discount = ?
