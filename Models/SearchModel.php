@@ -75,7 +75,7 @@ class SearchModel extends BaseModel
 	public function getCultureWorkByName($name)
 	{
 		$name = array_values(str_replace('%20', ' ', $name));
-		$query = 'select * from theatre.culture_work as cw where cw.name = ?';
+		$query = 'select cw.name, cw.type, cw.genre, cw.actors, cw.ranking, cw.description, cw.image from theatre.culture_work as cw where cw.name = ?';
 
 		return $this->db->run($query, $name)->fetch(PDO::FETCH_ASSOC);
 	}
