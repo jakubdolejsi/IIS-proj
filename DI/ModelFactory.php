@@ -8,6 +8,7 @@ use Authentication\Auth;
 use Database\Db;
 use Helpers\Sessions\Session;
 use Models\AdminModel;
+use Models\CashierModel;
 use Models\CultureWork;
 use Models\EditorModel;
 use Models\HallModel;
@@ -82,4 +83,9 @@ final class ModelFactory
 	{
 		return new EditorModel($this->auth, $this->db, $this->session);
 	}
+
+    public function createCashierModel(): CashierModel
+    {
+        return new CashierModel($this->auth, $this->db, $this->session);
+    }
 }

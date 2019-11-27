@@ -39,6 +39,7 @@ class RegistrationController extends BaseController
 			if ($registeredOK) {
 				$recipient = $registrationModel->getRole()->getNotRegisteredUserByEmail();
 				$hashCode = $registrationModel->getHashCode();
+				$id = $recipient->getId();
 				try {
 					$registrationModel->getRole()->insertHash($hashCode);
 				}
@@ -46,7 +47,7 @@ class RegistrationController extends BaseController
 					$this->alert($e->getMessage());
 				}
 				try {
-					$settings->setupVerificationEmail($mail, $hashCode);
+					$settings->setupVerificationEmail($mail, $hashCode, $id);
 					$settings->setRecipient($mail, $recipient->getEmail());
 					$settings->sendEmail($mail);
 				}
@@ -54,9 +55,9 @@ class RegistrationController extends BaseController
 					$this->alert("Nepodařilo se odeslat ověřovací email. Chyba: {$mail->ErrorInfo}");
 					$this->redirect('registration');
 				}
-				$_SESSION['recipient'] = $recipient->getEmail();
+				$_SESSION['user'] = $id;
 				$this->alert("Na váš email byl odeslán ověřovací kód!");
-				$this->redirect('emailVerification');
+				$this->redirect("emailVerification");
 			}
 		}
 	}

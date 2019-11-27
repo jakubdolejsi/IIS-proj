@@ -9,17 +9,20 @@ class EmailVerificationController extends baseController
 	public function actionDefault(): void
 	{
 		$this->loadView('emailVerification');
-		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['recipient'])) {
-			$recipient = $_SESSION['recipient'];
+
+		//Pokud je to GET request a je v URL je nastaveno id a hash (pristup pres link v emailu), nebo je id v session a v URL je hash
+		if ($_SERVER['REQUEST_METHOD'] === 'GET' && (isset($_GET['id']) && isset($_GET['hash']) || isset($_SESSION['user']) && isset($_GET['hash']))){
 			$userModel = $this->getModelFactory()->createUserModel();
-			if ($userModel->checkVerificationCode($recipient)) {
-				$userModel->getRole()->completeVerification($_SESSION['recipient']);
-				$this->alert('Registrace proběhla úspěšně, nyní se můžete přihlásit!');
-				unset($_SESSION['recipient']);
-				$this->redirect('login');
-			} else {
-				$this->alert('Zadaný kód není správný!');
-			}
+			if ($userModel->checkVerificationCode()) {
+				$userModel->getRole()->completeVerification();
+                if(isset($_SESSION['user'])){
+                    unset($_SESSION['user']);
+                }
+                    $this->alert('Registrace proběhla úspěšně, nyní se můžete přihlásit!');
+//                $this->redirect('login');
+            } else {
+                $this->alert('Zadaný kód není správný!');
+            }
 		}
 	}
 
