@@ -1,1 +1,51 @@
-<?php
+<!DOCTYPE html>
+
+<html lang="cs-cz">
+<head>
+    <meta charset="UTF-8"/>
+    <base href="/localhost"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+</head>
+
+<body>
+<form method="post" enctype="multipart/form-data">
+    <div class="generalSettings">
+        <div class="settings">
+            <div class="settings">
+                <label for="name">jmeno:</label>
+                <input type="text" id="name" name="name">
+            </div>
+            <div class="settings">
+                <label for="type">typ:</label>
+                <input type="text" id="type" name="type">
+            </div>
+            <div class="settings">
+                <label for="genre">zanr:</label>
+                <input type="text" id="genre" name="genre">
+            </div>
+            <div class="settings">
+                <label for="actors">herci:</label>
+                <input type="text" id="actors" name="actors">
+            </div>
+            <div class="ranking">
+                <label for="actors">ranking:</label>
+                <input type="text" id="ranking" name="ranking">
+            </div>
+            <div class="settings">
+                <label for="description">popis:</label>
+                <input type="text" id="description" name="description">
+            </div>
+            <div class="settings">
+                <label for="image">obrazek :</label>
+                <input type="file" id="image" name="image">
+            </div>
+            <div class="settings">
+                <input type="submit" id="submit" name="submit" value="Potvrdit" onclick="ajaxForm()">
+            </div>
+            <div class="settings">
+                <input type=button value="Zpet" onclick="window.location.href='editor/works'">
+            </div>
+        </div>
+</form>
+</body>
