@@ -19,7 +19,7 @@
             <input type="submit" onclick="location.href='admin'" value="Vyhledat uživatele"/>
             <div class="item">
                 <input type="text" id="email" name="email" placeholder="E-mailová adresa">
-                <input list="roles" name="role" id="role" value="<?= $_POST['role'] ?? ''; ?>">
+                <input list="roles" name="role" id="role">
 
                 <datalist id="roles">
                     <option value="registrovaný uživatel">
