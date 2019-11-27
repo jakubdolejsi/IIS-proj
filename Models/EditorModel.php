@@ -22,15 +22,7 @@ class EditorModel extends BaseModel
 		return ['', 'editorHallsAdd'];
 	}
 
-	public function addWork($params)
-	{
 
-	}
-
-	public function dafaultWork($params)
-	{
-
-	}
 
 	public function defaultEvent()
 	{
@@ -74,14 +66,13 @@ class EditorModel extends BaseModel
 		return [$data, 'editorHallsEdit'];
 	}
 
-	public function editWork($params)
-	{
-
-	}
 
 	public function removeEvent($params)
 	{
+		$role = $this->auth->role()->getRoleFromSession();
+		$role->removeEventByID($params);
 
+		return ['', 'editor'];
 	}
 
 	public function removeHall($params): array
@@ -92,8 +83,43 @@ class EditorModel extends BaseModel
 		return ['', 'editor'];
 	}
 
+	public function defaultWork()
+	{
+		$role = $this->auth->role()->getRoleFromSession();
+
+		return [$role->getAllWorks(), 'editorWorks'];
+	}
+
+	public function addWork($params)
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$data = $this->getPostDataAndValidate();
+			$role = $this->auth->role()->getRoleFromSession();
+
+			$role->addWork($data);
+		}
+
+		return ['', 'editorWorksAdd'];
+	}
+
+	public function editWork($params)
+	{
+		$role = $this->auth->role()->getRoleFromSession();
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+			$data = $role->editWorkById($this->getPostDataAndValidate(), $params);
+
+			return [$data, 'editorWorksEdit'];
+		}
+		$data = $role->getWorksById($params);
+
+		return [$data, 'editorWorksEdit'];
+	}
+
 	public function removeWork($params)
 	{
 
 	}
+
+
 }
