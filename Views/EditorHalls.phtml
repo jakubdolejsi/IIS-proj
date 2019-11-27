@@ -11,8 +11,8 @@
 <body>
 
 <div class="settings">
-    <input type="button" value="Pridat novy sal" onclick="location.href='editor/halls/new'">
-	<?php foreach ($halls as $event) : ?>
+    <input type="button" value="Pridat novy sal" onclick="location.href='editor/halls/add'">
+	<?php foreach ($hall as $event) : ?>
         <div class="concreteItem">
             <input type="button" value="upravit" onclick="location.href= 'editor/halls/edit/<?= str_replace
 			(' ',

@@ -9,7 +9,6 @@
 <body>
 
 
-
 <div id="userModify">
     <h3>Správa uživatelů</h3>
     <div class="searchButton">
@@ -20,14 +19,13 @@
             <input type="submit" onclick="location.href='admin'" value="Vyhledat uživatele"/>
             <div class="item">
                 <input type="text" id="email" name="email" placeholder="E-mailová adresa">
-                <input list="roles" name="role" id="role" value="<?= isset($_POST['role']) ? $_POST['role'] : ''; ?>">
+                <input list="roles" name="role" id="role" value="<?= $_POST['role'] ?? ''; ?>">
 
                 <datalist id="roles">
-                    <option value="neregistrovanyUzivatel">
-                    <option value="registrovanyUzivatel">
-                    <option value="pokladni">
+                    <option value="registrovaný uživatel">
+                    <option value="pokladní">
+                    <option value="redaktor">
                     <option value="admin">
-                    <option value="editor">
                 </datalist>
             </div>
         </form>

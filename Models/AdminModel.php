@@ -15,6 +15,19 @@ class AdminModel extends BaseModel
         return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
+	public function processEdit($id)
+	{
+		$role = $this->auth->role()->getRoleFromSession();
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$data = $this->getPostDataAndValidate();
+			$role->adminEditUser($data, $id);
+		}
+
+		// zobraz daneho uzivatele dle id
+		return $role->getUserByID($id);
+	}
+
     /**
      * @return array
      */
@@ -25,10 +38,8 @@ class AdminModel extends BaseModel
             if ($this->arrayEmpty($data)) {
                 return $this->getAllUsers();
             }
-
             return $this->getConcreteUsers($data);
         }
-
         return $this->getAllUsers();
     }
 
@@ -61,9 +72,20 @@ class AdminModel extends BaseModel
                 unset($data[ $key ]);
             }
         }
-
         return empty($data);
     }
 
+
+	/**
+	 * @param $id
+	 */
+	public function deleteUserByID($id): void
+	{
+		$deleteTicketsQuery = 'delete from theatre.ticket where id_user = ?';
+		$this->db->run($deleteTicketsQuery, $id);
+
+		$deleteUserQuery = 'delete from theatre.user where id = ?';
+		$this->db->run($deleteUserQuery, $id);
+	}
 
 }

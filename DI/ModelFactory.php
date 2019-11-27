@@ -8,8 +8,8 @@ use Authentication\Auth;
 use Database\Db;
 use Helpers\Sessions\Session;
 use Models\AdminModel;
-use Models\AuthModel;
 use Models\CultureWork;
+use Models\EditorModel;
 use Models\HallModel;
 use Models\SearchModel;
 use Models\TicketManager;
@@ -68,11 +68,6 @@ final class ModelFactory
 		return new CultureWork($this->auth, $this->db, $this->session);
 	}
 
-	public function createAuthModel(): AuthModel
-	{
-		return new AuthModel($this->auth, $this->db, $this->session);
-	}
-
 	public function createHallModel(): HallModel
 	{
 		return new HallModel($this->auth, $this->db, $this->session);
@@ -82,4 +77,9 @@ final class ModelFactory
     {
         return new AdminModel($this->auth, $this->db, $this->session);
     }
+
+	public function createEditorModel(): EditorModel
+	{
+		return new EditorModel($this->auth, $this->db, $this->session);
+	}
 }

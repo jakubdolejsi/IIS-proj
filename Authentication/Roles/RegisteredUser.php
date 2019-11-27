@@ -134,4 +134,22 @@ class RegisteredUser extends NotRegisteredUser
 		throw new UpdateSuccess('Your password was successfully updated');
 	}
 
+	public function getUserByID($id)
+	{
+		$query = 'select * from theatre.user as u where u.id = ?';
+
+		return $this->db->run($query, $id)->fetch(PDO::FETCH_ASSOC);
+	}
+
+	public function adminEditUser($dataToUpdate, $id)
+	{
+		unset($dataToUpdate['submit']);
+		$dataToUpdate['id'] = (int)$id[0];
+		$dataToUpdate['is_verified'] = (int)$dataToUpdate['is_verified'];
+		$dataToUpdate = array_values($dataToUpdate);
+		$query = 'update theatre.user set user.firstName = ?, user.lastName = ?, user.email = ?, user.role = ?, user.is_verified = ? where user.id = ?';
+
+		$this->db->run($query, $dataToUpdate);
+	}
+
 }
