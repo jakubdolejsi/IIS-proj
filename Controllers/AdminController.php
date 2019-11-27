@@ -26,6 +26,7 @@ class AdminController extends BaseController
 		$user = $this->getModelFactory()->createUserModel();
 		try {
 			$user->register();
+			$user->verifiyUser();
 		}
 		catch (PasswordsAreNotSameException $e) {
 			$this->alert($e->getMessage());
@@ -34,7 +35,7 @@ class AdminController extends BaseController
 			$this->alert($e->getMessage());
 		}
 		catch (CompleteRegistrationException $e) {
-			$this->alert("");
+			$this->alert('Hotovo!');
 		}
 		$this->loadView('adminAddUser');
 	}
@@ -42,13 +43,19 @@ class AdminController extends BaseController
 
 	public function actionEdit($params)
 	{
-		$this->loadView('adminEditUser');
+		$admin = $this->getModelFactory()->createAdminModel();
+		$this->data['user'] = $admin->processEdit($params);
+		$this->loadView('adminEdit');
 	}
 
 
 	public function actionDelete($params)
 	{
+		$admin = $this->getModelFactory()->createAdminModel();
+		$admin->deleteUserByID($params);
 
+		$this->data['users'] = $admin->getAllUsers();
+		$this->redirect('admin');
 	}
 
 }

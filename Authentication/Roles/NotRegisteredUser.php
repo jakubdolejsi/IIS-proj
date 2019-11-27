@@ -137,6 +137,7 @@ class NotRegisteredUser extends Password{
      */
     public function register(): void
     {
+
         $userDetail = new UserDetail($this->getPostDataAndValidate());
         $user = $this->getUserByEmail($userDetail->getEmail());
         if($user){
@@ -147,11 +148,18 @@ class NotRegisteredUser extends Password{
                 throw new CompleteRegistrationException();
             }
         }
-
         $this->processRegistrationPassword($userDetail);
         $query = 'INSERT INTO theatre.user(firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)';
         $this->db->run($query, $userDetail->getAllProperties());
     }
+
+
+	public function verifiedUser(): void
+	{
+		$email = $this->getPostDataAndValidate()['email'];
+		$query = 'update theatre.user set is_verified = 1';
+		$this->db->run($query, $email);
+	}
 
     public function completeRegistration():bool
     {

@@ -4,33 +4,69 @@
 namespace Controllers;
 
 
+use Exceptions\UpdateException;
+use Exceptions\UpdateSuccess;
+
+
 class EditorController extends BaseController
 {
 
-	public function actionEvents($params)
+	public function actionEvents($params): void
 	{
 		$user = $this->getModelFactory()->createUserModel();
-		$this->loadView('editorEvents');
-		$user->eventAction($params);
+		$editor = $this->getModelFactory()->createEditorModel();
+		$method = $this->getMethod($params, __FUNCTION__);
+		try {
+			[$data, $view] = method_exists($editor, $method) ? $editor->$method($params) : $this->redirect('error');
+		}
+		catch (UpdateException $exception) {
+			$this->alert($exception->getMessage());
+			$this->redirect('editor/events');
+		}
+
+		$this->loadView($view);
+		$this->data['events'] = $data;
 	}
 
-	public function actionWorks($params)
+	public function actionWorks($params): void
 	{
 		$user = $this->getModelFactory()->createUserModel();
+		$method = $this->getMethod($params, __FUNCTION__);
+
 		$this->loadView('editorWorks');
 	}
 
-	public function actionHalls($params)
+	public function actionHalls($params): void
 	{
-		$user = $this->getModelFactory()->createUserModel();
-		$halls = $this->getModelFactory()->createHallModel();
-		[$view, $data] = $user->hallAction($params, $halls);
+		$editor = $this->getModelFactory()->createEditorModel();
+
+
+		$method = $this->getMethod($params, __FUNCTION__);
+		try {
+			[$data, $view] = $editor->$method($params);
+		}
+		catch (UpdateException $exception) {
+			$this->alert($exception->getMessage());
+		}
+		catch (UpdateSuccess $exception) {
+			$this->alert($exception->getMessage());
+		}
+
 		$this->loadView($view);
-		$this->data['halls'] = $data;
+		$this->data['hall'] = $data;
 	}
 
 	public function actionDefault(): void
 	{
 		$this->loadView('editor');
+	}
+
+	private function getMethod(&$params, $func)
+	{
+		$method = $params[0] ?? 'default';
+		unset($params[0]);
+		$methodPostFix = substr(str_replace('action', '', $func), 0, -1);
+
+		return $method . $methodPostFix;
 	}
 }

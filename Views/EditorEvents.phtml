@@ -11,8 +11,26 @@
 <body>
 
 <div class="settings">
-    Events...
+    <input type="button" value="Pridat novy sal" onclick="location.href='editor/events/add'">
+	<?php foreach ($events as $event) : ?>
+        <div class="concreteItem">
+            <input type="button" value="upravit" onclick="location.href= 'editor/events/edit/<?= str_replace
+			(' ',
+				'%20', $event['id'])
+			?>';"/>
+            <input type="button" value="smazat" onclick="location.href= 'editor/events/remove/<?=
+			str_replace
+			(' ',
+				'%20', $event['id'])
+			?>';"/>
+
+			<?php foreach ($event as $item => $value) : ?>
+				<?= $item ?> : <?= $value ?> &nbsp;|
+			<?php endforeach ?>
+        </div>
+	<?php endforeach ?>
     <input type="submit" value="Zpet" onclick=window.location.href='editor'>
+
 </div>
 </body>
 </html>
