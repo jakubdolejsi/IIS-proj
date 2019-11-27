@@ -13,13 +13,9 @@ use Exceptions\InvalidPasswordException;
 use Exceptions\InvalidRequestException;
 use Exceptions\NoUserException;
 use Exceptions\PasswordsAreNotSameException;
-use Exceptions\ReservationSuccessException;
 use Exceptions\SqlSomethingGoneWrongException;
-use Exceptions\UpdateException;
-use Exceptions\UpdateSuccess;
 use Exceptions\UserNotVerifiedException;
 use Models\UserDetail;
-use MongoDB\Driver\Query;
 use PDO;
 
 
@@ -36,10 +32,9 @@ class NotRegisteredUser extends Password{
 
     public function generateHash():string
     {
-        $seed = rand(0, 10000);
-        $hashCode = hash('md5', $seed);
+	    $seed = random_int(0, 10000);
 
-        return $hashCode;
+	    return hash('md5', $seed);
     }
 
     /**
@@ -88,24 +83,6 @@ class NotRegisteredUser extends Password{
         $this->db->run($query, $queryParams);
     }
 
-    public function getRegisterPassword(){
-        $password = $this->getPostDataAndValidate()['password'];
-        return $password;
-    }
-
-    public function setRoleToRegisterByEmail($userMail)
-    {
-        $query = 'UPDATE theatre.user SET user.role=? where user.email=?';
-        $this->db->run($query, ['registeredUser', $userMail]);
-    }
-
-    public function setPassword($userMail, $password)
-    {
-        $query = 'UPDATE theatre.user SET user.password=? where user.email=?';
-        $queryParams = [$this->hashPassword($password), $userMail];
-        $this->db->run($query, $queryParams);
-    }
-
 
     public function verifyHash($userMail)
     {
@@ -113,11 +90,7 @@ class NotRegisteredUser extends Password{
         $query = 'select user.hash from theatre.user where email=?';
         $userHash = $this->db->run($query, [$userMail])->fetch();
 
-        if($insertedCode === $userHash['hash'])
-        {
-            return TRUE;
-        }
-        return FALSE;
+	    return $insertedCode === $userHash['hash'];
     }
 
 
@@ -167,7 +140,7 @@ class NotRegisteredUser extends Password{
         $userDetail = new UserDetail($this->getPostDataAndValidate());
         $user = $this->getUserByEmail($userDetail->getEmail());
         if($user){
-            if ($user['role'] != 'notRegisteredUser') {        //Uzivatel se jiz registroval
+	        if ($user['role'] !== 'notRegisteredUser') {        //Uzivatel se jiz registroval
                 throw new DuplicateUser('User already exists');
             }
             else {  //Uzivatel se chce doregistrovat
@@ -268,14 +241,13 @@ class NotRegisteredUser extends Password{
         return empty($this->db->run($existingReservationQuery, $queryParams)->fetchAll(PDO::FETCH_ASSOC));
     }
 
-    /**
-     * @param $params
-     * @return string
-     * @throws AlreadyOccupiedSeatException
-     * @throws InvalidRequestException
-     * @throws ReservationSuccessException
-     * @throws SqlSomethingGoneWrongException
-     */
+	/**
+	 * @param $params
+	 * @return string
+	 * @throws AlreadyOccupiedSeatException
+	 * @throws InvalidRequestException
+	 * @throws SqlSomethingGoneWrongException
+	 */
     public function createNewReservation($params)
     {
         $urlParams = $this->getUrlParams($params);

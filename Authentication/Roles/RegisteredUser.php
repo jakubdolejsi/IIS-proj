@@ -4,13 +4,8 @@
 namespace Authentication\Roles;
 
 
-use Authentication\Password;
-use Database\Db;
 use Exceptions\{AlreadyOccupiedSeatException,
-	DuplicateUser,
-	InvalidPasswordException,
 	InvalidRequestException,
-	NoUserException,
 	PasswordsAreNotSameException,
 	ReservationSuccessException,
 	SqlSomethingGoneWrongException,
@@ -73,7 +68,6 @@ class RegisteredUser extends NotRegisteredUser
             throw new InvalidRequestException('Wrong URL');
         }
 
-        // TODO fixne dana cena a sleva
         $queryParams = [$userId, $cultureEventRes['id'], $cultureEventRes['price'], $seatInfo, 0];
         $query = 'insert into theatre.ticket (id_user, id_culture_event, price, seat, discount) 
 				values (?, ?, ?, ?, ?)';

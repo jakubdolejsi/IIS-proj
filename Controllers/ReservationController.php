@@ -8,7 +8,7 @@ use Exceptions\AlreadyOccupiedSeatException;
 use Exceptions\InvalidRequestException;
 use Exceptions\ReservationSuccessException;
 use Exceptions\SqlSomethingGoneWrongException;
-use PHPMailer\emailSender;
+use PHPMailer\EmailSender;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -52,7 +52,7 @@ class ReservationController extends BaseController
 					$ticket = $this->getModelFactory()->createTicketManager()->getTicketById($ticketId);
 
 					$mail = new PHPMailer(true);
-					$settings = new emailSender();
+					$settings = new EmailSender;
 					$user =  $user->getRole()->getNotRegisteredUserByEmail($_POST['email']);
 					try{
 						$settings->setupReservationEmail($mail, $ticket);

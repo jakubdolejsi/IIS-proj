@@ -4,12 +4,11 @@
 namespace PHPMailer;
 
 
-use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\PHPMailer;
 
 
-class emailSender
+class EmailSender
 {
     public function setupVerificationEmail(PHPMailer $mailer, $verificationCode): void{
         $this->configureSetting($mailer);

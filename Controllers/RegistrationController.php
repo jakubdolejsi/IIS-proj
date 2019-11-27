@@ -8,7 +8,7 @@ use Exceptions\CompleteRegistrationException;
 use Exceptions\DuplicateUser;
 use Exceptions\NoUserException;
 use Exceptions\PasswordsAreNotSameException;
-use PHPMailer\emailSender;
+use PHPMailer\EmailSender;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -16,47 +16,47 @@ use PHPMailer\PHPMailer\PHPMailer;
 class RegistrationController extends BaseController
 {
 
-
 	public function actionDefault(): void
 	{
 		$this->loadView('registration');
+		$mail = new PHPMailer(TRUE);
+		$settings = new EmailSender;
 		$registrationModel = $this->getModelFactory()->createUserModel();
-		try{
-			$registeredOK = $registrationModel->register();
+		try {
+			$registeredOK = $registrationModel->register();         //Bezna registrace
 		}
-		catch (PasswordsAreNotSameException $e){
+		catch (PasswordsAreNotSameException $e) {
 			$this->alert($e->getMessage());
 		}
-		catch (DuplicateUser $e){
+		catch (DuplicateUser $e) {
 			$this->alert($e->getMessage());
 		}
-		catch (CompleteRegistrationException $e){
-			$mail = new PHPMailer(true);
-			$settings = new emailSender();
-			$recipient = $registrationModel->getRole()->getNotRegisteredUserByEmail();
-			try{
+		catch (CompleteRegistrationException $e) {
+			$registeredOK = $registrationModel->getRole()->completeRegistration();      //Dokonceni registrace
+		}
+		//Jakakoliv z moznych rezervaci probehla uspesne
+		if (isset($registeredOK)) {
+			if ($registeredOK) {
+				$recipient = $registrationModel->getRole()->getNotRegisteredUserByEmail();
 				$hashCode = $registrationModel->getHashCode();
-				$settings->setupVerificationEmail($mail, $hashCode);
-				$settings->setRecipient($mail, $recipient->getEmail());
-				$settings->sendEmail($mail);
-				try{
+				try {
 					$registrationModel->getRole()->insertHash($hashCode);
 				}
-				catch (NoUserException $e){
+				catch (NoUserException $e) {
 					$this->alert($e->getMessage());
 				}
-				$_SESSION['password'] = $registrationModel->getRole()->getRegisterPassword();
+				try {
+					$settings->setupVerificationEmail($mail, $hashCode);
+					$settings->setRecipient($mail, $recipient->getEmail());
+					$settings->sendEmail($mail);
+				}
+				catch (Exception $e) {
+					$this->alert("Nepodařilo se odeslat ověřovací email. Chyba: {$mail->ErrorInfo}");
+					$this->redirect('registration');
+				}
 				$_SESSION['recipient'] = $recipient->getEmail();
-				$this->alert($e->getMessage());
+				$this->alert("Na váš email byl odeslán ověřovací kód!");
 				$this->redirect('emailVerification');
-			} catch (Exception $e) {
-				echo "Nepodarilo se odeslat verifikacni email. Error: {$mail->ErrorInfo}";
-			}
-		}
-
-		if (isset($registeredOK)) {
-			if($registeredOK){
-				$this->redirect('home');
 			}
 		}
 	}
