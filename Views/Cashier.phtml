@@ -8,14 +8,21 @@
 </head>
 <body>
 <div class="welcome">
-    Edit reservations:
+    <h3>Správa rezervací</h3>
 </div>
 <form method="post">
     <div class="searchGeneral">
-        <label for="searchEmail">Zadejte email pro zobrazeni listku</label>
+        <label for="searchEmail">Zadejte email pro zobrazení lístku</label>
         <input type="text" id="searchEmail" name="searchEmail">
         <input type="submit" class="fa fa-search" value="hledat">
     </div>
+
+    <div>
+        <input type="button" onclick="location.href = 'cashier/add/" name="add" id="add" value="Přidat rezervaci">
+
+
+    </div>
+
 
 	<?php foreach ($tickets as $ticket) : ?>
         <div class="concreteItem">

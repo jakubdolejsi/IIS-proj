@@ -20,6 +20,7 @@ abstract class Validator
 		return htmlspecialchars(stripslashes(trim($data)));
 	}
 
+
 	public function languageMapper(array &$data): void
 	{
 
@@ -45,4 +46,9 @@ abstract class Validator
 			}
 		}
 	}
+
+    protected function getGetDataAndValidate(): array
+    {
+        return (array_map([$this, 'parseInput'], $_GET));
+    }
 }

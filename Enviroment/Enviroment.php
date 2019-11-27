@@ -37,9 +37,23 @@ class Enviroment
 		}
 	}
 
-	public static function setSession()
+	public static function setSessions()
 	{
-		session_start();
+        if(!isset($_SESSION)) {
+            session_start();
+        }
+
+        //Odhlaseni po vice nez 30 minutach neaktivity
+        if (isset($_SESSION['lastActive']) && (time() - $_SESSION['lastActive'] > 1800)){
+            session_unset();
+            session_destroy();
+            session_start();
+        }
+        $_SESSION['lastActive'] = time();
+
+        if(!isset($_SESSION['role'])){
+            $_SESSION['role'] = 'notRegisteredUser';
+        }
 	}
 
 	public static function setEncoding()
