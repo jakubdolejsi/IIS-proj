@@ -20,7 +20,7 @@ class AdminModel extends BaseModel
 	{
 		$role = $this->auth->role()->getRoleFromSession();
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$data = $this->getPostDataAndValidate();
+			$data = $this->loadPOST();
 			$role->adminEditUser($data, $id);
 		}
 
@@ -34,7 +34,7 @@ class AdminModel extends BaseModel
     public function process(): array
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = $this->auth->role()->getPostDataAndValidate();
+	        $data = $this->auth->role()->loadPOST();
             if ($this->arrayEmpty($data)) {
                 return $this->getAllUsers();
             }

@@ -16,7 +16,7 @@ class EditorModel extends BaseModel
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$role = $this->auth->role()->getRoleFromSession();
-			$data = $role->addHall($this->getPostDataAndValidate());
+			$data = $role->addHall($this->loadPOST());
 		}
 
 		return ['', 'editorHallsAdd'];
@@ -43,7 +43,7 @@ class EditorModel extends BaseModel
 		$role = $this->auth->role()->getRoleFromSession();
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-			$data = $role->editEventByID($this->getPostDataAndValidate(), $params);
+			$data = $role->editEventByID($this->loadPOST(), $params);
 
 			return [$data, 'editorEventsEdit'];
 		}
@@ -57,7 +57,7 @@ class EditorModel extends BaseModel
 		$role = $this->auth->role()->getRoleFromSession();
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-			$data = $role->editHallbyId($this->getPostDataAndValidate(), $params);
+			$data = $role->editHallbyId($this->loadPOST(), $params);
 
 			return [$data, 'editorHallsEdit'];
 		}
@@ -93,7 +93,7 @@ class EditorModel extends BaseModel
 	public function addWork($params)
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$data = $this->getPostDataAndValidate();
+			$data = $this->loadPOST();
 			$role = $this->auth->role()->getRoleFromSession();
 
 			$role->addWork($data);
@@ -107,7 +107,7 @@ class EditorModel extends BaseModel
 		$role = $this->auth->role()->getRoleFromSession();
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-			$data = $role->editWorkById($this->getPostDataAndValidate(), $params);
+			$data = $role->editWorkById($this->loadPOST(), $params);
 
 			return [$data, 'editorWorksEdit'];
 		}

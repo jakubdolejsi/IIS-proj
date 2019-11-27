@@ -16,7 +16,7 @@ use DI\ViewFactory;
 abstract class BaseController
 {
 
-	protected $view;
+	private $view;
 
 	/**
 	 * @var array
@@ -149,5 +149,10 @@ abstract class BaseController
 	protected function loadView(string $view): void
 	{
 		$this->view = $view;
+	}
+
+	protected function loadData($index, array $data)
+	{
+		$this->data[ $index ] = $data;
 	}
 }

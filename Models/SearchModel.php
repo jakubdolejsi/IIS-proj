@@ -27,7 +27,7 @@ class SearchModel extends BaseModel
 	public function process(): array
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$data = $this->auth->role()->getPostDataAndValidate();
+			$data = $this->auth->role()->loadPOST();
 			if ($this->arrayEmpty($data)) {
 				return $this->getAllEvents();
 			}
@@ -75,7 +75,7 @@ class SearchModel extends BaseModel
 	public function getCultureWorkByName($name)
 	{
 		$name = array_values(str_replace('%20', ' ', $name));
-		$query = 'select * from theatre.culture_work as cw where cw.name = ?';
+		$query = 'select cw.name, cw.type, cw.genre, cw.actors, cw.ranking, cw.description, cw.image from theatre.culture_work as cw where cw.name = ?';
 
 		return $this->db->run($query, $name)->fetch(PDO::FETCH_ASSOC);
 	}

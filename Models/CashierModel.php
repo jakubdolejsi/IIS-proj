@@ -9,7 +9,7 @@ class CashierModel extends BaseModel
     public function checkSearchParameters(){
         $role = $this->auth->role()->getRoleFromSession();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = $this->getPostDataAndValidate();
+	        $data = $this->loadPOST();
 
             if ($data['id'] !== '' && $data['email'] !== '') {
                 return $role->getTicketByEmailAndIdPOST();
@@ -24,7 +24,7 @@ class CashierModel extends BaseModel
 
     public function confirmReservation($params)
     {
-        $ticket = $this->getPostDataAndValidate();
+	    $ticket = $this->loadPOST();
 
     }
 }

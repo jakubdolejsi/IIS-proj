@@ -20,6 +20,7 @@ class SearchController extends BaseController
 		$search = $this->getModelFactory()->createSearchModel();
 		$events = $search->process();
 		$this->loadView('search');
-		$this->data['events'] = $events;
+		$this->loadData('events', $events);
+		//		$this->data['events'] = $events;
 	}
 }

@@ -28,6 +28,7 @@ class ViewRenderer implements IViewable
 	 */
 	private $data;
 
+
 	/**
 	 * Render view passed by controller
 	 */
@@ -35,7 +36,7 @@ class ViewRenderer implements IViewable
 	{
 		if ($this->controllerView) {
 			extract($this->data);
-			require ($this->controllerView);
+			require($this->controllerView);
 		}
 	}
 
@@ -46,7 +47,7 @@ class ViewRenderer implements IViewable
 	public function renderBase(): void
 	{
 		if ($this->baseView) {
-			require_once ($this->baseView);
+			require_once($this->baseView);
 		}
 	}
 
@@ -79,9 +80,50 @@ class ViewRenderer implements IViewable
 	 */
 	public function loadData(array $data): void
 	{
+		//		$x = $this->langMapper($data);
 		$this->data = $data;
 	}
 
+	private function countdim($array)
+	{
+		if (is_array(reset($array))) {
+			$return = $this->countdim(reset($array)) + 1;
+		} else {
+			$return = 1;
+		}
+
+		return $return;
+	}
+
+	private function langMapper($data)
+	{
+
+		$langDict = [
+			'firstName'       => 'jmeno',
+			'lastName'        => 'prijmeni',
+			'password'        => 'heslo',
+			'controlPassword' => 'kontrolniHeslo',
+			'type'            => 'typ',
+			'date'            => 'datum',
+			'genre'           => 'žánr',
+			'begin'           => 'začátek',
+			'end'             => 'konec',
+			'price'           => 'cena',
+			'name'            => 'jméno',
+		];
+
+		$roleDict = [
+			'registeredUser' => 'registrovaný uživatel',
+			'cashier'        => 'pokladní',
+			'editor'         => 'redaktor',
+		];
+
+		if (array_key_exists($data, $langDict)) {
+			$data = $langDict[ $data ];
+		}
+
+		return $data;
+	}
 
 	/**
 	 * @param $view
@@ -96,11 +138,12 @@ class ViewRenderer implements IViewable
 			// jaka vyjimka se vyhodi??
 			throw new ViewLoadException('View is not setted!');
 		}
+
 		return $path;
 	}
 
-
-	private function xssProtection(){}
-
+	private function xssProtection()
+	{
+	}
 }
 
