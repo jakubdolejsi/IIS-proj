@@ -15,6 +15,8 @@ class SettingsController extends BaseController
 
 	public function actionEdit(): void
 	{
+		$this->hasPermission('admin', 'editor', 'cashier', 'registeredUser');
+
 		$user = $this->getModelFactory()->createUserModel();
 
 		if (!$user->isLogged()) {
@@ -34,6 +36,8 @@ class SettingsController extends BaseController
 
 	public function actionPassword(): void
 	{
+		$this->hasPermission('admin', 'editor', 'cashier', 'registeredUser');
+
 		$user = $this->getModelFactory()->createUserModel();
 
 		if (!$user->isLogged()) {
@@ -55,6 +59,8 @@ class SettingsController extends BaseController
 
 	public function actionDefault(): void
 	{
+		$this->hasPermission('admin', 'editor', 'cashier', 'registeredUser');
+
 		$user = $this->getModelFactory()->createUserModel();
 
 		if (!$user->isLogged()) {

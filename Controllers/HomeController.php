@@ -10,13 +10,6 @@ namespace Controllers;
  */
 class HomeController extends BaseController
 {
-	/**
-	 * @param array $params
-	 */
-	public function process(array $params): void
-	{
-		$this->loadView('home');
-	}
 
 	public function actionDefault(): void
 	{

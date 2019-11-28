@@ -13,6 +13,8 @@ class EditorController extends BaseController
 
 	public function actionEvents($params): void
 	{
+		$this->hasPermission('admin', 'editor');
+
 		$editor = $this->getModelFactory()->createEditorModel();
 
 
@@ -31,6 +33,8 @@ class EditorController extends BaseController
 
 	public function actionWorks($params): void
 	{
+		$this->hasPermission('admin', 'editor');
+
 		$editor = $this->getModelFactory()->createEditorModel();
 		$method = $this->getMethod($params, __FUNCTION__);
 		try {
@@ -47,6 +51,8 @@ class EditorController extends BaseController
 
 	public function actionHalls($params): void
 	{
+		$this->hasPermission('admin', 'editor');
+
 		$editor = $this->getModelFactory()->createEditorModel();
 
 		$method = $this->getMethod($params, __FUNCTION__);
@@ -66,6 +72,8 @@ class EditorController extends BaseController
 
 	public function actionDefault(): void
 	{
+		$this->hasPermission('admin', 'editor');
+
 		$this->loadView('editor');
 	}
 

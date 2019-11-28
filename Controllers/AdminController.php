@@ -14,6 +14,7 @@ class AdminController extends BaseController
 
 	public function actionDefault(): void
 	{
+		$this->hasPermission('admin');
 		$admin = $this->getModelFactory()->createAdminModel();
 		$users = $admin->process();
 		$this->loadView('admin');
@@ -23,6 +24,8 @@ class AdminController extends BaseController
 
 	public function actionAdd($params)
 	{
+		$this->hasPermission('admin');
+
 		$user = $this->getModelFactory()->createUserModel();
 		try {
 			$user->register();
@@ -43,6 +46,8 @@ class AdminController extends BaseController
 
 	public function actionEdit($params)
 	{
+		$this->hasPermission('admin');
+
 		$admin = $this->getModelFactory()->createAdminModel();
 		$this->data['user'] = $admin->processEdit($params);
 		$this->loadView('adminEdit');
@@ -51,6 +56,8 @@ class AdminController extends BaseController
 
 	public function actionDelete($params)
 	{
+		$this->hasPermission('admin');
+
 		$admin = $this->getModelFactory()->createAdminModel();
 		$admin->deleteUserByID($params);
 

@@ -36,7 +36,7 @@ class RegisteredUser extends NotRegisteredUser
     public function createNewReservation($params): void
     {
         $urlParams = $this->getUrlParams($params);
-        $seatInfo = $this->joinSeat($this->getPostDataAndValidate());
+	    $seatInfo = $this->joinSeat($this->loadPOST());
         if (!$this->isSeatFree($urlParams, $seatInfo)) {
             throw new AlreadyOccupiedSeatException('Seat is already registered');
         }
@@ -85,7 +85,7 @@ class RegisteredUser extends NotRegisteredUser
 	 */
 	public function editProfile(): void
 	{
-		$newEmail = $this->getPostDataAndValidate()['email'];
+		$newEmail = $this->loadPOST()['email'];
 		$actualEmail = $this->getUserBySessionID()->getEmail();
 		$query = 'update theatre.user set email = ? where email = ?';
 		$res = $this->db->run($query, [$newEmail, $actualEmail]);
@@ -102,7 +102,7 @@ class RegisteredUser extends NotRegisteredUser
 	 */
 	public function editPassword(): void
 	{
-		$user = new UserDetail($this->getPostDataAndValidate());
+		$user = new UserDetail($this->loadPOST());
 		if (!$user->compareNewPassword()) {
 			throw new PasswordsAreNotSameException('Passwords does not match!');
 		}
