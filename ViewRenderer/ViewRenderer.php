@@ -83,24 +83,12 @@ class ViewRenderer implements IViewable
 		//		$x = $this->langMapper($data);
 		$this->data = $data;
 	}
-
-	private function countdim($array)
-	{
-		if (is_array(reset($array))) {
-			$return = $this->countdim(reset($array)) + 1;
-		} else {
-			$return = 1;
-		}
-
-		return $return;
-	}
-
 	private function langMapper($data)
 	{
 
 		$langDict = [
-			'firstName'       => 'jmeno',
-			'lastName'        => 'prijmeni',
+			'firstName'       => 'jméno',
+			'lastName'        => 'příjmení',
 			'password'        => 'heslo',
 			'controlPassword' => 'kontrolniHeslo',
 			'type'            => 'typ',
@@ -110,14 +98,12 @@ class ViewRenderer implements IViewable
 			'end'             => 'konec',
 			'price'           => 'cena',
 			'name'            => 'jméno',
+			'ranking'         => 'hodnoceni',
+			'description'     => 'popis',
+			'actors'          => 'herci',
+			'seat' => 'sedadlo',
+			'label' => 'označení sálu',
 		];
-
-		$roleDict = [
-			'registeredUser' => 'registrovaný uživatel',
-			'cashier'        => 'pokladní',
-			'editor'         => 'redaktor',
-		];
-
 		if (array_key_exists($data, $langDict)) {
 			$data = $langDict[ $data ];
 		}

@@ -79,24 +79,12 @@
                 <?php foreach ($event as $value) : ?>
                 <td>
                     <?= $value ?>
-                </td>                        
+                </td>
                 <?php endforeach ?>
                 <td>
-                    <select class="custom-select form-control" id="browsers">
-                        <option value="namiste">Na místě</option>
-                        <option value="predem">Předem</option>
-                    </select>
-                </td>
-                <td>
-                    <button class="btn btn-primary" onclick="location.href = 'reservation/create/
-                        <?= str_replace(' ', '%20', $event['type']) ?>
-                        /
-                        <?= str_replace(' ', '%20', $event['name']) ?>
-                        /
-                        <?= $event['label'] ?>
-                        /
-                        <?= str_replace(' ', '%20', $event['begin']) ?>
-                    ';">
+                    <button class="btn btn-primary " onclick="location.href = 'reservation/create/<?=
+                    str_replace(' ', '%20', $event['type'])?>/<?= str_replace(' ', '%20', $event['name'])
+                    ?>/<?= str_replace(' ', '%20', $event['label'])?>/<?= str_replace(' ' , '%20', $event['begin'])?>'">
                         Rezervovat
                     </button>
                 </td>
