@@ -28,29 +28,29 @@ class RegisteredUser extends NotRegisteredUser
 
     /**
      * @param $params
+     * @return string
      * @throws AlreadyOccupiedSeatException
      * @throws InvalidRequestException
-     * @throws ReservationSuccessException
      * @throws SqlSomethingGoneWrongException
      */
-    public function createNewReservation($params): void
+    public function createNewReservation($params)
     {
         $urlParams = $this->getUrlParams($params);
 	    $seatInfo = $this->joinSeat($this->loadPOST());
         if (!$this->isSeatFree($urlParams, $seatInfo)) {
             throw new AlreadyOccupiedSeatException('Seat is already registered');
         }
-        $this->createNewTicket($urlParams, $seatInfo);
+        return $this->createNewTicket($urlParams, $seatInfo);
     }
 
     /**
      * @param $urlParams
      * @param $seatInfo
-     * @throws ReservationSuccessException
-     * @throws SqlSomethingGoneWrongException
+     * @return string
      * @throws InvalidRequestException
+     * @throws SqlSomethingGoneWrongException
      */
-    private function createNewTicket($urlParams, $seatInfo): void
+    private function createNewTicket($urlParams, $seatInfo)
     {
         $userIdQuery = 'select u.id from theatre.user as u where u.email = ?';
         $userId = $this->db->run($userIdQuery, $this->getUserBySessionID()->getEmail())->fetch(PDO::FETCH_ASSOC)['id'];
@@ -76,7 +76,7 @@ class RegisteredUser extends NotRegisteredUser
         if ($res->rowCount() === '0') {
             throw new SqlSomethingGoneWrongException('Internal error occured');
         }
-        throw new ReservationSuccessException('Reservation was successfully created!');
+        return $this->db->lastInsertId();
     }
 
 	/**

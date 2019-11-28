@@ -22,25 +22,23 @@ class CashierController extends BaseController
     {
 	    $this->hasPermission('cashier', 'admin');
         $cashier = $this->getModelFactory()->createCashierModel();
+        try{
+            if($cashier->checkURLParamsConfirm($params)){
+                $this->redirect('cashier/confirm/');
+            }
+        }catch (InvalidRequestException $exception){
+            $this->redirect('error');
+        }
 
-        $cashier->createReservationCashier($params)
+        $this->data['tickets'] = $cashier->checkSearchParameters();
 
         $this->loadView('cashierConfirm');
     }
 
-	public function actionEdit($params): void
-	{
-		$this->hasPermission('cashier', 'admin');
-		$updateOK = FALSE;
-		$ticket = $this->getModelFactory()->createTicketManager();
+	public function actionReservation($params)
+    {
 
-		$ticketsToShow = $ticket->processUpdate($params, $updateOK);
-		if (isset($updateOK)) {
-			//				$this->alert('OK');
-		}
-		$this->loadView('cashierEdit');
-		$this->data['tickets'] = $ticketsToShow;
-	}
+    }
 
 	public function actionDefault(): void
 	{

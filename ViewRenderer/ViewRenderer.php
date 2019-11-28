@@ -98,11 +98,18 @@ class ViewRenderer implements IViewable
 			'end'             => 'konec',
 			'price'           => 'cena',
 			'name'            => 'jméno',
-			'ranking'         => 'hodnoceni',
+			'ranking'         => 'hodnocení',
 			'description'     => 'popis',
 			'actors'          => 'herci',
-			'seat' => 'sedadlo',
-			'label' => 'označení sálu',
+			'seat'            => 'sedadlo',
+			'label'           => 'označení sálu',
+            'seat_schema'     => 'schéma',
+            'capacity'        => 'kapacita',
+            'column_count'    => 'počet sloupců',
+            'row_count'       => 'počet řádků',
+            'image'           => 'obrázek',
+            'is_paid'         => 'uhrazeno',
+            'is_verificed'    => 'ověřeno'
 		];
 		if (array_key_exists($data, $langDict)) {
 			$data = $langDict[ $data ];

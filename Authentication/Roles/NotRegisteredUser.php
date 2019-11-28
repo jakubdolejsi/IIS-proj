@@ -58,7 +58,7 @@ class NotRegisteredUser extends Password{
         $id = $_SESSION['user_id'];
         $query = 'select * from theatre.user where id=?';
 
-        return new UserDetail($this->db->run($query, [$id])->fetchAll()[0]);
+        return new UserDetail($this->db->run($query, $id)->fetch(PDO::FETCH_ASSOC));
     }
 
     /**
@@ -68,7 +68,7 @@ class NotRegisteredUser extends Password{
     {
 	    $data = $this->loadPOST();
         $query = 'select * from theatre.user where email=?';
-        return new UserDetail($this->db->run($query, [$data['email']])->fetch(PDO::FETCH_ASSOC));
+        return new UserDetail($this->db->run($query, $data['email'])->fetch(PDO::FETCH_ASSOC));
     }
 
     public function insertHash($hashCode)

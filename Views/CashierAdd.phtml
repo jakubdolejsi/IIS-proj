@@ -44,7 +44,7 @@
     </div>
     <?php foreach ($events as $event) : ?>
         <div class="concreteItem">
-            <input type="button" onclick="location.href = 'cashier/add/<?= str_replace(' ', '%20',
+            <input type="button" onclick="location.href = 'cashier/reservation/<?= str_replace(' ', '%20',
                 $event['type']) ?>/<?= str_replace(' ', '%20', $event['name']) ?>/<?= $event['label'] ?>/<?=
             str_replace(' ', '%20', $event['begin']) ?>';"
                    value="Rezervovat"/>

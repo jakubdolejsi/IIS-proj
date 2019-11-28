@@ -21,7 +21,7 @@ class Cashier extends RegisteredUser
     public function getTicketByIdPOST()
     {
 	    $data = $this->loadPOST();
-        $query = 'select t.id, cw.name, ce.begin, ce.date, t.price, t.seat, h.label from theatre.ticket as t 
+        $query = 'select t.id, cw.name, ce.begin, ce.date, t.price, t.seat, h.label, t.is_paid from theatre.ticket as t 
 				join theatre.user as u on t.id_user = u.id
 				join theatre.culture_event as ce on t.id_culture_event = ce.id
 				join theatre.culture_work as cw on ce.id_culture_work = cw.id
@@ -38,7 +38,7 @@ class Cashier extends RegisteredUser
     {
 
 	    $data = $this->loadPOST();
-        $query = 'select t.id, cw.name, ce.begin, ce.date, t.price, t.seat, h.label from theatre.ticket as t 
+        $query = 'select t.id, cw.name, ce.begin, ce.date, t.price, t.seat, h.label, t.is_paid from theatre.ticket as t 
 				join theatre.user as u on t.id_user = u.id
 				join theatre.culture_event as ce on t.id_culture_event = ce.id
 				join theatre.culture_work as cw on ce.id_culture_work = cw.id
@@ -57,7 +57,7 @@ class Cashier extends RegisteredUser
     public function getTicketByEmailAndIdPOST()
     {
 	    $data = $this->loadPOST();
-        $query = 'select t.id, cw.name, ce.begin, ce.date, t.price, t.seat, h.label from theatre.ticket as t 
+        $query = 'select t.id, cw.name, ce.begin, ce.date, t.price, t.seat, h.label, t.is_paid from theatre.ticket as t 
             join theatre.user as u on t.id_user = u.id
             join theatre.culture_event as ce on t.id_culture_event = ce.id
             join theatre.culture_work as cw on ce.id_culture_work = cw.id
