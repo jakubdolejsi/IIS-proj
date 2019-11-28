@@ -25,7 +25,7 @@
 			?>';"/>
 
 			<?php foreach ($event as $item => $value) : ?>
-				<?= $item ?> : <?= $value ?> &nbsp;|
+				<?= $this->langMapper($item) ?> : <?= $value ?> &nbsp;|
 			<?php endforeach ?>
         </div>
 	<?php endforeach ?>
