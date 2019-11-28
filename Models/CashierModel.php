@@ -31,7 +31,14 @@ class CashierModel extends BaseModel
         return [];
     }
 
-    public function checkURLParams($params){
+    public function createReservationCashier($params){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $role = $this->auth->role()->getRoleFromSession();
+            $role->createNewReservation(array_slice($params, 2));
+        }
+    }
+
+    public function checkURLParamsConfirm($params){
         $role = $this->auth->role()->getRoleFromSession();
 
         if(isset($params[0])){

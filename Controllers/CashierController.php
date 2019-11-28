@@ -22,15 +22,8 @@ class CashierController extends BaseController
     {
 	    $this->hasPermission('cashier', 'admin');
         $cashier = $this->getModelFactory()->createCashierModel();
-        try{
-            if($cashier->checkURLParams($params)){
-                $this->redirect('cashier/confirm/');
-            }
-        }catch (InvalidRequestException $exception){
-            $this->redirect('error');
-        }
 
-        $this->data['tickets'] = $cashier->checkSearchParameters();
+        $cashier->createReservationCashier($params)
 
         $this->loadView('cashierConfirm');
     }

@@ -20,7 +20,7 @@
                 </div>
                 <div>
                     <label for="begin">Zacatek</label>
-                    <input type="time" name="begin" id="begin" value="<?php echo date('H:i') ?>">
+                    <input type="time" name="begin" id="begin">
                 </div>
                 <div class="item">
                     <label for="type">Typ</label>
@@ -44,7 +44,7 @@
     </div>
     <?php foreach ($events as $event) : ?>
         <div class="concreteItem">
-            <input type="button" onclick="location.href = 'reservation/create/<?= str_replace(' ', '%20',
+            <input type="button" onclick="location.href = 'cashier/add/<?= str_replace(' ', '%20',
                 $event['type']) ?>/<?= str_replace(' ', '%20', $event['name']) ?>/<?= $event['label'] ?>/<?=
             str_replace(' ', '%20', $event['begin']) ?>';"
                    value="Rezervovat"/>

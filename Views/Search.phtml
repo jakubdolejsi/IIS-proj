@@ -23,7 +23,7 @@
             <div class="form-group row">
                 <label for="begin" class="col-3 col-form-label">Začátek</label>
                 <div class="col-9">
-                    <input type="time" name="begin" id="begin" class="form-control" value="<?= date('H:i') ?>">
+                    <input type="time" name="begin" id="begin" class="form-control">
                 </div>
             </div>
             <div class="form-group row">
@@ -61,9 +61,9 @@
                 <th scope="col">Žánr</th>
                 <th scope="col">Datum</th>
                 <th scope="col">Začátek</th>
-                <th scope="col">Konec</th>
                 <th scope="col">Label</th>
                 <th scope="col">Cena</th>
+                <th scope="col">Typ platby</th>
                 <th></th>
             </tr>
         </thead>
@@ -82,6 +82,12 @@
                 </td>                        
                 <?php endforeach ?>
                 <td>
+                    <select class="custom-select form-control" id="browsers">
+                        <option value="namiste">Na místě</option>
+                        <option value="predem">Předem</option>
+                    </select>
+                </td>
+                <td>
                     <button class="btn btn-primary" onclick="location.href = 'reservation/create/
                         <?= str_replace(' ', '%20', $event['type']) ?>
                         /
@@ -94,6 +100,7 @@
                         Rezervovat
                     </button>
                 </td>
+
             </tr>
             <?php endforeach ?>
         </tbody>
