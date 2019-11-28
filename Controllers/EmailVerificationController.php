@@ -19,7 +19,7 @@ class EmailVerificationController extends baseController
                     unset($_SESSION['user']);
                 }
                     $this->alert('Registrace proběhla úspěšně, nyní se můžete přihlásit!');
-//                $this->redirect('login');
+                    $this->redirect('login');
             } else {
                 $this->alert('Zadaný kód není správný!');
             }

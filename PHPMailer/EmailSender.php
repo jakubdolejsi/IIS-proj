@@ -40,26 +40,26 @@ class EmailSender
 
     private function setTicketInfo(PHPMailer $mailer, $ticketInfo){
         $message = "<h1>Potvrzení Vaší rezervace</h1><h3>Informace o rezervaci:</h3><b>Číslo rezervace: $ticketInfo[id]</b><br><br><b>Jméno:</b> $_POST[firstName] <b>Příjmení:</b> $_POST[lastName]<br> <b>Název události:</b> $ticketInfo[name]<br> <b>Začátek události:</b> $ticketInfo[begin] <b>Datum:</b> $ticketInfo[date]
-        <br><b>Cena:</b> $ticketInfo[price] <br><b>Sedadlo:</b> $ticketInfo[seat] <b>Sál:</b> $ticketInfo[label]";
+        <br><b>Cena:</b> $ticketInfo[price] <b>Způsob platby:</b> $ticketInfo[payment_type]<br><b>Sedadlo:</b> $ticketInfo[seat] <b>Sál:</b> $ticketInfo[label]";
 
         $mailer->isHTML(true);
         $mailer->Subject = "Potvrzení rezervace $ticketInfo[name]";
         $mailer->Body = $message;
         $mailer->AltBody = "Potvrzení Vaší rezervace\nInformace o rezervaci:\nJméno: $_POST[firstName] Příjmení: $_POST[lastName]\nNázev události: $ticketInfo[name]\nZačátek události: $ticketInfo[begin] Datum: $ticketInfo[date]
-        \nCena: $ticketInfo[price]\nSedadlo: $ticketInfo[seat] Sál: $ticketInfo[label]";
+        \nCena: $ticketInfo[price] Způsob platby: $ticketInfo[payment_type]\nSedadlo: $ticketInfo[seat] Sál: $ticketInfo[label]";
     }
 
     private function setTicketInfoRegistered(PHPMailer $mailer, $ticketInfo, $userInfo){
         $firstName = $userInfo->getFirstName();
         $lastName = $userInfo->getLastName();
         $message = "<h1>Potvrzení Vaší rezervace</h1><h3>Informace o rezervaci:</h3><b>Číslo rezervace: $ticketInfo[id]</b><br><br><b>Jméno:</b> $firstName <b>Příjmení:</b> $lastName<br> <b>Název události:</b> $ticketInfo[name]<br> <b>Začátek události:</b> $ticketInfo[begin] <b>Datum:</b> $ticketInfo[date]
-        <br><b>Cena:</b> $ticketInfo[price] <br><b>Sedadlo:</b> $ticketInfo[seat] <b>Sál:</b> $ticketInfo[label]";
+        <br><b>Cena:</b> $ticketInfo[price]<b>Způsob platby:</b> $ticketInfo[payment_type] <br><b>Sedadlo:</b> $ticketInfo[seat] <b>Sál:</b> $ticketInfo[label]";
 
         $mailer->isHTML(true);
         $mailer->Subject = "Potvrzení rezervace $ticketInfo[name]";
         $mailer->Body = $message;
         $mailer->AltBody = "Potvrzení Vaší rezervace\nInformace o rezervaci:\nJméno: $firstName Příjmení: $lastName\nNázev události: $ticketInfo[name]\nZačátek události: $ticketInfo[begin] Datum: $ticketInfo[date]
-        \nCena: $ticketInfo[price]\nSedadlo: $ticketInfo[seat] Sál: $ticketInfo[label]";
+        \nCena: $ticketInfo[price] Způsob platby: $ticketInfo[payment_type]\nSedadlo: $ticketInfo[seat] Sál: $ticketInfo[label]";
     }
 
     /**

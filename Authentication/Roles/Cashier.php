@@ -70,7 +70,7 @@ class Cashier extends RegisteredUser
     public function confirmPayment($id)
     {
         $query = 'UPDATE theatre.ticket set ticket.is_paid=? where ticket.id = ?';
-        $this->db->run($query, [TRUE, $id]);
+        $this->db->run($query, [1, $id]);
     }
 
     public function stornoReservation($id)

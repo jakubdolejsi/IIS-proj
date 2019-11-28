@@ -27,7 +27,7 @@ class Enviroment
 		$host = self::DB_OPTIONS['DB_HOST'];
 		$dbName = self::DB_OPTIONS['DB_NAME'];
 
-		return "mysql:host={$host};dbname={$dbName}";
+		return "mysql:host={$host};dbname={$dbName};charset=utf8";
 	}
 
 	public static function setErrorNotification()
@@ -70,7 +70,7 @@ class Enviroment
 		ini_set('display_startup_errors', 1);
 		ini_set('display_errors', 1);
 		ini_set('log_errors', 1);
-		ini_set('error_log', $dir);
+        ini_set('error_log', $dir);
 		error_reporting(E_ALL);
 	}
 

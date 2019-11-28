@@ -19,6 +19,7 @@
         <input type="submit" class="fa fa-search" value="Hledat">
     </div>
 </form>
+<input type="button" onclick="location.href= 'cashier'" value="Zpět">
 <?php foreach ($tickets as $ticket) : ?>
     <div class="concreteItem">
         <input type="button" value="Potvrdit úhradu" onclick="location.href= 'cashier/confirm/payment/<?=
@@ -32,6 +33,7 @@
         (' ',
             '%20', $ticket['id'])
         ?>';"/>
+
 
         <?php foreach ($ticket as $item => $value) : ?>
             <?= $this->langMapper($item) ?> : <?= $value ?> &nbsp;|

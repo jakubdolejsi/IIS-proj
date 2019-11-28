@@ -52,6 +52,7 @@ class RegisteredUser extends NotRegisteredUser
      */
     private function createNewTicket($urlParams, $seatInfo)
     {
+        $payment = $this->loadPOST()['type'];
         $userIdQuery = 'select u.id from theatre.user as u where u.email = ?';
         $userId = $this->db->run($userIdQuery, $this->getUserBySessionID()->getEmail())->fetch(PDO::FETCH_ASSOC)['id'];
         if (!isset($userId)) {
@@ -68,9 +69,9 @@ class RegisteredUser extends NotRegisteredUser
             throw new InvalidRequestException('Wrong URL');
         }
 
-        $queryParams = [$userId, $cultureEventRes['id'], $cultureEventRes['price'], $seatInfo, 0];
-        $query = 'insert into theatre.ticket (id_user, id_culture_event, price, seat, discount) 
-				values (?, ?, ?, ?, ?)';
+        $queryParams = [$userId, $cultureEventRes['id'], $cultureEventRes['price'], $seatInfo, 0, $payment, 2];
+        $query = 'insert into theatre.ticket (id_user, id_culture_event, price, seat, discount, payment_type, is_paid) 
+				values (?, ?, ?, ?, ?, ?, ?)';
 
         $res = $this->db->run($query, $queryParams);
         if ($res->rowCount() === '0') {

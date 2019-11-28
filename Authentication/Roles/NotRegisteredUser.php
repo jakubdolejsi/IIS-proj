@@ -303,15 +303,14 @@ class NotRegisteredUser extends Password{
         }
 
         // TODO fixne dana cena a sleva
-        $queryParams = [$userId, $cultureEventRes['id'], $cultureEventRes['price'], $seatInfo, 0];
-        $query = 'insert into theatre.ticket (id_user, id_culture_event, price, seat, discount) 
-				values (?, ?, ?, ?, ?)';
+        $queryParams = [$userId, $cultureEventRes['id'], $cultureEventRes['price'], $seatInfo, 0, $data['type'], 2];
+        $query = 'insert into theatre.ticket (id_user, id_culture_event, price, seat, discount, payment_type, is_paid) 
+				values (?, ?, ?, ?, ?, ?, ?)';
 
         $res = $this->db->run($query, $queryParams);
         if ($res->rowCount() === '0') {
             throw new SqlSomethingGoneWrongException('Internal error occured');
         }
-
         return $this->db->lastInsertId();
     }
 
