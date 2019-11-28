@@ -9,12 +9,10 @@ class AuthController extends BaseController
 
 	public function actionDefault(): void
 	{
+		$this->hasPermission('admin', 'editor', 'cashier');
+
 		$user = $this->getModelFactory()->createUserModel();
 
-		if (!$user->isLogged() || !$user->hasPermission($user->getRole())) {
-			$this->alert('Permission denied');
-			$this->redirect('login');
-		}
 		$role = $user->getUserInfo()->getRole();
 		switch ($role) {
 			case 'admin':

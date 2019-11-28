@@ -155,4 +155,19 @@ abstract class BaseController
 	{
 		$this->data[ $index ] = $data;
 	}
+
+	protected function hasPermission(...$permission)
+	{
+		$hasPermission = FALSE;
+		foreach ($permission as $item)
+		{
+			if($_SESSION['role'] === $item) {
+				$hasPermission = true;
+			}
+		}
+		if(!$hasPermission) {
+			$this->alert('Nemáte oprávnění!');
+			$this->redirect('home');
+		}
+	}
 }
