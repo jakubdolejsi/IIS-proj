@@ -4,6 +4,9 @@
 namespace Controllers;
 
 
+use Exceptions\InvalidRequestException;
+
+
 class CashierController extends BaseController
 {
     public function actionAdd($params):void
@@ -17,13 +20,15 @@ class CashierController extends BaseController
     public function actionConfirm($params):void
     {
         $cashier = $this->getModelFactory()->createCashierModel();
-        $tickets = $cashier->checkSearchParameters();
-        if($tickets === null){
-            $this->data['tickets'] = [];
-        }else{
-            $this->data['tickets'] = $tickets;
+        try{
+            if($cashier->checkURLParams($params)){
+                $this->redirect('cashier/confirm/');
+            }
+        }catch (InvalidRequestException $exception){
+            $this->redirect('error');
         }
 
+        $this->data['tickets'] = $cashier->checkSearchParameters();
 
         $this->loadView('cashierConfirm');
     }
