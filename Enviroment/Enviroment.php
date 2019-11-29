@@ -27,7 +27,7 @@ class Enviroment
 		$host = self::DB_OPTIONS['DB_HOST'];
 		$dbName = self::DB_OPTIONS['DB_NAME'];
 
-		return "mysql:host={$host};dbname={$dbName};charset=utf8";
+		return "mysql:host={$host};dbname={$dbName};charset=utf8mb4";
 	}
 
 	public static function setErrorNotification()
@@ -59,6 +59,7 @@ class Enviroment
 	public static function setEncoding()
 	{
 		mb_internal_encoding('UTF-8');
+		mb_http_output('UTF-8');
 	}
 
 	private static function development()

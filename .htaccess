@@ -1,11 +1,13 @@
 Options -Indexes
-
+AddDefaultCharset utf-8
 RewriteEngine On
-# RewriteBase /
+RewriteBase /~xsvera04/IIS/
 
 # front controller
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule !\.(pdf|js|ico|gif|jpg|png|css|rar|zip|tar\.gz)$ index.php [L]
+# RewriteRule .* index.php/$0 [PT,L] 
 
 AddType application/x-httpd-php .php .phtml
+# AddHandler application/x-httpd-php71 .php

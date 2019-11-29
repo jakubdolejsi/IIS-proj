@@ -55,7 +55,7 @@ abstract class BaseController
 	{
 		// todo snad funguje dobre...
 		echo "<script>
-				window.location.href='/$url';
+				window.location.href='~xsvera04/IIS/$url';
 			</script>";
 	}
 

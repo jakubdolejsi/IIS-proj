@@ -29,13 +29,13 @@ interface IViewable
 	 * @param $baseView
 	 * @return mixed
 	 */
-	public function loadBaseView(string $baseView): void ;
+	public function loadBaseView($baseView): void ;
 
 	/**
 	 * @param $controllerView
 	 * @return mixed
 	 */
-	public function loadControllerView(string $controllerView): void ;
+	public function loadControllerView($controllerView): void ;
 
 
 }

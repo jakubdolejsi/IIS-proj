@@ -86,10 +86,12 @@ class NotRegisteredUser extends Password{
 
     public function verifyHash()
     {
-        if(isset($_GET['user'])){
+        if(isset($_GET['id'])){
 	        $id = $this->loadGET()['id'];
-        }else{
+        }else if(isset($_SESSION['user'])){
             $id = $_SESSION['user'];
+        }else{
+
         }
 	    $insertedCode = $this->loadGET()['hash'];
         $query = 'select user.hash from theatre.user where id=? and hash=?';
@@ -180,7 +182,7 @@ class NotRegisteredUser extends Password{
 
     public function completeVerification()
     {
-        if(isset($_GET['user'])){
+        if(isset($_GET['id'])){
 	        $id = $this->loadGET()['id'];
         }else{
             $id = $_SESSION['user'];
