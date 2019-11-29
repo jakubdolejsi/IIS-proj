@@ -83,6 +83,7 @@ class ViewRenderer implements IViewable
 		//		$x = $this->langMapper($data);
 		$this->data = $data;
 	}
+
 	private function langMapper($data)
 	{
 
@@ -101,8 +102,8 @@ class ViewRenderer implements IViewable
 			'ranking'         => 'hodnoceni',
 			'description'     => 'popis',
 			'actors'          => 'herci',
-			'seat' => 'sedadlo',
-			'label' => 'označení sálu',
+			'seat'            => 'sedadlo',
+			'label'           => 'označení sálu',
 		];
 		if (array_key_exists($data, $langDict)) {
 			$data = $langDict[ $data ];
