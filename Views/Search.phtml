@@ -10,92 +10,89 @@
 </head>
 <body>
 
-<div id="ticketItem">
-    <div class="mx-auto">
-        <h2 class="text-center mb-4">Vyhledávání kulturních událostí</h2>
-        <form method="post" class="mx-auto" style="width: 600px">
-            <div class="form-group row">
-                <label for="date" class="col-3 col-form-label">Datum</label>
-                <div class="col-9">
-                    <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>">
-                </div>
+<div class="mx-auto">
+    <h2 class="text-center mb-4">Vyhledávání kulturních událostí</h2>
+    <form method="post" class="mx-auto" style="width: 600px">
+        <div class="form-group row">
+            <label for="date" class="col-3 col-form-label">Datum</label>
+            <div class="col-9">
+                <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>">
             </div>
-            <div class="form-group row">
-                <label for="begin" class="col-3 col-form-label">Začátek</label>
-                <div class="col-9">
-                    <input type="time" name="begin" id="begin" class="form-control">
-                </div>
+        </div>
+        <div class="form-group row">
+            <label for="begin" class="col-3 col-form-label">Začátek</label>
+            <div class="col-9">
+                <input type="time" name="begin" id="begin" class="form-control">
             </div>
-            <div class="form-group row">
-                <label for="type" class="col-3 col-form-label">Typ</label>
-                <div class="col-9">
-                        <select class="custom-select form-control" id="type" name="type">
-                            <option></option>
-                            <option value="Film">Film</option>
-                            <option value="Prednaska">Přednáška</option>
-                            <option value="Prezentace">Prezentace</option>
-                            <option value="Divadelni predstaveni">Divadelní představení</option>
-                            <option value="Stand-up">Stand-up</option>
-                        </select>
+        </div>
+        <div class="form-group row">
+            <label for="type" class="col-3 col-form-label">Typ</label>
+            <div class="col-9">
+                    <select class="custom-select form-control" id="type" name="type">
+                        <option></option>
+                        <option value="Film">Film</option>
+                        <option value="Prednaska">Přednáška</option>
+                        <option value="Prezentace">Prezentace</option>
+                        <option value="Divadelni predstaveni">Divadelní představení</option>
+                        <option value="Stand-up">Stand-up</option>
+                    </select>
 
-                </div>
             </div>
-            <div class="form-group row">
-                <label for="name" class="col-3 col-form-label">Název</label>
-                <div class="col-9">
-                    <input type="text" placeholder="Zadejte nazev udalosti" name="name" id="name" class="form-control">
-                </div>
+        </div>
+        <div class="form-group row">
+            <label for="name" class="col-3 col-form-label">Název</label>
+            <div class="col-9">
+                <input type="text" placeholder="Zadejte název události" name="name" id="name" class="form-control">
             </div>
-            <div class="form-group row">
-                <div class="col-3"></div>
-                <div class="col-9">
-                <button type="submit" class="btn btn-primary">Hledat</i></button>
-            </div>
-        </form>
-    </div>
-
-    <table class="table mt-5 w-100">
-        <thead class="table-primary">
-            <tr>
-                <th></th>
-                <th scope="col">Jméno</th>
-                <th scope="col">Typ</th>
-                <th scope="col">Žánr</th>
-                <th scope="col">Datum</th>
-                <th scope="col">Začátek</th>
-                <th scope="col">Label</th>
-                <th scope="col">Cena</th>
-                <th scope="col">Typ platby</th>
-                <th></th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <?php foreach ($events as $event) : ?>
-            <tr>
-                <td>
-                    <button class="btn btn-outline-secondary" onclick="location.href= 'search/event/<?= str_replace(' ', '%20', $event['name']) ?> ';">
-                        <i class="fas fa-info"></i>
-                    </button>
-                </td>
-                <?php foreach ($event as $value) : ?>
-                <td>
-                    <?= $value ?>
-                </td>
-                <?php endforeach ?>
-                <td>
-                    <button class="btn btn-primary " onclick="location.href = 'reservation/create/<?=
-                    str_replace(' ', '%20', $event['type'])?>/<?= str_replace(' ', '%20', $event['name'])
-                    ?>/<?= str_replace(' ', '%20', $event['label'])?>/<?= str_replace(' ' , '%20', $event['begin'])?>'">
-                        Rezervovat
-                    </button>
-                </td>
-
-            </tr>
-            <?php endforeach ?>
-        </tbody>
-    </table>
+        </div>
+        <div class="form-group row">
+            <div class="col-3"></div>
+            <div class="col-9">
+            <button type="submit" class="btn btn-primary">Hledat</i></button>
+        </div>
+    </form>
 </div>
 
-<script type="text/javascript" src="Views/JS/actions.js"></script>
+<table class="table mt-5 w-100">
+    <thead class="table-primary">
+        <tr>
+            <th></th>
+            <th scope="col">Jméno</th>
+            <th scope="col">Typ</th>
+            <th scope="col">Žánr</th>
+            <th scope="col">Datum</th>
+            <th scope="col">Začátek</th>
+            <th scope="col">Label</th>
+            <th scope="col">Cena</th>
+            <th scope="col">Typ platby</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <?php foreach ($events as $event) : ?>
+        <tr>
+            <td>
+                <button class="btn btn-outline-secondary" onclick="location.href='search/event/<?= str_replace(' ', '%20', $event['name']) ?> ';">
+                    <i class="fas fa-info"></i>
+                </button>
+            </td>
+            <?php foreach ($event as $value) : ?>
+            <td>
+                <?= $value ?>
+            </td>
+            <?php endforeach ?>
+            <td>
+                <button class="btn btn-primary " onclick="location.href = 'reservation/create/<?=
+                str_replace(' ', '%20', $event['type'])?>/<?= str_replace(' ', '%20', $event['name'])
+                ?>/<?= str_replace(' ', '%20', $event['label'])?>/<?= str_replace(' ' , '%20', $event['begin'])?>'">
+                    Rezervovat
+                </button>
+            </td>
+
+        </tr>
+        <?php endforeach ?>
+    </tbody>
+</table>
+
 </body>
