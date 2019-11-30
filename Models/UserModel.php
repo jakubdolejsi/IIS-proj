@@ -17,7 +17,7 @@ use Exceptions\UpdateException;
 use Exceptions\UpdateSuccess;
 
 
-class UserModel extends baseModel
+class UserModel extends BaseModel
 {
 	public function checkVerificationCode()
 	{
@@ -104,10 +104,12 @@ class UserModel extends baseModel
 		return isset($_SESSION['user_id']);
 	}
 
+
 	/**
 	 * @throws InvalidPasswordException
 	 * @throws LoggedUserException
 	 * @throws NoUserException
+	 * @throws \Exceptions\UserNotVerifiedException
 	 */
 	public function login(): void
 	{

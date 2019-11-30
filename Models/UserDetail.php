@@ -33,6 +33,7 @@ class UserDetail
 
 	public function __construct(array $user)
 	{
+
 		$this->initProperties($user);
 	}
 

@@ -18,7 +18,7 @@ class RegistrationController extends BaseController
 
 	public function actionDefault(): void
 	{
-		$this->loadView('registration');
+		$this->loadView('Registration');
 		$mail = new PHPMailer(TRUE);
 		$settings = new EmailSender;
 		$registrationModel = $this->getModelFactory()->createUserModel();
@@ -53,7 +53,7 @@ class RegistrationController extends BaseController
 				}
 				catch (Exception $e) {
 					$this->alert("Nepodařilo se odeslat ověřovací email. Chyba: {$mail->ErrorInfo}");
-					$this->redirect('registration');
+					$this->redirect('Registration');
 				}
 				$_SESSION['user'] = $id;
 				$this->alert("Na váš email byl odeslán ověřovací kód!");

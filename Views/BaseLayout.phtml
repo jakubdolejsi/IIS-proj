@@ -3,7 +3,7 @@
 <html lang="cs-cz">
 <head>
     <meta charset="UTF-8"/>
-    <base href="/localhost"/>
+    <base href="/~xdolej09/IIS/">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 	<!-- <link rel="stylesheet" type="text/css" href="Views/CSS/baseStyle.css"/> -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -14,8 +14,8 @@
 
 <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-primary ">
 			<div class="navbar-nav">
-				<a class="nav-item nav-link text-xl" href="home">Domů</a>
-				<a class="nav-item nav-link" href="search">Hledat</a>
+				<a class="nav-item nav-link text-xl" href="/~xdolej09/IIS/home">Domů</a>
+				<a class="nav-item nav-link" href="/~xdolej09/IIS/search">Hledat</a>
 			</div>
 
 			<div class="navbar-nav mx-auto">
@@ -31,7 +31,7 @@
 				<div id="auth">
 					<?php
 						if (!empty($_SESSION['user_id'])) {
-							echo '<a class="nav-item nav-link" href="auth">Auth stuff</a>';
+							echo '<a class="nav-item nav-link" href="/~xdolej09/IIS/auth">Auth stuff</a>';
 						}
 					?>
 				</div>
@@ -39,7 +39,7 @@
 				<div id="registration">
 					<?php
 						if (empty($_SESSION['user_id'])) {
-							echo '<a class="nav-item nav-link" href="registration">Registrace</a>';
+							echo '<a class="nav-item nav-link" href="/~xdolej09/IIS/registration">Registrace</a>';
 						}
 					?>
 				</div>
@@ -47,9 +47,9 @@
 				<div id="login">
 					<?php
 						if (empty($_SESSION['user_id'])) {
-							echo '<a class="nav-item nav-link" href="login">Přihlášení</a>';
+							echo '<a class="nav-item nav-link" href="/~xdolej09/IIS/login">Přihlášení</a>';
 						} else {
-							echo '<a class="nav-item nav-link" href="logout">Odhlášení</a>';
+							echo '<a class="nav-item nav-link" href="/~xdolej09/IIS/logout">Odhlášení</a>';
 						}
 					?>
 				</div>
@@ -57,7 +57,7 @@
 				<div id="settings">
 					<?php
 						if (!empty($_SESSION['user_id'])) {
-							echo '<a class="nav-item nav-link" href="ticket">Lístky</a>';
+							echo '<a class="nav-item nav-link" href="/~xdolej09/IIS/ticket">Lístky</a>';
 						}
 					?>
 				</div>

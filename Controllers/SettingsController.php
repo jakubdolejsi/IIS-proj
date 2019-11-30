@@ -23,14 +23,14 @@ class SettingsController extends BaseController
 			$this->redirect('auth');
 		}
 		$view = 'settingsEdit';
-		$action = 'editProfile';
+		$action = 'EditProfile';
 		try {
 			$user->editProfile();
 		} catch (UpdateSuccess $e) {
 			$this->alert($e->getMessage());
 		}
 
-		$this->loadView('settingsEdit');
+		$this->loadView('SettingsEdit');
 		$this->setData($user);
 	}
 
@@ -53,7 +53,7 @@ class SettingsController extends BaseController
 			$this->alert($e->getMessage());
 		}
 
-		$this->loadView('settingsPassword');
+		$this->loadView('SettingsPassword');
 		$this->setData($user);
 	}
 
@@ -66,7 +66,7 @@ class SettingsController extends BaseController
 		if (!$user->isLogged()) {
 			$this->redirect('auth');
 		}
-		$this->loadView('settings');
+		$this->loadView('Settings');
 		$this->setData($user);
 
 	}

@@ -6,10 +6,7 @@ namespace Exceptions;
 use Exception;
 
 
-/**
- * Class baseException
- * @package Exceptions
- */
+
 class BaseException extends Exception
 {
 

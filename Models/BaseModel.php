@@ -9,10 +9,7 @@ use Database\Db;
 use Helpers\Sessions\Session;
 
 
-/**
- * Class baseModel
- * @package Models
- */
+
 abstract class BaseModel extends Validator
 {
 	protected $auth;

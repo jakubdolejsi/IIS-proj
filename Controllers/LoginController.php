@@ -15,11 +15,11 @@ class LoginController extends BaseController
 
 	public function actionDefault(): void
 	{
-		$this->loadView('login');
+		$this->loadView('Login');
 		$user = $this->getModelFactory()->createUserModel();
 
 		if ($user->isLogged()) {
-			$this->redirect('home');
+			$this->redirect('Home');
 		}
 		try {
 			$user->login();
@@ -34,7 +34,7 @@ class LoginController extends BaseController
 		    $this->alert($exception->getMessage());
         }
 		catch (LoggedUserException $exception) {
-			$this->redirect('home');
+			$this->redirect('Home');
 		}
 	}
 }

@@ -21,7 +21,7 @@ class ReservationController extends BaseController
 	{
 		$user = $this->getModelFactory()->createUserModel();
 		if ($user->isLogged()) {
-			$this->loadView('reservation');
+			$this->loadView('Reservation');
 
 			try {
 				$user->createReservation($params);
@@ -41,7 +41,7 @@ class ReservationController extends BaseController
 				$this->redirect('ticket');
 			}
 		}else{
-			$this->loadView('reservationUnregistered');
+			$this->loadView('ReservationUnregistered');
 
 			$registeredOK = $user->oneTimeRegister();
 			if ($registeredOK) {

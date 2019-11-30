@@ -9,7 +9,7 @@ class ErrorController extends BaseController
 
 	public function actionDefault(): void
 	{
-		$this->loadView('error404');
+		$this->loadView('Error404');
 		header('HTTP/1.0 404 Not Found');
 	}
 }

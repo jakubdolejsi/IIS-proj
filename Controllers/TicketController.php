@@ -20,6 +20,6 @@ class TicketController extends BaseController
 
 		$ticket = $ticketManager->getTicketByEmail($email);
 		$this->data['ticket'] = $ticket;
-		$this->loadView('ticket');
+		$this->loadView('Ticket');
 	}
 }

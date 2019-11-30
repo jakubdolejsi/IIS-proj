@@ -4,6 +4,6 @@
 namespace Exceptions;
 
 
-class PasswordsAreNotSameException extends baseException
+class PasswordsAreNotSameException extends BaseException
 {
 }

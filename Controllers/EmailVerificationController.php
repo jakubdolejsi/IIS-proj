@@ -8,7 +8,7 @@ class EmailVerificationController extends baseController
 
 	public function actionDefault(): void
 	{
-		$this->loadView('emailVerification');
+		$this->loadView('EmailVerification');
 
 		//Pokud je to GET request a je v URL je nastaveno id a hash (pristup pres link v emailu), nebo je id v session a v URL je hash
 		if ($_SERVER['REQUEST_METHOD'] === 'GET' && ((isset($_GET['id'], $_GET['hash'])) || (isset($_SESSION['user'], $_GET['hash'])))){

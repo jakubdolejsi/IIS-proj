@@ -26,7 +26,7 @@ class Role extends Validator
 	public function getRoleByEmailPOST()
 	{
 		$data = new UserDetail($this->loadPOST());
-		$query = ('select usr.role from theatre.user as usr where usr.email = ?');
+		$query = ('select usr.role from xdolej09.user as usr where usr.email = ?');
 		$res = $this->db->run($query, $data->getEmail())->fetch(PDO::FETCH_ASSOC);
 		if (empty($res)) {
 			return NULL;

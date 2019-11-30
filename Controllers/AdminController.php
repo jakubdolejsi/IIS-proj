@@ -17,7 +17,7 @@ class AdminController extends BaseController
 		$this->hasPermission('admin');
 		$admin = $this->getModelFactory()->createAdminModel();
 		$users = $admin->process();
-		$this->loadView('admin');
+		$this->loadView('Admin');
 		$this->data['users'] = $users;
 	}
 
@@ -40,7 +40,7 @@ class AdminController extends BaseController
 		catch (CompleteRegistrationException $e) {
 			$this->alert('Hotovo!');
 		}
-		$this->loadView('adminAddUser');
+		$this->loadView('AdminAddUser');
 	}
 
 

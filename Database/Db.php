@@ -5,6 +5,7 @@ namespace Database;
 
 use Enviroment\Enviroment;
 use PDO;
+use PDOException;
 use PDOStatement;
 
 
@@ -24,9 +25,13 @@ final class Db extends PDO
 		];
 		$options = array_merge($default_options, Enviroment::DB_OPTIONS['OPTIONS']);
 
-		parent::__construct(Enviroment::getDsn(), Enviroment::DB_OPTIONS['DB_USERNAME'],
-			Enviroment::DB_OPTIONS['DB_PASSWORD'], Enviroment::DB_OPTIONS['OPTIONS']);
-
+		try {
+			parent::__construct(Enviroment::getDsn(), Enviroment::DB_OPTIONS['DB_USERNAME'],
+				Enviroment::DB_OPTIONS['DB_PASSWORD'], Enviroment::DB_OPTIONS['OPTIONS']);
+		} catch (PDOException $e) {
+			echo 'Connection error: ' .$e->getMessage();
+			die();
+		}
 	}
 
 
@@ -47,18 +52,18 @@ final class Db extends PDO
 	 * @param $args
 	 * @return array
 	 */
-	private function toArray($args): array
+	private function nullCheck($args)
 	{
-		return (is_string($args)) ? [$args] : $args;
+		return $args ?? [];
 	}
 
 	/**
 	 * @param $args
 	 * @return array
 	 */
-	private function nullCheck($args)
+	private function toArray($args): array
 	{
-		return $args ?? [];
+		return (is_string($args)) ? [$args] : $args;
 	}
 
 }

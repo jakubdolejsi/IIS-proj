@@ -13,6 +13,6 @@ class HomeController extends BaseController
 
 	public function actionDefault(): void
 	{
-		$this->loadView('home');
+		$this->loadView('Home');
 	}
 }

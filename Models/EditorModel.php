@@ -19,7 +19,7 @@ class EditorModel extends BaseModel
 			$data = $role->addHall($this->loadPOST());
 		}
 
-		return ['', 'editorHallsAdd'];
+		return ['', 'EditorHallsAdd'];
 	}
 
 
@@ -28,14 +28,14 @@ class EditorModel extends BaseModel
 	{
 		$role = $this->auth->role()->getRoleFromSession();
 
-		return [$role->getAllEvents(), 'editorEvents'];
+		return [$role->getAllEvents(), 'EditorEvents'];
 	}
 
 	public function defaultHall()
 	{
 		$role = $this->auth->role()->getRoleFromSession();
 
-		return [$role->getAllHalls(), 'editorHalls'];
+		return [$role->getAllHalls(), 'EditorHalls'];
 	}
 
 	public function editEvent($params)
@@ -45,11 +45,11 @@ class EditorModel extends BaseModel
 
 			$data = $role->editEventByID($this->loadPOST(), $params);
 
-			return [$data, 'editorEventsEdit'];
+			return [$data, 'EditorEventsEdit'];
 		}
 		$data = $role->getEventById($params);
 
-		return [$data, 'editorEventsEdit'];
+		return [$data, 'EditorEventsEdit'];
 	}
 
 	public function editHall($params)
@@ -59,11 +59,11 @@ class EditorModel extends BaseModel
 
 			$data = $role->editHallbyId($this->loadPOST(), $params);
 
-			return [$data, 'editorHallsEdit'];
+			return [$data, 'EditorHallsEdit'];
 		}
 		$data = $role->getHallById($params);
 
-		return [$data, 'editorHallsEdit'];
+		return [$data, 'EditorHallsEdit'];
 	}
 
 
@@ -72,7 +72,7 @@ class EditorModel extends BaseModel
 		$role = $this->auth->role()->getRoleFromSession();
 		$role->removeEventByID($params);
 
-		return ['', 'editor'];
+		return ['', 'Editor'];
 	}
 
 	public function removeHall($params): array
@@ -80,14 +80,14 @@ class EditorModel extends BaseModel
 		$role = $this->auth->role()->getRoleFromSession();
 		$role->removeHallbyId($params);
 
-		return ['', 'editor'];
+		return ['', 'Editor'];
 	}
 
 	public function defaultWork()
 	{
 		$role = $this->auth->role()->getRoleFromSession();
 
-		return [$role->getAllWorks(), 'editorWorks'];
+		return [$role->getAllWorks(), 'EditorWorks'];
 	}
 
 	public function addWork($params)
@@ -99,7 +99,7 @@ class EditorModel extends BaseModel
 			$role->addWork($data);
 		}
 
-		return ['', 'editorWorksAdd'];
+		return ['', 'EditorWorksAdd'];
 	}
 
 	public function editWork($params)
@@ -109,11 +109,11 @@ class EditorModel extends BaseModel
 
 			$data = $role->editWorkById($this->loadPOST(), $params);
 
-			return [$data, 'editorWorksEdit'];
+			return [$data, 'EditorWorksEdit'];
 		}
 		$data = $role->getWorksById($params);
 
-		return [$data, 'editorWorksEdit'];
+		return [$data, 'EditorWorksEdit'];
 	}
 
 	public function removeWork($params)

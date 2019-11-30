@@ -32,10 +32,14 @@ final class Router extends BaseController
 		$url = $this->parseUrl($params);
 		$this->controller = $this->loadClass($this->getControllerClass($url));
 
-		$method = 'action'. ucwords($url[1] ?? 'default');
-		unset($url[0],$url[1]);
+
+//		var_dump( $url);
+		unset($url[0],$url[1], $url[2]);
+		$url = array_values($url);
+		$method = 'action'. ucwords($url[0] ?? 'default');
 		method_exists($this->controller, $method) ? $this->controller->$method(array_values($url)) : $this->redirect('error');
 //		$this->controller->process($url);
+
 
 		try {
 			$this->initView();
@@ -52,6 +56,10 @@ final class Router extends BaseController
 	 */
 	private function getControllerClass(array $url)
 	{
+		unset($url[0]);
+		unset($url[1]);
+		$url = array_values($url);
+
 		return (ucwords($url[0]) . 'Controller');
 	}
 
@@ -78,10 +86,12 @@ final class Router extends BaseController
 	{
 		$cls = $class . '.php';
 		// TODO: recursive search...
-		$path = getcwd() . '\\Controllers\\' . $cls;
+		$path = getcwd() . DIRECTORY_SEPARATOR .'Controllers'. DIRECTORY_SEPARATOR . $cls;
+
 		if (!file_exists($path)) {
 			$this->redirect('error');
 		}
+
 		$class = 'Controllers\\' . $class;
 
 		return new $class($this->getContainer());

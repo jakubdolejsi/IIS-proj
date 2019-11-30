@@ -9,6 +9,6 @@ class AboutController extends BaseController
 
 	public function actionDefault(): void
 	{
-		$this->loadView('about');
+		$this->loadView('About');
 	}
 }

@@ -12,19 +12,19 @@
 <div id="userModify">
     <h3>Správa rezervací</h3>
     <div class="searchButton">
-        <input type="button" onclick="location.href='cashier'" value="pokladní"/>
+        <input type="button" onclick="location.href='/~xdolej09/IIS/cashier'" value="pokladní"/>
     </div>
     <h3>Správa událostí</h3>
     <div class="searchButton">
-        <input type="button" onclick="location.href='editor'" value="redaktor"/>
+        <input type="button" onclick="location.href='/~xdolej09/IIS/editor'" value="redaktor"/>
     </div>
     <h3>Správa uživatelů</h3>
     <div class="searchButton">
-        <input type="button" onclick="location.href='admin/add'" value="Přidat uživatele"/>
+        <input type="button" onclick="location.href='/~xdolej09/IIS/admin/add'" value="Přidat uživatele"/>
     </div>
     <div class="searchButton">
         <form method="post">
-            <input type="submit" onclick="location.href='admin'" value="Vyhledat uživatele"/>
+            <input type="submit" onclick="location.href='/~xdolej09/IIS/admin'" value="Vyhledat uživatele"/>
             <div class="item">
                 <input type="text" id="email" name="email" placeholder="E-mailová adresa">
                 <input list="roles" name="role" id="role">
@@ -41,11 +41,11 @@
 
     <?php foreach ($users as $user) : ?>
         <div class="concreteItem">
-            <input type="button" value="Upravit" onclick="location.href= 'admin/edit/<?= str_replace
+            <input type="button" value="Upravit" onclick="location.href= '/~xdolej09/IIS/admin/edit/<?= str_replace
             (' ',
                 '%20', $user['id'])
             ?>';"/>
-            <input type="button" value="Smazat" onclick="location.href= 'admin/delete/<?=
+            <input type="button" value="Smazat" onclick="location.href= '/~xdolej09/IIS/admin/delete/<?=
             str_replace
             (' ',
                 '%20', $user['id'])

@@ -2,6 +2,6 @@
 
 namespace Exceptions;
 
-class DuplicateUser extends baseException
+class DuplicateUser extends BaseException
 {
 }

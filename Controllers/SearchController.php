@@ -11,7 +11,7 @@ class SearchController extends BaseController
 	public function actionEvent($params)
 	{
 		$event = $this->getModelFactory()->createSearchModel()->getCultureWorkByName($params);
-		$this->loadView('concreteEvent');
+		$this->loadView('ConcreteEvent');
 		$this->data['event'] = $event;
 	}
 
@@ -19,7 +19,7 @@ class SearchController extends BaseController
 	{
 		$search = $this->getModelFactory()->createSearchModel();
 		$events = $search->process();
-		$this->loadView('search');
+		$this->loadView('Search');
 		$this->loadData('events', $events);
 		//		$this->data['events'] = $events;
 	}

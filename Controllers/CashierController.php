@@ -14,7 +14,7 @@ class CashierController extends BaseController
     	$this->hasPermission('cashier', 'admin');
         $search = $this->getModelFactory()->createSearchModel();
         $events = $search->process();
-        $this->loadView('cashierAdd');
+        $this->loadView('CashierAdd');
         $this->data['events'] = $events;
     }
 
@@ -27,12 +27,12 @@ class CashierController extends BaseController
                 $this->redirect('cashier/confirm/');
             }
         }catch (InvalidRequestException $exception){
-            $this->redirect('error');
+            $this->redirect('Error');
         }
 
         $this->data['tickets'] = $cashier->checkSearchParameters();
 
-        $this->loadView('cashierConfirm');
+        $this->loadView('CashierConfirm');
     }
 
 	public function actionEdit($params): void
@@ -45,13 +45,13 @@ class CashierController extends BaseController
 		if (isset($updateOK)) {
 			//				$this->alert('OK');
 		}
-		$this->loadView('cashierEdit');
+		$this->loadView('CashierEdit');
 		$this->data['tickets'] = $ticketsToShow;
 	}
 
 	public function actionDefault(): void
 	{
 		$this->hasPermission('cashier', 'admin');
-		$this->loadView('cashier');
+		$this->loadView('Cashier');
 	}
 }

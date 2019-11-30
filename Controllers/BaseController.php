@@ -55,7 +55,7 @@ abstract class BaseController
 	{
 		// todo snad funguje dobre...
 		echo "<script>
-				window.location.href='/$url';
+				window.location.href='/~xdolej09/IIS/$url';
 			</script>";
 	}
 
@@ -148,6 +148,8 @@ abstract class BaseController
 	 */
 	protected function loadView(string $view): void
 	{
+		//FIXME advanced debug
+//		echo '<pre>', print_r('nacitam pohled: ' . $view, TRUE), '</pre>';
 		$this->view = $view;
 	}
 
