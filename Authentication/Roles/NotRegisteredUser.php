@@ -271,7 +271,7 @@ class NotRegisteredUser extends Password{
         $urlParams = $this->getUrlParams($params);
 	    $seatInfo = $this->joinSeat($this->loadPOST());
         if (!$this->isSeatFree($urlParams, $seatInfo)) {
-            throw new AlreadyOccupiedSeatException('Seat is already registered');
+            throw new AlreadyOccupiedSeatException('Sedadlo je již obsazeno!');
         }
         return $this->createNewTicket($urlParams, $seatInfo);
     }
@@ -292,7 +292,7 @@ class NotRegisteredUser extends Password{
             throw new InvalidRequestException('Wrong URL');
         }
 
-        $cultureEventIdQueryParams = [$urlParams['label'], $urlParams['begin'], $urlParams['type'], $urlParams['name']];
+        $cultureEventIdQueryParams = [urldecode($urlParams['label']), urldecode($urlParams['begin']), urldecode($urlParams['type']), urldecode($urlParams['name'])];
         $cultureEventIdQuery = 'select ce.id, ce.price from theatre.culture_event as ce
 							join theatre.culture_work as cw on ce.id_culture_work = cw.id
 							join theatre.hall as h on ce.id_hall = h.id
