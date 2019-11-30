@@ -70,7 +70,6 @@
             <th scope="col">Začátek</th>
             <th scope="col">Label</th>
             <th scope="col">Cena</th>
-            <th scope="col">Typ platby</th>
             <th></th>
         </tr>
     </thead>
@@ -79,26 +78,35 @@
         <?php foreach ($events as $event) : ?>
         <tr>
             <td>
-                <button class="btn btn-outline-secondary" onclick="location.href='search/event/<?= str_replace(' ', '%20', $event['name']) ?> ';">
+                <button class="btn btn-outline-secondary" onclick="location.href='search/event/<?php echo (str_replace(' ', '%20', $event['name'])) ?> ';">
                     <i class="fas fa-info"></i>
                 </button>
             </td>
             <?php foreach ($event as $value) : ?>
             <td>
-                <?= $value ?>
+                <?php echo ($value); ?>
             </td>
             <?php endforeach ?>
             <td>
-<!--            TODO zobrazit pouze pokud udalost jeste neprobehla    -->
-                <button class="btn btn-primary " onclick="location.href = 'reservation/create/<?=
-                str_replace(' ', '%20', $event['type'])?>/<?= str_replace(' ', '%20', $event['name'])
-                ?>/<?= str_replace(' ', '%20', $event['label'])?>/<?= str_replace(' ' , '%20', $event['begin'])?>'">
+                <!-- Zobrazeni tlacitka 'Rezervovat' pouze pokud udalost jeste neprobehla/jiz nezacala                -->
+                <?php if($event['date'] > $todayDate) : ?>
+                    <button class="btn btn-primary " onclick="location.href = 'reservation/create/<?= (str_replace(' ', '%20', $event['type']))
+                    ?>/<?=(str_replace(' ', '%20', $event['name'])) ?>/<?=
+                    (str_replace(' ', '%20', $event['label']))?>/<?=(str_replace(' ' , '%20', $event['begin']))?>'">
+                        Rezervovat
+                    </button>
+
+                <?php elseif(($event['begin'] >= $currentTime) && ($event['date'] >= $todayDate)) : ?>
+                    <button class="btn btn-primary " onclick="location.href = 'reservation/create/<?=
+                    (str_replace(' ', '%20', $event['type']))?>/<?= (str_replace(' ', '%20', $event['name']))
+                    ?>/<?= (str_replace(' ', '%20', $event['label']))?>/<?= str_replace(' ' , '%20', $event['begin'])?>'">
                     Rezervovat
                 </button>
+                <?php endif ?>
             </td>
 
         </tr>
-        <?php endforeach ?>
+        <?php endforeach; ?>
     </tbody>
 </table>
 

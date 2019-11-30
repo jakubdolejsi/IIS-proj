@@ -21,6 +21,8 @@ class SearchController extends BaseController
 		$events = $search->process();
 		$this->loadView('search');
 		$this->loadData('events', $events);
+        $this->data['currentTime'] = date('i-s');
+        $this->data['todayDate'] = date('Y-m-s');
 		$this->data['events'] = $events;
 	}
 }
