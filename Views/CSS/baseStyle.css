@@ -5,100 +5,27 @@ body {
     font-family: Nunito, serif;
 }
 
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #5baaff;
+table.table {
+    width: auto;
+    margin:0 auto;
 }
 
-li {
-    float: left;
+.btn-group {
+    display: flex;
+  }
+.btn-group-toggle {
+    display: flex;
 }
 
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+.btn.chair {
+    outline: none !important;
+    border: none !important;
 }
 
-li a:hover {
-    background-color: #57c1c2;
+.btn.chair input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
 }
-
-.active {
-    background-color: #55b5c8;
-}
-
-
-.searchButton {
-    padding: 5px;
-    margin: 5px;
-}
-
-.welcome {
-    display: block;
-    font-family: "Droid Sans", serif;
-    text-align: center;
-    padding: 14px 16px;
-    font-size: 30px;
-    margin: 10px auto;
-
-}
-
-form {
-    margin: auto;
-    padding: 10px 20px;
-    /*max-width: 500px;*/
-}
-
-.settings {
-    font-size: 20px;
-    margin: 10px auto;
-    padding: 10px 20px;
-    display: inline-block;
-}
-
-.generalSettings {
-    text-align: center;
-}
-
-
-#ticketItem {
-    position: relative;
-    margin-top: 10px;
-    height: 175px;
-    text-align: center;
-}
-
-.concreteItem {
-    border: 1px solid black;
-    margin: 10px auto;
-    padding: 10px 10px;
-    max-width: 1000px;
-}
-
-.searchGeneral {
-    margin: 10px auto;
-    padding: 10px 10px;
-    max-width: 1000px;
-    text-align: center;
-}
-
-.item {
-    margin: auto;
-    padding: 5px;
-}
-
-.name {
-    margin-left: -35px;
-}
-
-.redirectButton {
-    margin-left: -50px;
-}
-
-
