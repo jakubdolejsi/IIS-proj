@@ -76,7 +76,7 @@ class NotRegisteredUser extends Password{
 	    $userDetail = new UserDetail($this->loadPOST());
         $user = $this->getUserByEmail($userDetail->getEmail());
         if (empty($user)) {
-            throw new NoUserException('User does not exists');
+            throw new NoUserException('Uživatel se zadaným emailem neexistuje!');
         }
         $query = 'UPDATE theatre.user SET user.hash=? where user.email=?';
         $queryParams = [$hashCode, $user['email']];
@@ -109,7 +109,7 @@ class NotRegisteredUser extends Password{
 	    $userDetail = new UserDetail($this->loadPOST());
         $user = $this->getUserByEmail($userDetail->getEmail());
         if (empty($user)) {
-            throw new NoUserException('User does not exists');
+            throw new NoUserException('Uživatel se zadaným emailem neexistuje!');
         }
         if($user['is_verified'] === '0'){
             throw new UserNotVerifiedException('Přihlášení se nezdařilo, účet je nutné ověřit pomocí kódu, který vám přišel na email!');
@@ -117,7 +117,7 @@ class NotRegisteredUser extends Password{
         $password = $userDetail->getPassword();
         $hash = $user['password'];
         if (!$this->verifyHashPassword($password, $hash)) {
-            throw new InvalidPasswordException('Invalid password');
+            throw new InvalidPasswordException('Nesprávné heslo');
         }
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['role'] = $user['role'];
@@ -147,7 +147,7 @@ class NotRegisteredUser extends Password{
         $user = $this->getUserByEmail($userDetail->getEmail());
         if($user){
 	        if ($user['role'] !== 'notRegisteredUser') {        //Uzivatel se jiz registroval
-                throw new DuplicateUser('User already exists');
+                throw new DuplicateUser('Uživatel se zadaným emailem, již existuje!');
             }
             else {  //Uzivatel se chce doregistrovat
                 throw new CompleteRegistrationException();
@@ -198,7 +198,7 @@ class NotRegisteredUser extends Password{
     protected function processRegistrationPassword(UserDetail $userDetail): void
     {
         if (!$userDetail->compareActualPassword()) {
-            throw new PasswordsAreNotSameException('Passwords are not same!');
+            throw new PasswordsAreNotSameException('Hesla se neshodují!');
         }
         $password = $userDetail->getPassword();
         $userDetail
@@ -221,12 +221,12 @@ class NotRegisteredUser extends Password{
         foreach ($params as $key => $value) {
             $arr[ $values[ $i ] ] = str_replace('%20', ' ', $value);
             if (empty($value)) {
-                throw new InvalidRequestException('Wrong URL');
+                throw new InvalidRequestException('Neplatná URL adresa!');
             }
             $i++;
         }
         if (count($params) !== 4) {
-            throw new InvalidRequestException('Wrong URL');
+            throw new InvalidRequestException('Neplatná URL adresa!');
         }
 
         return $arr;
@@ -289,7 +289,7 @@ class NotRegisteredUser extends Password{
         $userIdQuery = 'select u.id from theatre.user as u where u.email = ?';
         $userId = $this->db->run($userIdQuery, $data['email'])->fetch(PDO::FETCH_ASSOC)['id'];
         if (!isset($userId)) {
-            throw new InvalidRequestException('Wrong URL');
+            throw new InvalidRequestException('Neplatná URL adresa!');
         }
 
         $cultureEventIdQueryParams = [urldecode($urlParams['label']), urldecode($urlParams['begin']), urldecode($urlParams['type']), urldecode($urlParams['name'])];
@@ -299,7 +299,7 @@ class NotRegisteredUser extends Password{
 							where h.label = ? and ce.begin = ? and cw.type = ? and cw.name = ?';
         $cultureEventRes = $this->db->run($cultureEventIdQuery, $cultureEventIdQueryParams)->fetch(PDO::FETCH_ASSOC);
         if (!isset($cultureEventRes['id'])) {
-            throw new InvalidRequestException('Wrong URL');
+            throw new InvalidRequestException('Neplatná URL adresa!');
         }
 
         // TODO fixne dana cena a sleva
@@ -309,7 +309,7 @@ class NotRegisteredUser extends Password{
 
         $res = $this->db->run($query, $queryParams);
         if ($res->rowCount() === '0') {
-            throw new SqlSomethingGoneWrongException('Internal error occured');
+            throw new SqlSomethingGoneWrongException('Interní chyba!');
         }
         return $this->db->lastInsertId();
     }

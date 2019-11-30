@@ -20,7 +20,7 @@ class Editor extends Cashier
 				VALUES (?,?,?,?,?)';
 		$res = $this->db->run($query, $datas);
 		if ($res->errorCode() !== '00000') {
-			throw new UpdateException('Creating was not successfully completed!');
+			throw new UpdateException('Vytváření se nezdařilo!');
 		}
 	}
 
@@ -35,7 +35,7 @@ class Editor extends Cashier
 				where hall.id = ?';
 		$res = $this->db->run($query, $data);
 		if ($res->errorCode() !== '00000') {
-			throw new UpdateException('Updating was not successfully completed!');
+			throw new UpdateException('Úprava se nezdařila!');
 		}
 
 		return $returnData;
@@ -46,9 +46,9 @@ class Editor extends Cashier
 		$query = 'DELETE FROM theatre.hall where hall.id = ?;';
 		$res = $this->db->run($query, $id[1]);
 		if ($res === '00000') {
-			throw new UpdateException('Removing was not successfully completed!');
+			throw new UpdateException('Odebírání se nezdařilo!');
 		}
-		//		throw new UpdateSuccess('Hall was successfully removed');
+		//		throw new UpdateSuccess('Hall was successfully removed');s
 	}
 
 	public function getHallById($id)
@@ -92,7 +92,7 @@ class Editor extends Cashier
 				culture_event.end = ?, culture_event.price = ? where culture_event.id = ?';
 		$res = $this->db->run($query, $data);
 		if ($res->errorCode() !== '00000') {
-			throw new UpdateException('Updating was not successfully completed!');
+			throw new UpdateException('Úprava se nezdařila!');
 		}
 
 		return $returnData;
@@ -103,7 +103,7 @@ class Editor extends Cashier
 		$query = 'DELETE FROM theatre.culture_event where culture_event.id = ?;';
 		$res = $this->db->run($query, $id[1]);
 		if ($res === '00000') {
-			throw new UpdateException('Removing was not successfully completed!');
+			throw new UpdateException('Odebírání se nezdařilo!');
 		}
 		//		throw new UpdateSuccess('Hall was successfully removed');
 	}
@@ -135,7 +135,7 @@ class Editor extends Cashier
 				VALUES (?,?,?,?,?,?,?)';
 		$res = $this->db->run($query, $data);
 		if ($res->errorCode() !== '00000') {
-			throw new UpdateException('Creating was not successfully completed!');
+			throw new UpdateException('Vytváření se nezdařilo!');
 		}
 	}
 
@@ -154,7 +154,7 @@ class Editor extends Cashier
 
 		$res = $this->db->run($query, $data);
 		if ($res->errorCode() !== '00000') {
-			throw new UpdateException('Updating was not successfully completed!');
+			throw new UpdateException('Úprava se nezdařila!!');
 		}
 
 		return $returnData;

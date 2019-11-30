@@ -127,7 +127,7 @@ abstract class BaseController
 
 	private function blame(): void
 	{
-		echo '<pre>', var_dump('Tuhle metodu nemas co volat kamo'), '</pre>';
+		echo '<pre>', var_dump('Nedostatečné oprávnění!'), '</pre>';
 		exit();
 	}
 

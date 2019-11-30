@@ -81,7 +81,7 @@ class SearchModel extends BaseModel
 				unset($data[ $key ]);
 			}
 		}
-		$query = substr_replace($query, '', -3) . ' order by ce.date asc';
+		$query = substr_replace($query, '', -3) . ' order by ce.date asc, ce.begin asc';
 
 		return $this->db->run($query, array_values($data))->fetchAll(PDO::FETCH_ASSOC);
 	}

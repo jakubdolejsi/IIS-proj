@@ -56,7 +56,7 @@ class RegisteredUser extends NotRegisteredUser
         $userIdQuery = 'select u.id from theatre.user as u where u.email = ?';
         $userId = $this->db->run($userIdQuery, $this->getUserBySessionID()->getEmail())->fetch(PDO::FETCH_ASSOC)['id'];
         if (!isset($userId)) {
-            throw new InvalidRequestException('Wrong URL');
+            throw new InvalidRequestException('Neplatná URL adresa!');
         }
 
         $cultureEventIdQueryParams = [urldecode($urlParams['label']), urldecode($urlParams['begin']), urldecode($urlParams['type']), urldecode($urlParams['name'])];
@@ -66,7 +66,7 @@ class RegisteredUser extends NotRegisteredUser
 							where h.label = ? and ce.begin = ? and cw.type = ? and cw.name = ?';
         $cultureEventRes = $this->db->run($cultureEventIdQuery, $cultureEventIdQueryParams)->fetch(PDO::FETCH_ASSOC);
         if (!isset($cultureEventRes['id'])) {
-            throw new InvalidRequestException('Wrong URL');
+            throw new InvalidRequestException('Neplatná URL adresa!');
         }
 
         $queryParams = [$userId, $cultureEventRes['id'], $cultureEventRes['price'], $seatInfo, 0, $payment, 2];
@@ -75,7 +75,7 @@ class RegisteredUser extends NotRegisteredUser
 
         $res = $this->db->run($query, $queryParams);
         if ($res->rowCount() === '0') {
-            throw new SqlSomethingGoneWrongException('Internal error occured');
+            throw new SqlSomethingGoneWrongException('Interní chyba!');
         }
         return $this->db->lastInsertId();
     }
@@ -91,9 +91,9 @@ class RegisteredUser extends NotRegisteredUser
 		$query = 'update theatre.user set email = ? where email = ?';
 		$res = $this->db->run($query, [$newEmail, $actualEmail]);
 		if ($res->errorCode() !== '00000') {
-			throw new UpdateException('Updating profile was not successfully completed!');
+			throw new UpdateException('Úprava se nezdařila!');
 		}
-		throw new UpdateSuccess('Your email was successfully updated to ' . $newEmail);
+		throw new UpdateSuccess('Váš email byl změněn na: ' . $newEmail);
 	}
 
 	/**
@@ -105,12 +105,12 @@ class RegisteredUser extends NotRegisteredUser
 	{
 		$user = new UserDetail($this->loadPOST());
 		if (!$user->compareNewPassword()) {
-			throw new PasswordsAreNotSameException('Passwords does not match!');
+			throw new PasswordsAreNotSameException('Hesla se neshodují!');
 		}
 		$query = 'select password from theatre.user where email = ?';
 		$oldHash = $this->db->run($query, $this->getUserBySessionID()->getEmail())->fetch(PDO::FETCH_ASSOC);
 		if (!$this->verifyHashPassword($user->getPassword(), $oldHash['password'])) {
-			throw new PasswordsAreNotSameException('Actual password is not correct!');
+			throw new PasswordsAreNotSameException('Původní heslo je nesprávné!');
 		}
 		$hash = $this->hashPassword($user->getNewPassword());
 		$user->setPassword($hash);
@@ -130,9 +130,9 @@ class RegisteredUser extends NotRegisteredUser
 
 		$res = $this->db->run($query, [$password, $email]);
 		if ($res->errorCode() !== '00000') {
-			throw new UpdateException('Updating profile was not successfully completed!');
+			throw new UpdateException('Úprava se nezdařila!');
 		}
-		throw new UpdateSuccess('Your password was successfully updated');
+		throw new UpdateSuccess('Vaše heslo bylo úspěšně změněno!');
 	}
 
 	public function getUserByID($id)

@@ -23,7 +23,7 @@ class TicketManager extends BaseModel
 				join theatre.culture_event as ce on t.id_culture_event = ce.id
 				join theatre.culture_work as cw on ce.id_culture_work = cw.id
 				join theatre.hall as h on ce.id_hall = h.id
-				where u.email = ? and ce.date >= ?';
+				where u.email = ? and ce.date >= ? order by ce.date asc, ce.begin asc';
 
 		return $this->db->run($query, [$email, $date])->fetchAll(PDO::FETCH_ASSOC);
 	}

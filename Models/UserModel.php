@@ -114,7 +114,7 @@ class UserModel extends baseModel
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$role = $this->auth->role()->getRoleByEmailPOST();
 			if (!isset($role)) {
-				throw new NoUserException('User does not exists!');
+				throw new NoUserException('Uživatel se zadaným emailem neexistuje!');
 			}
 			$role->login();
 			throw new LoggedUserException('');
