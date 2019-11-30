@@ -21,6 +21,16 @@ class SearchModel extends BaseModel
 		return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+    public function getAllFutureEvents(): array
+    {
+        $date = date('Y-m-d');
+        $query = 'select cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label, ce.price from theatre.culture_event as ce 
+				join theatre.culture_work as cw on ce.id_culture_work = cw.id
+				join theatre.hall as h on ce.id_hall = h.id where ce.date >= ?';
+
+        return $this->db->run($query, $date)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 	/**
 	 * @return array
 	 */
@@ -29,13 +39,13 @@ class SearchModel extends BaseModel
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$data = $this->auth->role()->loadPOST();
 			if ($this->arrayEmpty($data)) {
-				return $this->getAllEvents();
+				return $this->getAllFutureEvents();
 			}
 
 			return $this->getConcreteEvents($data);
 		}
 
-		return $this->getAllEvents();
+		return $this->getAllFutureEvents();
 	}
 
 	private function arrayEmpty($data): bool

@@ -4,6 +4,8 @@
 namespace Models;
 
 
+use Exceptions\InvalidRequestException;
+use Exceptions\PaymentException;
 use PDO;
 
 
@@ -16,7 +18,7 @@ class TicketManager extends BaseModel
 	public function getTicketByEmail($email)
 	{
 	    $date = date('Y-m-d');
-		$query = 'select cw.name, ce.begin, ce.date, t.price, t.seat, h.label, t.payment_type, t.is_paid from theatre.ticket as t 
+		$query = 'select t.id, cw.name, ce.begin, ce.date, t.price, t.seat, h.label, t.payment_type, t.is_paid from theatre.ticket as t 
 				join theatre.user as u on t.id_user = u.id
 				join theatre.culture_event as ce on t.id_culture_event = ce.id
 				join theatre.culture_work as cw on ce.id_culture_work = cw.id
@@ -40,6 +42,36 @@ class TicketManager extends BaseModel
 				where t.id = ?';
 
         return $this->db->run($query, $ticketId)->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getPrice($params){
+        $ticket = $this->getTicketById($params[0]);
+        if($ticket === false){
+            throw new InvalidRequestException('Číslo rezervace neexistuje!');
+        }
+        return $ticket['price'];
+    }
+
+
+    public function confirmPayment($params, $price){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $pricePost = $this->loadPOST()['price'];
+            if ($price !== $pricePost) {
+                throw new PaymentException("Špatně zadaná částka, nutno zaplatit $price Kč!");
+            }
+            $query = 'UPDATE theatre.ticket SET is_paid = ? where id = ?';
+            $this->db->run($query, ['Ano', $params[0]]);
+            return true;
+        }
+    }
+
+    public function checkURL($params){
+        if(count($params) === 1){
+            if(is_numeric($params[0])){
+                return true;
+            }
+        }
+        return false;
     }
 
 

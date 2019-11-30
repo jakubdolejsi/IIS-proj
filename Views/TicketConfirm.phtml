@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html lang="cs-cz">
+
+<head>
+    <meta charset="UTF-8"/>
+    <base href="/localhost"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+</head>
+
+<body>
+
+<div id="ticketItem" style="text-align: center">
+    <h1>Potvrzení úhrady</h1>
+    <form method="post">
+        <label for="id">Částka(<?php echo $price ?>)</label>
+        <input type="text" name="price" id="price" placeholder="Zadejte čátku" required>
+        <input type="submit" value="Potvrdit">
+        <input type="button" onclick="location.href='ticket'" value="Zpět">
+    </form>
+</div>
+</body>

@@ -54,6 +54,12 @@
 </div>
 
 <table class="table mt-5 w-100">
+    <div class="active">
+    <?php if(!($_SERVER['REQUEST_METHOD'] === 'POST')) { ?>
+
+        <h4>Nadcházející události</h4>
+    <?php }?>
+        </div>
     <thead class="table-primary">
         <tr>
             <th></th>

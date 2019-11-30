@@ -12,10 +12,15 @@
 
 <div id="ticketItem" style="text-align: center">
         <h1>Seznam lístků</h1>
-		<?php foreach ($ticket as $concrete) : ?>
 
+
+		<?php foreach ($ticket as $concrete) : ?>
             <div class="concreteItem">
-			<?php foreach ($concrete as $item => $value) : ?>
+
+                <?php if($concrete['is_paid'] === 'Ne' && $concrete['payment_type'] === 'předem'){ ?><input type="button" onclick="location.href='ticket/confirm/<?php echo$concrete['id']?>'" value="Uhradit"/>
+                <?php }?>
+
+                <?php foreach ($concrete as $item => $value) : ?>
 				<?= $this->langMapper($item) ?> : <?= $value ?> &nbsp;|
 			<?php endforeach ?>
             </div>
