@@ -89,6 +89,7 @@
             </td>
             <?php endforeach ?>
             <td>
+<!--            TODO zobrazit pouze pokud udalost jeste neprobehla    -->
                 <button class="btn btn-primary " onclick="location.href = 'reservation/create/<?=
                 str_replace(' ', '%20', $event['type'])?>/<?= str_replace(' ', '%20', $event['name'])
                 ?>/<?= str_replace(' ', '%20', $event['label'])?>/<?= str_replace(' ' , '%20', $event['begin'])?>'">

@@ -17,9 +17,16 @@
 		<?php foreach ($ticket as $concrete) : ?>
             <div class="concreteItem">
 
-                <?php if($concrete['is_paid'] === 'Ne' && $concrete['payment_type'] === 'předem'){ ?><input type="button" onclick="location.href='ticket/confirm/<?php echo$concrete['id']?>'" value="Uhradit"/>
+                <?php if($concrete['is_paid'] === 'Ne' && $concrete['payment_type'] === 'předem'){ ?>
+                <input type="button" onclick="location.href='ticket/confirm/<?php echo$concrete['id']?>'" value="Uhradit"/>
                 <?php }?>
 
+            <!-- Storno button se zobrazi pouze pokud udalost jeste neprobehla (nezacala)                -->
+                <?php if($concrete['date'] > $todayDate){ ?>
+                    <input type="button" onclick="location.href='ticket/storno/<?php echo$concrete['id']?>'" value="Stornovat"/>
+                <?php }else if($concrete['begin'] >= $currentTime && $concrete['date'] >= $todayDate){ ?>
+                    <input type="button" onclick="location.href='ticket/storno/<?php echo$concrete['id']?>'" value="Stornovat"/>
+                <?php }?>
                 <?php foreach ($concrete as $item => $value) : ?>
 				<?= $this->langMapper($item) ?> : <?= $value ?> &nbsp;|
 			<?php endforeach ?>

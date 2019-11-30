@@ -132,4 +132,10 @@ class TicketManager extends BaseModel
 
 		return array_combine($keys, $data);
 	}
+
+    public function stornoReservation($id)
+    {
+        $query = 'DELETE FROM theatre.ticket where ticket.id = ?';
+        $this->db->run($query, $id);
+    }
 }
