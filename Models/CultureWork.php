@@ -14,7 +14,7 @@ class CultureWork extends BaseModel
 		$eventType = str_replace('%20', ' ', $eventType);
 		$query = 'select * from theatre.culture_work as cw 
 				join theatre.culture_event as ce on cw.id = ce.id_culture_work
-				where ce.type = ?';
+				where cw.type = ?';
 
 		return $this->db->run($query, $eventType)->fetchAll(PDO::FETCH_ASSOC);
 	}

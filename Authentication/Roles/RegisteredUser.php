@@ -38,7 +38,7 @@ class RegisteredUser extends NotRegisteredUser
         $urlParams = $this->getUrlParams($params);
 	    $seatInfo = $this->joinSeat($this->loadPOST());
         if (!$this->isSeatFree($urlParams, $seatInfo)) {
-            throw new AlreadyOccupiedSeatException('Seat is already registered');
+            throw new AlreadyOccupiedSeatException('Sedadlo je již obsazeno!');
         }
         return $this->createNewTicket($urlParams, $seatInfo);
     }
@@ -59,11 +59,11 @@ class RegisteredUser extends NotRegisteredUser
             throw new InvalidRequestException('Wrong URL');
         }
 
-        $cultureEventIdQueryParams = [$urlParams['label'], $urlParams['begin'], $urlParams['type'], $urlParams['name']];
+        $cultureEventIdQueryParams = [urldecode($urlParams['label']), urldecode($urlParams['begin']), urldecode($urlParams['type']), urldecode($urlParams['name'])];
         $cultureEventIdQuery = 'select ce.id, ce.price from theatre.culture_event as ce
 							join theatre.culture_work as cw on ce.id_culture_work = cw.id
 							join theatre.hall as h on ce.id_hall = h.id
-							where h.label = ? and ce.begin = ? and ce.type = ? and cw.name = ?';
+							where h.label = ? and ce.begin = ? and cw.type = ? and cw.name = ?';
         $cultureEventRes = $this->db->run($cultureEventIdQuery, $cultureEventIdQueryParams)->fetch(PDO::FETCH_ASSOC);
         if (!isset($cultureEventRes['id'])) {
             throw new InvalidRequestException('Wrong URL');
