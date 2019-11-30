@@ -5,21 +5,9 @@ body {
     font-family: Nunito, serif;
 }
 
-table.table {
-    width: auto;
-    margin:0 auto;
-}
-
-.btn-group {
-    display: flex;
-  }
-.btn-group-toggle {
-    display: flex;
-}
-
 .btn.chair {
-    outline: none !important;
-    border: none !important;
+    outline: none;
+    border: none;
 }
 
 .btn.chair input {
@@ -28,4 +16,8 @@ table.table {
     -ms-appearance: none;
     -o-appearance: none;
     appearance: none;
+}
+
+table.table-borderless tr:last-child  {
+    border-bottom-style: hidden;
 }

@@ -18,10 +18,10 @@ $label_cols = 10;
 <form method="post">
     <h2 class="text-center">Rezervace pro událost</h2>
 
-    <table class="table table-borderless" data-toggle="buttons">
+    <table class="w-auto m-auto table table-borderless" data-toggle="buttons">
         <tr>
             <td></td>
-            <td colspan="<?=$label_cols?>">
+            <td colspan="<?=$label_cols?>" class="">
             <button class="btn btn-secondary btn-block" disabled>plátno / jeviště</button>
             </td>
         </tr>
@@ -30,15 +30,16 @@ $label_cols = 10;
             <td class="m-auto p-0 align-middle text-secondary">
                 <?= chr($i + 65) ?>
             </td>
-            <td class="px-0 py-0 pb-1 border-bottom border-dark">
-                <?php for($j = 0; $j < $label_cols; $j++): ?>
-                    <label class="m-0 p-0 btn chair btn-outline-success">
-                        <input type="radio" class="w-0 m-0 p-0" name="seat" id="seat" value="<?=chr($i + 65).$j+1?>" autocomplete="off">
-                        <i class="m-0 p-0 fas fa-couch fa-flip-vertical"></i>
+            <td class="w-auto px-0 py-0 pb-1 border-bottom border-dark border-skip-last">
+            <?php for($j = 0; $j < $label_cols; $j++): ?>
+                
+                    <label class="m-0 pr-1 p-0 btn chair btn-outline-success">
+                        <input type="radio" class="w-0 m-0 p-0" name="seat" id="seat" value="<?=chr($i + 65).($j+1)?>" autocomplete="off">
+                        <i class="m-0 p-0 fas fa-couch"></i>
                     </label>
-                <?php endfor ?>
+            <?php endfor ?>
             </td>
-        </tr>
+        </tr>    
     <?php endfor ?>
    
     </table>
