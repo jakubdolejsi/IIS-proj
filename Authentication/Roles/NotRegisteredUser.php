@@ -296,7 +296,7 @@ class NotRegisteredUser extends Password{
         $cultureEventIdQuery = 'select ce.id, ce.price from theatre.culture_event as ce
 							join theatre.culture_work as cw on ce.id_culture_work = cw.id
 							join theatre.hall as h on ce.id_hall = h.id
-							where h.label = ? and ce.begin = ? and ce.type = ? and cw.name = ?';
+							where h.label = ? and ce.begin = ? and cw.type = ? and cw.name = ?';
         $cultureEventRes = $this->db->run($cultureEventIdQuery, $cultureEventIdQueryParams)->fetch(PDO::FETCH_ASSOC);
         if (!isset($cultureEventRes['id'])) {
             throw new InvalidRequestException('Wrong URL');
