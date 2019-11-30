@@ -91,21 +91,14 @@
             </td>
             <?php endforeach ?>
             <td>
-                <!-- Zobrazeni tlacitka 'Rezervovat' pouze pokud udalost jeste neprobehla/jiz nezacala                -->
-                <?php if($event['date'] > $todayDate) : ?>
-                    <button class="btn btn-primary " onclick="location.href = 'reservation/create/<?= (str_replace(' ', '%20', $event['type']))
-                    ?>/<?=(str_replace(' ', '%20', $event['name'])) ?>/<?=
-                    (str_replace(' ', '%20', $event['label']))?>/<?=(str_replace(' ' , '%20', $event['begin']))?>'">
-                        Rezervovat
-                    </button>
-
-                <?php elseif(($event['begin'] >= $currentTime) && ($event['date'] >= $todayDate)) : ?>
-                    <button class="btn btn-primary " onclick="location.href = 'reservation/create/<?=
-                    (str_replace(' ', '%20', $event['type']))?>/<?= (str_replace(' ', '%20', $event['name']))
-                    ?>/<?= (str_replace(' ', '%20', $event['label']))?>/<?= str_replace(' ' , '%20', $event['begin'])?>'">
-                    Rezervovat
-                </button>
+                <!-- Zasednuti tlacitka 'Rezervovat' pokud udalost jiz probehla/zacala -->
+                <button class="btn btn-primary " onclick="location.href = 'reservation/create/<?= (str_replace(' ', '%20', $event['type']))
+                ?>/<?=(str_replace(' ', '%20', $event['name'])) ?>/<?=(str_replace(' ', '%20', $event['label']))?>/<?=(str_replace(' ' , '%20', $event['begin']))?>'"
+                <?php if (($event['date'] < $todayDate) || (($event['begin'] < $currentTime) && ($event['date'] <= $todayDate))): ?>
+                disabled title="Událost již proběhla"
                 <?php endif ?>
+                > Rezervovat
+                </button>
             </td>
 
         </tr>
