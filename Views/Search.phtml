@@ -55,10 +55,13 @@
 
 <table class="table mt-5 w-100">
     <div class="active">
-    <?php if(!($_SERVER['REQUEST_METHOD'] === 'POST')) { ?>
 
+    <!-- Zobrazeni nadpisu pouze pri zavolani getAllFutureEvents        -->
+    <?php if(($_SERVER['REQUEST_METHOD'] === 'GET')) : ?>
         <h4>Nadcházející události</h4>
-    <?php }?>
+    <?php elseif (empty($_POST['date']) && empty($_POST['begin']) && empty($_POST['type']) && empty($_POST['name'])) : ?>
+        <h4>Nadcházející události</h4>
+    <?php endif ?>
         </div>
     <thead class="table-primary">
         <tr>
