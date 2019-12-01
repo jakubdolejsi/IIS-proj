@@ -216,7 +216,7 @@ class NotRegisteredUser extends Password{
     protected function getUrlParams($params): array
     {
         $arr = [];
-        $values = ['type', 'name', 'label', 'begin'];
+        $values = ['type', 'id', 'label', 'begin'];
         $i = 0;
         foreach ($params as $key => $value) {
             $arr[ $values[ $i ] ] = str_replace('%20', ' ', $value);
@@ -313,6 +313,29 @@ class NotRegisteredUser extends Password{
         }
         return $this->db->lastInsertId();
     }
+
+	public function getReservedSeatInfo($params)
+	{
+		[$type, $idCW, $label, $begin] = $params;
+		//FIXME advanced debug
+
+		$queryHall = 'select hall.row_count, hall.column_count from theatre.hall join culture_event ce on hall.id = ce.id_hall
+		join culture_work cw on ce.id_culture_work = cw.id
+		where cw.type = ? and cw.id = ? and hall.label = ? and ce.begin = ?';
+		$hallInfo = $this->db->run($queryHall, $params)->fetch(PDO::FETCH_ASSOC);
+
+		$queryReserverSeats = 'select ticket.seat from theatre.ticket 
+    						join culture_event ce on ticket.id_culture_event = ce.id
+							join culture_work cw on ce.id_culture_work = cw.id
+							join hall h on ce.id_hall = h.id
+							where cw.type = ? and cw.id = ? and h.label = ? and ce.begin = ?';
+		$seatsInfo = $this->db->run($queryReserverSeats, $params)->fetch(PDO::FETCH_ASSOC);
+
+		$all['hallInfo'] = $hallInfo;
+		$all['seatsInfo'] = $seatsInfo;
+
+		return $all;
+	}
 
     public function __toString()
     {

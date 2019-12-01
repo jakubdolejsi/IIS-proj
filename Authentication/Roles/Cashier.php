@@ -95,16 +95,15 @@ class Cashier extends RegisteredUser
         return $this->db->run($query, [$date])->fetchAll(PDO::FETCH_ASSOC);
     }
 
-	public function newReservation(){}
+	public function newReservation($params)
+	{
+		$defaultUsersQuery = 'select * from theatre.user where user.role = ?';
+		$x= $this->db->run($defaultUsersQuery, 'NotRegisteredUser')->fetchAll(PDO::FETCH_ASSOC);
 
-	public function removeReservationById(){}
-
-	public function updateReservationById(){}
-
-	public function acceptReservation(){}
-
-	public function validateReservation(){}
-
-	public function sendTickets(){}
+		var_dump($x);
+		exit();
+		$query = 'insert into theatre.ticket (id, id_user, id_culture_event, price, seat, discount, payment_type, is_paid) 
+				VALUES (?,?,?,?,?,?,?,?)';
+	}
 
 }

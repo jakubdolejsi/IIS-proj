@@ -18,6 +18,11 @@ class CashierController extends BaseController
         $this->data['events'] = $events;
     }
 
+    public function actionCreate($params)
+    {
+    	$this->loadView('cashierCreate');
+    }
+
     public function actionConfirm($params):void
     {
 	    $this->hasPermission('cashier', 'admin');

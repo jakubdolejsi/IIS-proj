@@ -9,7 +9,11 @@ class EditorModel extends BaseModel
 
 	public function addEvent($params)
 	{
-
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$role = $this->auth->role()->getRoleFromSession();
+			$data = $role->addEvent($this->loadPOST());
+		}
+		return ['', 'editorEventsAdd'];
 	}
 
 	public function addHall($params)

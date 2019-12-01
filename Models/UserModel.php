@@ -174,7 +174,7 @@ class UserModel extends baseModel
 
 	public function getReservationInfo($params)
 	{
-		$role = $this->auth->role()->getRoleFromSession();
+		$role = $this->auth->notRegisteredUser();
 		return $role->getReservedSeatInfo($params);
 	}
 

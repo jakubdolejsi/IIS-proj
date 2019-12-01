@@ -36,7 +36,7 @@ class RegisteredUser extends NotRegisteredUser
     public function createNewReservation($params)
     {
         $urlParams = $this->getUrlParams($params);
-	    $seatInfo = $this->joinSeat($this->loadPOST());
+	    $seatInfo = $this->loadPOST();
         if (!$this->isSeatFree($urlParams, $seatInfo)) {
             throw new AlreadyOccupiedSeatException('Sedadlo je již obsazeno!');
         }
@@ -59,17 +59,18 @@ class RegisteredUser extends NotRegisteredUser
             throw new InvalidRequestException('Neplatná URL adresa!');
         }
 
-        $cultureEventIdQueryParams = [urldecode($urlParams['label']), urldecode($urlParams['begin']), urldecode($urlParams['type']), urldecode($urlParams['name'])];
+        $cultureEventIdQueryParams = [urldecode($urlParams['label']), urldecode($urlParams['begin']), urldecode($urlParams['type']), urldecode($urlParams['id'])];
         $cultureEventIdQuery = 'select ce.id, ce.price from theatre.culture_event as ce
 							join theatre.culture_work as cw on ce.id_culture_work = cw.id
 							join theatre.hall as h on ce.id_hall = h.id
-							where h.label = ? and ce.begin = ? and cw.type = ? and cw.name = ?';
+							where h.label = ? and ce.begin = ? and cw.type = ? and cw.id = ?';
         $cultureEventRes = $this->db->run($cultureEventIdQuery, $cultureEventIdQueryParams)->fetch(PDO::FETCH_ASSOC);
         if (!isset($cultureEventRes['id'])) {
             throw new InvalidRequestException('Neplatná URL adresa!');
         }
 
-        $queryParams = [$userId, $cultureEventRes['id'], $cultureEventRes['price'], $seatInfo, 0, $payment, 2];
+        $queryParams = [$userId, $cultureEventRes['id'], $cultureEventRes['price'], $seatInfo['seat'], 0,
+	        $payment, 2];
         $query = 'insert into theatre.ticket (id_user, id_culture_event, price, seat, discount, payment_type, is_paid) 
 				values (?, ?, ?, ?, ?, ?, ?)';
 
@@ -153,27 +154,6 @@ class RegisteredUser extends NotRegisteredUser
 		$this->db->run($query, $dataToUpdate);
 	}
 
-	public function getReservedSeatInfo($params)
-	{
-		[$type, $idCW, $label, $begin] = $params;
-		//FIXME advanced debug
 
-		$queryHall = 'select hall.row_count, hall.column_count from theatre.hall join culture_event ce on hall.id = ce.id_hall
-		join culture_work cw on ce.id_culture_work = cw.id
-		where cw.type = ? and cw.id = ? and hall.label = ? and ce.begin = ?';
-		$hallInfo = $this->db->run($queryHall, $params)->fetch(PDO::FETCH_ASSOC);
-
-		$queryReserverSeats = 'select ticket.seat from theatre.ticket 
-    						join culture_event ce on ticket.id_culture_event = ce.id
-							join culture_work cw on ce.id_culture_work = cw.id
-							join hall h on ce.id_hall = h.id
-							where cw.type = ? and cw.id = ? and h.label = ? and ce.begin = ?';
-		$seatsInfo = $this->db->run($queryReserverSeats, $params)->fetch(PDO::FETCH_ASSOC);
-
-		$all['hallInfo'] = $hallInfo;
-		$all['seatsInfo'] = $seatsInfo;
-
-		return $all;
-	}
 
 }

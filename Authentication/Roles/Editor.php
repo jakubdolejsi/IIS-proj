@@ -182,4 +182,16 @@ class Editor extends Cashier
 		return $target_dir . basename($_FILES['image']['name']);
 	}
 
+	public function addEvent($data)
+	{
+		unset($data['submit']);
+		$datas = array_values($data);
+
+		$query = 'insert into theatre.culture_event (id, id_hall, id_culture_work, type, date, begin, end, price) 
+				VALUES (?,?,?,?,?,?,?,?)';
+		$res = $this->db->run($query, $datas);
+		if ($res->errorCode() !== '00000') {
+			throw new UpdateException('Vytváření se nezdařilo!');
+		}
+	}
 }

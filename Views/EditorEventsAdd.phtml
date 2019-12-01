@@ -1,1 +1,42 @@
-<?php
+<!DOCTYPE html>
+
+<html lang="cs-cz">
+<head>
+	<meta charset="UTF-8"/>
+	<base href="/localhost"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+</head>
+
+<body>
+<form method="post">
+	<div class="generalSettings">
+		<div class="settings">
+			<label for="type">type :</label>
+			<input type="text" id="type" name="type">
+		</div>
+		<div class="settings">
+			<label for="date">date :</label>
+			<input type="date" id="date" name="date">
+		</div>
+		<div class="settings">
+			<label for="begin">begin :</label>
+			<input type="time" id="begin" name="begin">
+		</div>
+		<div class="settings">
+			<label for="end">end:</label>
+			<input type="time" id="end" name="end">
+		</div>
+		<div class="settings">
+			<label for="price">row_count:</label>
+			<input type="number" id="price" name="price">
+		</div>
+		<div class="settings">
+			<input type="submit" id="submit" name="submit" value="Potvrdit" onclick="ajaxForm()">
+		</div>
+		<div class="settings">
+			<input type=button value="Zpet" onclick="window.location.href='editor/halls'">
+		</div>
+	</div>
+</form>
+</body>
