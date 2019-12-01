@@ -73,10 +73,10 @@ class SearchModel extends BaseModel
 		foreach ($data as $key => $value) {
 			if((!empty($value) && $key ==='begin')){
                 $query .= " ce.$key >= ? and";
-            }else if(!empty($value) && $key === 'name'){
-                $query .= " cw.$key >= ? and";
-            }else if (!empty($value)) {
+            }else if(!empty($value) && $key === 'date') {
                 $query .= " ce.$key = ? and";
+            }else if (!empty($value)) {
+                $query .= " cw.$key = ? and";
 			} else {
 				unset($data[ $key ]);
 			}

@@ -34,7 +34,7 @@ class TicketManager extends BaseModel
      */
     public function getTicketById($ticketId)
     {
-        $query = 'select t.id, cw.name, ce.begin, ce.date, t.price, t.seat, t.payment_type, h.label from theatre.ticket as t 
+        $query = 'select t.id, t.id_user, cw.name, ce.begin, ce.date, t.price, t.seat, t.payment_type, h.label from theatre.ticket as t 
 				join theatre.user as u on t.id_user = u.id
 				join theatre.culture_event as ce on t.id_culture_event = ce.id
 				join theatre.culture_work as cw on ce.id_culture_work = cw.id
@@ -44,12 +44,25 @@ class TicketManager extends BaseModel
         return $this->db->run($query, $ticketId)->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getPrice($params){
+    public function getPrice($params, $userId){
         $ticket = $this->getTicketById($params[0]);
+
         if($ticket === false){
             throw new InvalidRequestException('Číslo rezervace neexistuje!');
+        }elseif ($ticket['id_user'] !== $userId){
+            throw new InvalidRequestException('Rezervace není na váš účet!');
         }
         return $ticket['price'];
+    }
+
+    public function validateTicket($params, $userId){
+        $ticket = $this->getTicketById($params[0]);
+
+        if($ticket === false){
+            throw new InvalidRequestException('Číslo rezervace neexistuje!');
+        }elseif ($ticket['id_user'] !== $userId){
+            throw new InvalidRequestException('Rezervace není na váš účet!');
+        }
     }
 
 

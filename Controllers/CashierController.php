@@ -35,6 +35,8 @@ class CashierController extends BaseController
             $this->redirect('error');
         }
 
+        $this->data['currentTime'] = date('H-i-s');
+        $this->data['todayDate'] = date('Y-m-d');
         $this->data['tickets'] = $cashier->checkSearchParameters();
 
         $this->loadView('cashierConfirm');

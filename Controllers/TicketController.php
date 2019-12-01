@@ -29,9 +29,10 @@ class TicketController extends BaseController
 	public function actionConfirm($params){
         $this->hasPermission('admin', 'editor', 'cashier', 'registeredUser');
         $ticket = $this->getModelFactory()->createTicketManager();
+        $userId = $this->getModelFactory()->createUserModel()->getUserInfo()->getId();
         if($ticket->checkURL($params)){
             try{
-                $price = $ticket->getPrice($params);
+                $price = $ticket->getPrice($params, $userId);
             }catch (InvalidRequestException $exception){
                 $this->alert($exception->getMessage());
                 $this->redirect('error');
@@ -54,14 +55,16 @@ class TicketController extends BaseController
     public function actionStorno($params){
         $this->hasPermission('admin', 'editor', 'cashier', 'registeredUser');
         $ticket = $this->getModelFactory()->createTicketManager();
+        $userId = $this->getModelFactory()->createUserModel()->getUserInfo()->getId();
         if($ticket->checkURL($params)){
-            $ticketData = $ticket->getTicketById($params[0]);
-            if($ticketData === false){
-                $this->alert('Zadaná rezervace neexistuje!');
+            try{
+                $ticket->validateTicket($params, $userId);
+            }catch (InvalidRequestException $exception){
+                $this->alert($exception->getMessage());
                 $this->redirect('error');
-            }else {
-                $ticket->stornoReservation($params[0]);
             }
+            $ticket->stornoReservation($params[0]);
+
             $this->alert('Rezervace stornována!');
             $this->redirect('ticket');
         }else{
