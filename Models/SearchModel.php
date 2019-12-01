@@ -24,7 +24,7 @@ class SearchModel extends BaseModel
     public function getAllFutureEvents(): array
     {
         $date = date('Y-m-d');
-        $query = 'select cw.id, cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label, ce.price from theatre.culture_event as ce 
+        $query = 'select ce.id, cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label, ce.price from theatre.culture_event as ce 
 				join theatre.culture_work as cw on ce.id_culture_work = cw.id
 				join theatre.hall as h on ce.id_hall = h.id where ce.date >= ? order by ce.date asc, ce.begin asc';
 

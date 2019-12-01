@@ -3,6 +3,7 @@
 
 namespace Authentication\Roles;
 
+use Exceptions\UpdateException;
 use PDO;
 
 
@@ -95,7 +96,7 @@ class Cashier extends RegisteredUser
         return $this->db->run($query, [$date])->fetchAll(PDO::FETCH_ASSOC);
     }
 
-	public function newReservation($params, $data)
+	public function newReservation($params, $data): void
 	{
 		$user = 'defaultUser' . random_int(0,300);
 		$userValues = [$user, $user, $user, $user, 'NotRegistered', 0,0];
@@ -104,13 +105,18 @@ class Cashier extends RegisteredUser
 		$x = $this->db->run($createUserQuery, $userValues);
 		$id = $this->db->lastInsertId();
 		$priceQuery = 'select price from theatre.culture_event where id = ?';
-		$price = $this->db->run($priceQuery, $params[1])->fetch(PDO::FETCH_ASSOC);
-		var_dump($price);
-		var_dump($id);
-		exit();
-		$query = 'insert into theatre.ticket (id, id_user, id_culture_event, price, seat, discount, payment_type, is_paid) 
-				VALUES (?,?,?,?,?,?,?,?)';
-		$queryParams = [$id, $params[1], ];
+		$price = $this->db->run($priceQuery, $params[1])->fetch(PDO::FETCH_ASSOC)['price'];
+
+		// id musi byt culture event !!!!
+		$query = 'insert into theatre.ticket (id_user, id_culture_event, price, seat, discount, payment_type, is_paid) 
+				VALUES (?,?,?,?,?,?,?)';
+		$queryParams = [$id, $params[1],$price, $data['seat'], 0,'na pokladně', 'Ano'];
+
+		$res = $this->db->run($query, $queryParams);
+
+		if($res->errorCode() !== '00000') {
+			throw new UpdateException('Neco se nezdarilo!!');
+		}
 	}
 
 }

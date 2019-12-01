@@ -5,6 +5,7 @@ namespace Controllers;
 
 
 use Exceptions\InvalidRequestException;
+use Exceptions\UpdateException;
 
 
 class CashierController extends BaseController
@@ -18,11 +19,20 @@ class CashierController extends BaseController
         $this->data['events'] = $events;
     }
 
-    public function actionCreate($params)
-    {
+
+	/**
+	 * @param $params
+	 */
+	public function actionCreate($params): void
+	{
     	$cashier = $this->getModelFactory()->createCashierModel();
-    	$cashier->createReservationCashier($params);
-    	$this->loadView('cashierCreate');
+	    try {
+		    $cashier->createReservationCashier($params);
+	    }
+	    catch (UpdateException $e) {
+	    	$this->alert($e->getMessage());
+	    }
+	    $this->loadView('cashierCreate');
     }
 
     public function actionConfirm($params):void
