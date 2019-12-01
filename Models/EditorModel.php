@@ -104,7 +104,7 @@ class EditorModel extends BaseModel
 			$role->addWork($data);
 		}
 
-		return ['', 'editorWorks'];
+		return ['', 'editorWorksAdd'];
 	}
 
 	public function editWork($params)
@@ -125,7 +125,7 @@ class EditorModel extends BaseModel
 	{
 		$role = $this->auth->role()->getRoleFromSession();
 		$role->removeWorksByID($params);
-		return ['', 'editorWorksAdd'];
+		return [$role->getAllWorks(), 'editorWorks'];
 	}
 
 

@@ -14,7 +14,9 @@ class Editor extends Cashier
 	public function addHall($data)
 	{
 		unset($data['submit']);
-		$datas = array_values($data);
+		$data = array_values($data);
+		$capacity = $data[2] * $data[3];
+		$datas = [$data[0],$data[1], $capacity, $data[2], $data[3]];
 
 		$query = 'insert into theatre.hall (label, seat_schema, capacity, row_count, column_count)
 				VALUES (?,?,?,?,?)';
@@ -170,9 +172,14 @@ class Editor extends Cashier
 	{
 		$eventsQuery = 'select id from theatre.culture_event where culture_event.id_culture_work = ?';
 		$eventId[1] = $this->db->run($eventsQuery, $id[1])->fetch(PDO::FETCH_ASSOC)['id'];
-		var_dump($eventId);
-		$this->removeEventByID($eventId);
+		if(isset($eventId[1])) {
+			try {
+				$this->removeEventByID($eventId);
+			}
 
+			catch (UpdateException $e) {
+			}
+		}
 		$removeWorkQuery = 'delete from theatre.culture_work where culture_work.id = ?';
 		$res = $this->db->run($removeWorkQuery, $id[1]);
 		if($res->errorCode() !== '00000') {
