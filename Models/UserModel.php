@@ -28,21 +28,22 @@ class UserModel extends baseModel
 		}
 	}
 
+
 	/**
 	 * @param $params
 	 * @return string|void
 	 * @throws AlreadyOccupiedSeatException
 	 * @throws InvalidRequestException
-	 * @throws ReservationSuccessException
 	 * @throws SqlSomethingGoneWrongException
 	 */
 	public function createReservation($params)
 	{
+		$role = $this->auth->role()->getRoleFromSession();
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$role = $this->auth->role()->getRoleFromSession();
 
 			return $role->createNewReservation($params);
 		}
+		//return $role->getReservedSeatInfo($params);
 	}
 
 	/**
@@ -168,6 +169,13 @@ class UserModel extends baseModel
 		}
 
 		return FALSE;
+	}
+
+
+	public function getReservationInfo($params)
+	{
+		$role = $this->auth->role()->getRoleFromSession();
+		return $role->getReservedSeatInfo($params);
 	}
 
 }
