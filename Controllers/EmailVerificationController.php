@@ -3,7 +3,7 @@
 namespace Controllers;
 
 
-class EmailVerificationController extends baseController
+class EmailVerificationController extends BaseController
 {
 
 	public function actionDefault(): void

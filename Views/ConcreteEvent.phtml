@@ -8,18 +8,40 @@
 </head>
 
 <body>
-<div class="generalSettings">
+<div>
+    <div class="mx-auto container" style="max-width: 800px">
+        <div class="row">
+            <div class="col" style="">
+                <!-- <?php foreach ($event as $item => $value) : ?> -->
+                <!-- <?= $item ?> -->
+                <!-- <?php endforeach?> -->
 
-	<?php foreach ($event as $item => $value) : ?>
-        <div class="concreteItem">
-			<?php if ($item === 'image') {
-				break;
-			} ?>
-			<?= $this->langMapper($item)?> : <?= $value ?> &nbsp;|
+                <div class="row mb-4">
+                    <div class="col">
+                        <button class="btn btn-secondary" type=button onclick="window.location.href='search'">Zpět</button>
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+                <?php foreach ($event as $item => $value) : ?>
+                        <?php if ($item === 'image') {
+                            break;
+                        } ?>
+                        <div class="row py-1">
+                            <div class="col-3">
+                                <?= $this->langMapper($item)?>:
+                            </div>
+                            <div class="col-auto">
+                                <?= $value ?>
+                            </div>
+                        </div>
+                <?php endforeach ?>
+            </div>
+            <div class="col-auto">
+                <img class="img-fluid mt-3" src= <?= $event['image'] ?> alt="" style="max-width: 400px">
+            </div>
         </div>
-	<?php endforeach ?>
-
-    <img src= <?= $event['image'] ?> alt="">
-    <input type=button value="Zpet" onclick="window.location.href='search'">
+    </div>
 </div>
+
 </body>

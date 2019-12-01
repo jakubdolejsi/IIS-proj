@@ -8,41 +8,68 @@
 </head>
 
 <body>
-<div class="searchGeneral">
-    Rezervace pro udalost:
-	<div>
-        <form method="post">
-            <div class="item">
-                <label for="column">Sloupec</label>
-                <input type="number" id="column" name="column" min="1" max="15" value="1" required>
 
-                <label for="row">Rada</label>
-                <select list="rows" name="row" id="row">
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="E">E</option>
-                    <option value="F">F</option>
-                    <option value="G">G</option>
-                </select>
+<?php
+// var_dump($this);
+$label_rows = 10;
+$label_cols = 10;
+//var_dump($halls);
+//var_dump($reservedSeats);
+?>
 
-                <label for="type">Typ platby</label>
-                <select id="type" name="type">
-                    <option value="na pokladne">Na pokladně</option>
-                    <option value="predem">Předem</option>
-                </select>
+<form method="post">
+    <h2 class="text-center">Rezervace pro událost</h2>
 
-            </div>
-            <div class="item">
+    <table class="w-auto m-auto table table-borderless" data-toggle="buttons">
+        <tr>
+            <td></td>
+            <td colspan="<?=$label_cols?>" class="">
+            <button class="btn btn-secondary btn-block" disabled>plátno / jeviště</button>
+            </td>
+        </tr>
+    <?php for($i = 0; $i < $label_rows; $i++): ?>
+        <tr>
+            <td class="m-auto p-0 align-middle text-secondary">
+                <?= chr($i + 65) ?>
+            </td>
+            <td class="w-auto px-0 py-0 pb-1 border-bottom border-dark border-skip-last">
+            <?php for($j = 0; $j < $label_cols; $j++): ?>
+                
+                    <label class="m-0 pr-1 p-0 btn chair btn-outline-success">
+                        <input type="radio" class="w-0 m-0 p-0" name="seat" id="seat" value="<?=chr($i + 65).($j+1)?>" autocomplete="off">
+                        <i class="m-0 p-0 fas fa-couch"></i>
+                    </label>
+            <?php endfor ?>
+            </td>
+        </tr>    
+    <?php endfor ?>
+   
+    </table>
 
-            </div>
-            <div class="item">
-                <input type="submit" value="Potvrdit">
-                <input type=button value="Zpet" onclick="window.location.href='search'">
-            </div>
-        </form>
+    <!-- <label for="column">Sloupec</label>
+    <input type="number" id="column" name="column" min="1" max="15" value="1" required>
 
+    <label for="row">Rada</label>
+    <select list="rows" name="row" id="row">
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+        <option value="E">E</option>
+        <option value="F">F</option>
+        <option value="G">G</option>
+    </select> -->
+
+    <label for="type">Typ platby</label>
+    <select id="type" name="type">
+        <option value="na pokladně">Na pokladně</option>
+        <option value="předem">Předem</option>
+    </select>
+
+    <div class="item">
+        <input type="submit" value="Potvrdit">
+        <input type=button value="Zpět" onclick="window.location.href='search'">
     </div>
+</form>
 </div>
 </body>

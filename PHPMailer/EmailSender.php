@@ -53,7 +53,7 @@ class EmailSender
         $firstName = $userInfo->getFirstName();
         $lastName = $userInfo->getLastName();
         $message = "<h1>Potvrzení Vaší rezervace</h1><h3>Informace o rezervaci:</h3><b>Číslo rezervace: $ticketInfo[id]</b><br><br><b>Jméno:</b> $firstName <b>Příjmení:</b> $lastName<br> <b>Název události:</b> $ticketInfo[name]<br> <b>Začátek události:</b> $ticketInfo[begin] <b>Datum:</b> $ticketInfo[date]
-        <br><b>Cena:</b> $ticketInfo[price]<b>Způsob platby:</b> $ticketInfo[payment_type] <br><b>Sedadlo:</b> $ticketInfo[seat] <b>Sál:</b> $ticketInfo[label]";
+        <br><b>Cena:</b> $ticketInfo[price]<b> Způsob platby:</b> $ticketInfo[payment_type] <br><b>Sedadlo:</b> $ticketInfo[seat] <b>Sál:</b> $ticketInfo[label]";
 
         $mailer->isHTML(true);
         $mailer->Subject = "Potvrzení rezervace $ticketInfo[name]";

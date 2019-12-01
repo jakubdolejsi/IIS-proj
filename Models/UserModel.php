@@ -17,7 +17,7 @@ use Exceptions\UpdateException;
 use Exceptions\UpdateSuccess;
 
 
-class UserModel extends baseModel
+class UserModel extends BaseModel
 {
 	public function checkVerificationCode()
 	{
@@ -28,21 +28,22 @@ class UserModel extends baseModel
 		}
 	}
 
+
 	/**
 	 * @param $params
 	 * @return string|void
 	 * @throws AlreadyOccupiedSeatException
 	 * @throws InvalidRequestException
-	 * @throws ReservationSuccessException
 	 * @throws SqlSomethingGoneWrongException
 	 */
 	public function createReservation($params)
 	{
+		$role = $this->auth->role()->getRoleFromSession();
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$role = $this->auth->role()->getRoleFromSession();
 
 			return $role->createNewReservation($params);
 		}
+		//return $role->getReservedSeatInfo($params);
 	}
 
 	/**
@@ -114,7 +115,7 @@ class UserModel extends baseModel
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$role = $this->auth->role()->getRoleByEmailPOST();
 			if (!isset($role)) {
-				throw new NoUserException('User does not exists!');
+				throw new NoUserException('Uživatel se zadaným emailem neexistuje!');
 			}
 			$role->login();
 			throw new LoggedUserException('');
@@ -168,6 +169,13 @@ class UserModel extends baseModel
 		}
 
 		return FALSE;
+	}
+
+
+	public function getReservationInfo($params)
+	{
+		$role = $this->auth->notRegisteredUser();
+		return $role->getReservedSeatInfo($params);
 	}
 
 }

@@ -11,24 +11,24 @@
 <form method="post">
     <div class="generalSettings">
         <div class="settings">
-            First Name: <?= $this->data['firstName'] ?>
+            Jméno: <?= $this->data['firstName'] ?>
         </div>
         <div class="settings">
-            Last Name: <?= $this->data['lastName'] ?>
+            Příjmení: <?= $this->data['lastName'] ?>
         </div>
         <div class="settings">
             <label for="email">Email:</label>
             <input type="text" id="email" name="email" value="<?= $this->data['email'] ?>">
         </div>
         <div class="settings">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="type your old password">
+            <label for="password">Heslo:</label>
+            <input type="password" id="password" name="password" placeholder="heslo">
         </div>
         <div class="settings">
-            <input type=submit value="Ulozit" onclick="window.location.href='settings'">
+            <input type=submit value="Uložit" onclick="window.location.href='settings'">
         </div>
         <div class="settings">
-            <input type=button value="Zpet" onclick="window.location.href='settings'">
+            <input type=button value="Zpět" onclick="window.location.href='settings'">
         </div>
     </div>
 </form>

@@ -33,8 +33,9 @@ class CashierModel extends BaseModel
 
     public function createReservationCashier($params){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        	$data = $this->loadPOST();
             $role = $this->auth->role()->getRoleFromSession();
-            $role->createNewReservation(array_slice($params, 2));
+            $role->newReservation($params, $data);
         }
     }
 

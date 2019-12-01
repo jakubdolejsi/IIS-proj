@@ -1,0 +1,6 @@
+1) autoloader - namapovani cesty
+2) router nacitani trid - unset na prvni dva prvky pole
+3) redirect - '/~xdolej09/IIS/$url'
+4) nastavit ve Views base href na  <base href="/~xdolej09/IIS/"/>
+5) prejmenovat v dotazech xsvera04 na xdolej09
+6) do Validatoru pridat k metode htmlspecialchars flagy "ENT_QUOTES, 'UTF-8'"

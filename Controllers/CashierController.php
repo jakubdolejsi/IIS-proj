@@ -18,6 +18,13 @@ class CashierController extends BaseController
         $this->data['events'] = $events;
     }
 
+    public function actionCreate($params)
+    {
+    	$cashier = $this->getModelFactory()->createCashierModel();
+    	$cashier->createReservationCashier($params);
+    	$this->loadView('cashierCreate');
+    }
+
     public function actionConfirm($params):void
     {
 	    $this->hasPermission('cashier', 'admin');
@@ -30,6 +37,8 @@ class CashierController extends BaseController
             $this->redirect('error');
         }
 
+        $this->data['currentTime'] = date('H-i-s');
+        $this->data['todayDate'] = date('Y-m-d');
         $this->data['tickets'] = $cashier->checkSearchParameters();
 
         $this->loadView('cashierConfirm');

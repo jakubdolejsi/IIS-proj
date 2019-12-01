@@ -14,13 +14,15 @@ class Editor extends Cashier
 	public function addHall($data)
 	{
 		unset($data['submit']);
-		$datas = array_values($data);
+		$data = array_values($data);
+		$capacity = $data[2] * $data[3];
+		$datas = [$data[0],$data[1], $capacity, $data[2], $data[3]];
 
-		$query = 'insert into theatre.hall (label, seat_schema, capacity, row_count, column_count)
+		$query = 'insert into xsvera04.hall (label, seat_schema, capacity, row_count, column_count)
 				VALUES (?,?,?,?,?)';
 		$res = $this->db->run($query, $datas);
 		if ($res->errorCode() !== '00000') {
-			throw new UpdateException('Creating was not successfully completed!');
+			throw new UpdateException('Vytváření se nezdařilo!');
 		}
 	}
 
@@ -31,11 +33,11 @@ class Editor extends Cashier
 		$data = array_values($data);
 		$data[] = $id[1];
 
-		$query = 'update theatre.hall  set hall.label = ?, hall.seat_schema = ?, hall.capacity = ?, hall.row_count = ?, hall.column_count = ?
+		$query = 'update xsvera04.hall  set hall.label = ?, hall.seat_schema = ?, hall.capacity = ?, hall.row_count = ?, hall.column_count = ?
 				where hall.id = ?';
 		$res = $this->db->run($query, $data);
 		if ($res->errorCode() !== '00000') {
-			throw new UpdateException('Updating was not successfully completed!');
+			throw new UpdateException('Úprava se nezdařila!');
 		}
 
 		return $returnData;
@@ -43,24 +45,24 @@ class Editor extends Cashier
 
 	public function removeHallbyId($id)
 	{
-		$query = 'DELETE FROM theatre.hall where hall.id = ?;';
+		$query = 'DELETE FROM xsvera04.hall where hall.id = ?;';
 		$res = $this->db->run($query, $id[1]);
 		if ($res === '00000') {
-			throw new UpdateException('Removing was not successfully completed!');
+			throw new UpdateException('Odebírání se nezdařilo!');
 		}
-		//		throw new UpdateSuccess('Hall was successfully removed');
+		//		throw new UpdateSuccess('Hall was successfully removed');s
 	}
 
 	public function getHallById($id)
 	{
-		$query = 'select * from theatre.hall as h where h.id = ?';
+		$query = 'select * from xsvera04.hall as h where h.id = ?';
 
 		return $this->db->run($query, $id[1])->fetch(PDO::FETCH_ASSOC);
 	}
 
 	public function getAllHalls(): array
 	{
-		$query = 'select h.id, h.label, h.seat_schema, h.capacity, h.column_count, h.row_count from theatre.hall as h';
+		$query = 'select h.id, h.label, h.seat_schema, h.capacity, h.column_count, h.row_count from xsvera04.hall as h';
 
 		return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -68,14 +70,14 @@ class Editor extends Cashier
 
 	public function getEventById($id)
 	{
-		$query = 'select * from theatre.culture_event as ce where ce.id = ?';
+		$query = 'select * from xsvera04.culture_event as ce where ce.id = ?';
 
 		return $this->db->run($query, array_values($id))->fetch(PDO::FETCH_ASSOC);
 	}
 
 	public function getAllEvents(): array
 	{
-		$query = 'select * from theatre.culture_event as ce';
+		$query = 'select * from xsvera04.culture_event as ce';
 
 		return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -88,11 +90,11 @@ class Editor extends Cashier
 		$data = array_values($data);
 		$data[] = $id[1];
 
-		$query = 'update theatre.culture_event  set culture_event.type = ?, culture_event.date = ?, culture_event.begin = ?,
+		$query = 'update xsvera04.culture_event  set culture_event.type = ?, culture_event.date = ?, culture_event.begin = ?,
 				culture_event.end = ?, culture_event.price = ? where culture_event.id = ?';
 		$res = $this->db->run($query, $data);
 		if ($res->errorCode() !== '00000') {
-			throw new UpdateException('Updating was not successfully completed!');
+			throw new UpdateException('Úprava se nezdařila!');
 		}
 
 		return $returnData;
@@ -100,24 +102,30 @@ class Editor extends Cashier
 
 	public function removeEventByID($id)
 	{
-		$query = 'DELETE FROM theatre.culture_event where culture_event.id = ?;';
+		$deteleTicketsQuery = 'delete from xsvera04.ticket where id_culture_event = ?';
+		$res = $this->db->run($deteleTicketsQuery, $id[1]);
+		if($res->errorCode() !== '00000') {
+			throw new UpdateException('Odebírání se nezdařilo!');
+		}
+
+		$query = 'delete from xsvera04.culture_event where culture_event.id = ?';
 		$res = $this->db->run($query, $id[1]);
-		if ($res === '00000') {
-			throw new UpdateException('Removing was not successfully completed!');
+		if ($res->errorCode() !== '00000') {
+			throw new UpdateException('Odebírání se nezdařilo!');
 		}
 		//		throw new UpdateSuccess('Hall was successfully removed');
 	}
 
 	public function getAllWorks()
 	{
-		$query = 'select * from theatre.culture_work as cw';
+		$query = 'select * from xsvera04.culture_work as cw';
 
 		return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
 	}
 
 	public function getWorksById($id)
 	{
-		$query = 'select * from theatre.culture_work where culture_work.id = ?';
+		$query = 'select * from xsvera04.culture_work where culture_work.id = ?';
 
 		return $this->db->run($query, array_values($id))->fetch(PDO::FETCH_ASSOC);
 	}
@@ -131,11 +139,11 @@ class Editor extends Cashier
 		} else {
 			$data[] = $this->uploadImage();
 		}
-		$query = 'insert into theatre.culture_work (culture_work.name, culture_work.type, culture_work.genre, culture_work.actors, culture_work.ranking, culture_work.description, image)
+		$query = 'insert into xsvera04.culture_work (culture_work.name, culture_work.type, culture_work.genre, culture_work.actors, culture_work.ranking, culture_work.description, image)
 				VALUES (?,?,?,?,?,?,?)';
 		$res = $this->db->run($query, $data);
 		if ($res->errorCode() !== '00000') {
-			throw new UpdateException('Creating was not successfully completed!');
+			throw new UpdateException('Vytváření se nezdařilo!');
 		}
 	}
 
@@ -148,13 +156,13 @@ class Editor extends Cashier
 		$data = array_values($data);
 		$data[] = $id[1];
 
-		$query = 'update theatre.culture_work set culture_work.name = ?, culture_work.type = ?, culture_work.genre = ?,
+		$query = 'update xsvera04.culture_work set culture_work.name = ?, culture_work.type = ?, culture_work.genre = ?,
     			culture_work.actors = ?, culture_work.ranking = ?, culture_work.description = ?, culture_work.image = ?
     			where culture_work.id = ?';
 
 		$res = $this->db->run($query, $data);
 		if ($res->errorCode() !== '00000') {
-			throw new UpdateException('Updating was not successfully completed!');
+			throw new UpdateException('Úprava se nezdařila!!');
 		}
 
 		return $returnData;
@@ -162,7 +170,21 @@ class Editor extends Cashier
 
 	public function removeWorksByID($id)
 	{
+		$eventsQuery = 'select id from xsvera04.culture_event where culture_event.id_culture_work = ?';
+		$eventId[1] = $this->db->run($eventsQuery, $id[1])->fetch(PDO::FETCH_ASSOC)['id'];
+		if(isset($eventId[1])) {
+			try {
+				$this->removeEventByID($eventId);
+			}
 
+			catch (UpdateException $e) {
+			}
+		}
+		$removeWorkQuery = 'delete from xsvera04.culture_work where culture_work.id = ?';
+		$res = $this->db->run($removeWorkQuery, $id[1]);
+		if($res->errorCode() !== '00000') {
+			throw new UpdateException('Úprava se nezdařila!!');
+		}
 	}
 
 	public function uploadImage()
@@ -182,4 +204,28 @@ class Editor extends Cashier
 		return $target_dir . basename($_FILES['image']['name']);
 	}
 
+	public function addEvent($data)
+	{
+		unset($data['submit']);
+		$datas = array_values($data);
+
+		$query = 'insert into xsvera04.culture_event (culture_event.id_hall, culture_event.id_culture_work, culture_event.type, culture_event.date, culture_event.begin, culture_event.end, culture_event.price) 
+				VALUES (?,?,?,?,?,?,?)';
+		$res = $this->db->run($query, $datas);
+		if ($res->errorCode() !== '00000') {
+			$x = $res->errorCode();
+			throw new UpdateException('Vytváření se nezdařilo!');
+		}
+	}
+
+	public function getHallAndCultureWorkIds()
+	{
+		$queryHall = 'select id from xsvera04.hall';
+		$hallIds = $this->db->run($queryHall)->fetchAll(PDO::FETCH_ASSOC);
+
+		$queryWork = 'select id from xsvera04.culture_work';
+		$workIDs= $this->db->run($queryWork)->fetchAll(PDO::FETCH_ASSOC);
+
+		return [$hallIds, $workIDs];
+	}
 }

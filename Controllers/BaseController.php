@@ -51,13 +51,13 @@ abstract class BaseController
 	 * @param string $url
 	 */
 
-	protected function redirect(string $url): void
-	{
-		// todo snad funguje dobre...
-		echo "<script>
-				window.location.href='~xsvera04/IIS/$url';
+    protected function redirect(string $url): void
+    {
+        // todo snad funguje dobre...
+        echo "<script>
+				window.location.href='/~xsvera04/IIS/$url';
 			</script>";
-	}
+    }
 
 	protected function alert($message): void
 	{
@@ -127,7 +127,7 @@ abstract class BaseController
 
 	private function blame(): void
 	{
-		echo '<pre>', var_dump('Tuhle metodu nemas co volat kamo'), '</pre>';
+		echo '<pre>', var_dump('Nedostatečné oprávnění!'), '</pre>';
 		exit();
 	}
 
@@ -148,7 +148,7 @@ abstract class BaseController
 	 */
 	protected function loadView(string $view): void
 	{
-		$this->view = $view;
+		$this->view = ucwords($view);
 	}
 
 	protected function loadData($index, array $data)

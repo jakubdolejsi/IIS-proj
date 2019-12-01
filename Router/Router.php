@@ -34,9 +34,11 @@ final class Router extends BaseController
 		$url = $this->parseUrl($params);
 		$this->controller = $this->loadClass($this->getControllerClass($url));
 
-		$method = 'action'. ucwords($url[1] ?? 'default');
-		unset($url[0],$url[1]);
-		method_exists($this->controller, $method) ? $this->controller->$method(array_values($url)) : $this->redirect('error');
+//		var_dump( $url);
+        unset($url[0],$url[1], $url[2]);
+        $url = array_values($url);
+        $method = 'action'. ucwords($url[0] ?? 'default');
+        method_exists($this->controller, $method) ? $this->controller->$method(array_values($url)) : $this->redirect('error');
 //		$this->controller->process($url);
 
 		try {
@@ -48,22 +50,18 @@ final class Router extends BaseController
 		}
 	}
 
-	/**
-	 * @param array $url
-	 * @return string
-	 */
-	private function getControllerClass(array $url)
-	{
-//        throw new InvalidRequestException('zprava vole: trida: ' .$url[0] .$url[1]. ' requst uri: '. $_SERVER['REQUEST_URI']);
-	    unset($url[0]);
-	    unset($url[1]);
-	    $url = array_values($url);
 
-//        throw new InvalidRequestException('zprava vole: trida: ' .$url[0] .$url[1]. ' requst uri: ' .$url . $_SERVER['REQUEST_URI']);
-
-		return (ucwords($url[0]) . 'Controller');
-	}
-
+    /**
+     * @param array $url
+     * @return string
+     */
+    private function getControllerClass(array $url)
+    {
+        unset($url[0]);
+        unset($url[1]);
+        $url = array_values($url);
+        return (ucwords($url[0]) . 'Controller');
+    }
 
 	/**
 	 * @param string $url
@@ -79,37 +77,18 @@ final class Router extends BaseController
 		return ($url);
 	}
 
-	/**
-	 * @param string $class
-	 * @return BaseController
-	 */
-	private function loadClass(string $class): BaseController
-	{
+    private function loadClass(string $class): BaseController
+    {
+        $cls = $class . '.php';
+        // TODO: recursive search...
+        $path = getcwd() . DIRECTORY_SEPARATOR .'Controllers'. DIRECTORY_SEPARATOR . $cls;
+        if (!file_exists($path)) {
+            $this->redirect('error');
+        }
+        $class = 'Controllers\\' . $class;
+        return new $class($this->getContainer());
+    }
 
-	    $ok = $class;
-//	    throw new InvalidRequestException('zprava vole: trida: ' .$class .' requst uri: '. $_SERVER['REQUEST_URI']);
-		$cls = $class . '.php';
-		// TODO: recursive search...
-//		DIRECTORY_SEPARATOR.'~xsvera04' . DIRECTORY_SEPARATOR . 'WWW' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . 'IIS' . DIRECTORY_SEPARATOR .
-
-        $path =  'Controllers' . DIRECTORY_SEPARATOR . $cls;
-//        throw new InvalidRequestException('zprava vole: cesta: ' .$path .' requst uri: '. $_SERVER['REQUEST_URI']);
-		if (!file_exists($path)) {
-			$this->redirect('error');
-		}
-		$class = 'Controllers' . DIRECTORY_SEPARATOR . $class;
-		$finalcls = '/homes/eva/xs/xsvera04/WWW/IIS/' . $class;
-//        throw new InvalidRequestException('zprava vole: trida: ' .$class .' requst uri: '. $_SERVER['REQUEST_URI']);
-        $prefix = '/homes/eva/xs/xsvera04/WWW/IIS/'.$class . '.php';
-        require_once ($prefix);
-        echo '<br>';
-        var_dump($prefix);
-        echo '<br>';
-        var_dump($class);
-        echo '<br>';
-//        $x = new HomeController($this->getContainer());
-		return new $ok($this->getContainer());
-	}
 
 
 	private function getMethod()

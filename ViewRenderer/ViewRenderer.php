@@ -119,6 +119,17 @@ class ViewRenderer implements IViewable
 		return $data;
 	}
 
+	private function czToEnMapper($data)
+	{
+		$langDict = [
+			'přednáška'       => 'prednaska',
+		];
+		if (array_key_exists($data, $langDict)) {
+			$data = $langDict[ $data ];
+		}
+		return $data;
+	}
+
 	/**
 	 * @param $view
 	 * @return string

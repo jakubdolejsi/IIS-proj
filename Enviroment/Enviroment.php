@@ -7,9 +7,9 @@ class Enviroment
 {
 	const DB_OPTIONS = [
 		'DB_HOST'     => 'localhost',
-		'DB_USERNAME' => 'root',
-		'DB_PASSWORD' => '',
-		'DB_NAME'     => 'theatre',
+		'DB_USERNAME' => 'xsvera04',
+		'DB_PASSWORD' => 'gandape8',
+		'DB_NAME'     => 'xsvera04',
 		'OPTIONS'     => [],
 	];
 
@@ -27,7 +27,7 @@ class Enviroment
 		$host = self::DB_OPTIONS['DB_HOST'];
 		$dbName = self::DB_OPTIONS['DB_NAME'];
 
-		return "mysql:host={$host};dbname={$dbName};charset=utf8mb4";
+		return "mysql:host={$host};dbname={$dbName};port=/var/run/mysql/mysql.sock";
 	}
 
 	public static function setErrorNotification()

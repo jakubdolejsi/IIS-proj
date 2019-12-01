@@ -8,55 +8,79 @@
 </head>
 <body>
 
-
-<div id="userModify">
-    <h3>Správa rezervací</h3>
-    <div class="searchButton">
-        <input type="button" onclick="location.href='cashier'" value="pokladní"/>
-    </div>
-    <h3>Správa událostí</h3>
-    <div class="searchButton">
-        <input type="button" onclick="location.href='editor'" value="redaktor"/>
-    </div>
-    <h3>Správa uživatelů</h3>
-    <div class="searchButton">
-        <input type="button" onclick="location.href='admin/add'" value="Přidat uživatele"/>
-    </div>
-    <div class="searchButton">
-        <form method="post">
-            <input type="submit" onclick="location.href='admin'" value="Vyhledat uživatele"/>
-            <div class="item">
-                <input type="text" id="email" name="email" placeholder="E-mailová adresa">
-                <input list="roles" name="role" id="role">
-
-                <datalist id="roles">
-                    <option value="registrovaný uživatel">
-                    <option value="pokladní">
-                    <option value="redaktor">
-                    <option value="admin">
-                </datalist>
+<div class="mt-3 mx-auto px-5" style="width: 600px">
+    <div class="container ml-0">
+    <div class="row mb-3 w-auto">
+        <div class="col w-auto">
+            <label for="modes">Přepnout režimy</label>
+            <div id="modes">
+                <button type="button" id="cashier" class="btn btn-primary mr-1" onclick="location.href='cashier'">Pokladní</button>
+                <button type="button" id="editor" class="btn btn-primary mx-1" onclick="location.href='editor'">Redaktor</button>
             </div>
-        </form>
-    </div>
-
-    <?php foreach ($users as $user) : ?>
-        <div class="concreteItem">
-            <input type="button" value="Upravit" onclick="location.href= 'admin/edit/<?= str_replace
-            (' ',
-                '%20', $user['id'])
-            ?>';"/>
-            <input type="button" value="Smazat" onclick="location.href= 'admin/delete/<?=
-            str_replace
-            (' ',
-                '%20', $user['id'])
-            ?>';"/>
-
-            <?php foreach ($user as $item => $value) : ?>
-                <?= $this->langMapper($item)?> : <?= $value ?> &nbsp;|
-            <?php endforeach ?>
         </div>
-    <?php endforeach ?>
+        <div class="col">
+            <label for="admin-add">Přidat uživatele</label>
+            <div id="admin-add" class="mb-3">
+                <button type="button" class="btn btn-primary" onclick="location.href='admin/add'"><i class="fas fa-user-plus"></i></button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="mb-3 ml-3">
+        <label> Hledat uživatele
+            <form method="post">
+                <div class="form-group mb-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="email" name="email" placeholder="E-mail">
+                        <select class="custom-select form-control" id="role" name="role">
+                            <option selected="selected" value="">Role...</option>
+                            <option value="registrovaný uživatel">Registrovaný uživatel</option>
+                            <option value="pokladní">Pokladní</option>
+                            <option value="redaktor">Redaktor</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        <div class="input-group-append">
+                            <input type="submit" class="btn btn-primary" onclick="location.href='admin'" value="Hledat"/>
+                        </div>
+                    </div> 
+                </div>
+            </form>
+        </label>
+    </div>
+    
+    <table class="table table-striped">
+        <thead class="table-secondary">
+            <tr>
+                <th></th>
+                <th></th>
+                <th>ID</th>
+                <th>Jméno</th>
+                <th>Příjmení</th>
+                <th>E-mail</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($users as $user) : ?>
+            <tr>
+                <td class="pr-1">
+                    <button type="button" class="p-1 btn btn-outline-primary" onclick="location.href= 'admin/edit/<?= str_replace
+                    (' ', '%20', $user['id']) ?>';"><i class="fas fa-user-edit"></i></button>
+                </td>
+                <td class="px-0">
+                    <button type="button" class="p-1 btn btn-outline-secondary" onclick="location.href= 'admin/delete/<?=
+                    str_replace(' ', '%20', $user['id']) ?>';"><i class="fas fa-user-minus"></i></button>
+                </td>
 
+                <?php foreach ($user as $item => $value) : ?>
+                    <td class="align-middle">
+                        <?= $value ?>
+                    </td>
+                <?php endforeach ?>
+            </tr>
+            <?php endforeach ?>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

@@ -10,4 +10,4 @@ RewriteRule !\.(pdf|js|ico|gif|jpg|png|css|rar|zip|tar\.gz)$ index.php [L]
 # RewriteRule .* index.php/$0 [PT,L] 
 
 AddType application/x-httpd-php .php .phtml
-# AddHandler application/x-httpd-php71 .php
+AddHandler application/x-httpd-php71 .php

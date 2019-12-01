@@ -17,7 +17,7 @@ abstract class Validator
 
 	private function parseInput($data): string
 	{
-		return htmlspecialchars(stripslashes(trim($data)));
+        return htmlspecialchars(stripslashes(trim($data)),ENT_QUOTES, 'UTF-8');
 	}
 
 
