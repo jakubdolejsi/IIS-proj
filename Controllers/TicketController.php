@@ -20,8 +20,8 @@ class TicketController extends BaseController
 
 		$ticket = $ticketManager->getTicketByEmail($email);
 		$this->data['ticket'] = $ticket;
-		$this->data['currentTime'] = date('i-s');
-		$this->data['todayDate'] = date('Y-m-s');
+        $this->data['currentTime'] = date('H-i-s');
+		$this->data['todayDate'] = date('Y-m-d');
 		$this->loadView('ticket');
 	}
 

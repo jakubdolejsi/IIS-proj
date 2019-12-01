@@ -65,7 +65,7 @@ class SearchModel extends BaseModel
 	 */
 	private function getConcreteEvents($data): array
 	{
-		$query = 'select cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label, ce.price from theatre.culture_event as ce 
+		$query = 'select cw.id, cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label, ce.price from theatre.culture_event as ce 
 				join theatre.culture_work as cw on ce.id_culture_work = cw.id
 				join theatre.hall as h on ce.id_hall = h.id
 				where ';
