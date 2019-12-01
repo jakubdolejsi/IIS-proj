@@ -19,7 +19,6 @@ $workIds = $events[1];
             <select  id="id_hall" name="id_hall">
 	        <?php foreach ($hallIds as $ids) {
 		        foreach ($ids as $id) {
-			        var_dump($id);
 			        echo "<option value=$id >$id</option>";
 		        }
 	        }?>
@@ -31,7 +30,6 @@ $workIds = $events[1];
             <select id="id_culture_work" name="id_culture_work">
 	            <?php foreach ($workIds as $ids) {
 		            foreach ($ids as $id) {
-			            var_dump($id);
 			            echo "<option value=$id >$id</option>";
 		            }
 	            }?>

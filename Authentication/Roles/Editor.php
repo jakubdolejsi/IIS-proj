@@ -203,7 +203,7 @@ class Editor extends Cashier
 		$datas = array_values($data);
 
 		$query = 'insert into theatre.culture_event (culture_event.id_hall, culture_event.id_culture_work, culture_event.type, culture_event.date, culture_event.begin, culture_event.end, culture_event.price) 
-				VALUES (?,?,?,?,?)';
+				VALUES (?,?,?,?,?,?,?)';
 		$res = $this->db->run($query, $datas);
 		if ($res->errorCode() !== '00000') {
 			$x = $res->errorCode();
