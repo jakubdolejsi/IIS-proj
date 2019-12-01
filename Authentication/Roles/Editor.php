@@ -14,7 +14,9 @@ class Editor extends Cashier
 	public function addHall($data)
 	{
 		unset($data['submit']);
-		$datas = array_values($data);
+		$data = array_values($data);
+		$capacity = $data[2] * $data[3];
+		$datas = [$data[0],$data[1], $capacity, $data[2], $data[3]];
 
 		$query = 'insert into theatre.hall (label, seat_schema, capacity, row_count, column_count)
 				VALUES (?,?,?,?,?)';
@@ -100,9 +102,15 @@ class Editor extends Cashier
 
 	public function removeEventByID($id)
 	{
-		$query = 'DELETE FROM theatre.culture_event where culture_event.id = ?;';
+		$deteleTicketsQuery = 'delete from theatre.ticket where id_culture_event = ?';
+		$res = $this->db->run($deteleTicketsQuery, $id[1]);
+		if($res->errorCode() !== '00000') {
+			throw new UpdateException('Odebírání se nezdařilo!');
+		}
+
+		$query = 'delete from theatre.culture_event where culture_event.id = ?';
 		$res = $this->db->run($query, $id[1]);
-		if ($res === '00000') {
+		if ($res->errorCode() !== '00000') {
 			throw new UpdateException('Odebírání se nezdařilo!');
 		}
 		//		throw new UpdateSuccess('Hall was successfully removed');
@@ -162,7 +170,21 @@ class Editor extends Cashier
 
 	public function removeWorksByID($id)
 	{
+		$eventsQuery = 'select id from theatre.culture_event where culture_event.id_culture_work = ?';
+		$eventId[1] = $this->db->run($eventsQuery, $id[1])->fetch(PDO::FETCH_ASSOC)['id'];
+		if(isset($eventId[1])) {
+			try {
+				$this->removeEventByID($eventId);
+			}
 
+			catch (UpdateException $e) {
+			}
+		}
+		$removeWorkQuery = 'delete from theatre.culture_work where culture_work.id = ?';
+		$res = $this->db->run($removeWorkQuery, $id[1]);
+		if($res->errorCode() !== '00000') {
+			throw new UpdateException('Úprava se nezdařila!!');
+		}
 	}
 
 	public function uploadImage()
@@ -187,11 +209,23 @@ class Editor extends Cashier
 		unset($data['submit']);
 		$datas = array_values($data);
 
-		$query = 'insert into theatre.culture_event (id, id_hall, id_culture_work, type, date, begin, end, price) 
-				VALUES (?,?,?,?,?,?,?,?)';
+		$query = 'insert into theatre.culture_event (culture_event.id_hall, culture_event.id_culture_work, culture_event.type, culture_event.date, culture_event.begin, culture_event.end, culture_event.price) 
+				VALUES (?,?,?,?,?,?,?)';
 		$res = $this->db->run($query, $datas);
 		if ($res->errorCode() !== '00000') {
+			$x = $res->errorCode();
 			throw new UpdateException('Vytváření se nezdařilo!');
 		}
+	}
+
+	public function getHallAndCultureWorkIds()
+	{
+		$queryHall = 'select id from theatre.hall';
+		$hallIds = $this->db->run($queryHall)->fetchAll(PDO::FETCH_ASSOC);
+
+		$queryWork = 'select id from theatre.culture_work';
+		$workIDs= $this->db->run($queryWork)->fetchAll(PDO::FETCH_ASSOC);
+
+		return [$hallIds, $workIDs];
 	}
 }
