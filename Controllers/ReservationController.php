@@ -83,6 +83,9 @@ class ReservationController extends BaseController
             $this->alert("Na váš email byly odeslány informace o rezervaci!");
             $this->redirect('home');
 		}
+		$data = $user->getReservationInfo($params);
+		$this->data['halls'] = $data['hallInfo'];
+		$this->data['reservedSeats'] = $data['seatsInfo'];
 	}
 
 
