@@ -20,6 +20,8 @@ class CashierController extends BaseController
 
     public function actionCreate($params)
     {
+    	$cashier = $this->getModelFactory()->createCashierModel();
+    	$cashier->createReservationCashier($params);
     	$this->loadView('cashierCreate');
     }
 

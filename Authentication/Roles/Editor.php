@@ -100,9 +100,15 @@ class Editor extends Cashier
 
 	public function removeEventByID($id)
 	{
-		$query = 'DELETE FROM theatre.culture_event where culture_event.id = ?;';
+		$deteleTicketsQuery = 'delete from theatre.ticket where id_culture_event = ?';
+		$res = $this->db->run($deteleTicketsQuery, $id[1]);
+		if($res->errorCode() !== '00000') {
+			throw new UpdateException('Odebírání se nezdařilo!');
+		}
+
+		$query = 'delete from theatre.culture_event where culture_event.id = ?';
 		$res = $this->db->run($query, $id[1]);
-		if ($res === '00000') {
+		if ($res->errorCode() !== '00000') {
 			throw new UpdateException('Odebírání se nezdařilo!');
 		}
 		//		throw new UpdateSuccess('Hall was successfully removed');
