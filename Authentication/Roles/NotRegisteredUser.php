@@ -252,9 +252,9 @@ class NotRegisteredUser extends Password{
 									join theatre.culture_event as ce on t.id_culture_event = ce.id
 									join theatre.culture_work as cw on ce.id_culture_work = cw.id
 									join theatre.hall as h on ce.id_hall = h.id
-									where h.label = ? and ce.begin = ? and ce.type = ? and cw.name = ? and t.seat = ?';
+									where h.label = ? and ce.begin = ? and ce.type = ? and cw.id = ? and t.seat = ?';
 
-        $queryParams = [$urlParams['label'], $urlParams['begin'], $urlParams['type'], $urlParams['name'], $seatInfo];
+        $queryParams = [$urlParams['label'], $urlParams['begin'], $urlParams['type'], $urlParams['id'], $seatInfo['seat']];
 
         return empty($this->db->run($existingReservationQuery, $queryParams)->fetchAll(PDO::FETCH_ASSOC));
     }
@@ -269,7 +269,7 @@ class NotRegisteredUser extends Password{
     public function createNewReservation($params)
     {
         $urlParams = $this->getUrlParams($params);
-	    $seatInfo = $this->joinSeat($this->loadPOST());
+	    $seatInfo = $this->loadPOST();
         if (!$this->isSeatFree($urlParams, $seatInfo)) {
             throw new AlreadyOccupiedSeatException('Sedadlo je již obsazeno!');
         }
@@ -292,18 +292,18 @@ class NotRegisteredUser extends Password{
             throw new InvalidRequestException('Neplatná URL adresa!');
         }
 
-        $cultureEventIdQueryParams = [urldecode($urlParams['label']), urldecode($urlParams['begin']), urldecode($urlParams['type']), urldecode($urlParams['name'])];
+        $cultureEventIdQueryParams = [urldecode($urlParams['label']), urldecode($urlParams['begin']), urldecode($urlParams['type']), urldecode($urlParams['id'])];
         $cultureEventIdQuery = 'select ce.id, ce.price from theatre.culture_event as ce
 							join theatre.culture_work as cw on ce.id_culture_work = cw.id
 							join theatre.hall as h on ce.id_hall = h.id
-							where h.label = ? and ce.begin = ? and cw.type = ? and cw.name = ?';
+							where h.label = ? and ce.begin = ? and cw.type = ? and cw.id = ?';
         $cultureEventRes = $this->db->run($cultureEventIdQuery, $cultureEventIdQueryParams)->fetch(PDO::FETCH_ASSOC);
         if (!isset($cultureEventRes['id'])) {
             throw new InvalidRequestException('Neplatná URL adresa!');
         }
 
         // TODO fixne dana cena a sleva
-        $queryParams = [$userId, $cultureEventRes['id'], $cultureEventRes['price'], $seatInfo, 0, $data['type'], 2];
+        $queryParams = [$userId, $cultureEventRes['id'], $cultureEventRes['price'], $seatInfo['seat'], 0, $data['type'], 2];
         $query = 'insert into theatre.ticket (id_user, id_culture_event, price, seat, discount, payment_type, is_paid) 
 				values (?, ?, ?, ?, ?, ?, ?)';
 
