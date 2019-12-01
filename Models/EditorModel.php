@@ -9,11 +9,12 @@ class EditorModel extends BaseModel
 
 	public function addEvent($params)
 	{
+		$role = $this->auth->role()->getRoleFromSession();
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$role = $this->auth->role()->getRoleFromSession();
+
 			$data = $role->addEvent($this->loadPOST());
 		}
-		return ['', 'editorEventsAdd'];
+		return [$role->getHallAndCultureWorkIds(), 'editorEventsAdd'];
 	}
 
 	public function addHall($params)
@@ -103,7 +104,7 @@ class EditorModel extends BaseModel
 			$role->addWork($data);
 		}
 
-		return ['', 'editorWorksAdd'];
+		return ['', 'editorWorks'];
 	}
 
 	public function editWork($params)
@@ -122,7 +123,9 @@ class EditorModel extends BaseModel
 
 	public function removeWork($params)
 	{
-
+		$role = $this->auth->role()->getRoleFromSession();
+		$role->removeWorksByID($params);
+		return ['', 'editorWorksAdd'];
 	}
 
 
