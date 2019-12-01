@@ -78,7 +78,8 @@ class ReservationController extends BaseController
                 $settings->setRecipient($mail, $user->getEmail());
                 $settings->sendEmail($mail);
             } catch (Exception $e) {
-                echo "Nepodařilo se odeslat lístek na email. Chyba: {$mail->ErrorInfo}";
+                $this->alert("Nepodařilo se odeslat lístek na email. Chyba: {$mail->ErrorInfo}");
+                $this->redirect('search');
             }
             $this->alert("Na váš email byly odeslány informace o rezervaci!");
             $this->redirect('home');
