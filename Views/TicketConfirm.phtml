@@ -13,8 +13,8 @@
 <div id="ticketItem" style="text-align: center">
     <h1>Potvrzení úhrady</h1>
     <form method="post">
-        <label for="id">Částka(<?php echo $price ?>)</label>
-        <input type="text" name="price" id="price" placeholder="Zadejte čátku" required>
+        <label for="id">Částka (v Kč)</label>
+        <input type="text" name="price" id="price" value= <?=$price ?>>
         <input type="submit" value="Potvrdit">
         <input type="button" onclick="location.href='ticket'" value="Zpět">
     </form>
