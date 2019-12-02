@@ -323,13 +323,16 @@ class NotRegisteredUser extends Password{
 		where cw.type = ? and ce.id = ? and hall.label = ? and ce.begin = ?';
 		$hallInfo = $this->db->run($queryHall, $params)->fetch(PDO::FETCH_ASSOC);
 
-		$queryReserverSeats = 'select ticket.seat from theatre.ticket 
+		$queryReservedSeats = 'select ticket.seat from theatre.ticket 
     						join culture_event ce on ticket.id_culture_event = ce.id
 							join culture_work cw on ce.id_culture_work = cw.id
 							join hall h on ce.id_hall = h.id
 							where cw.type = ? and ce.id = ? and h.label = ? and ce.begin = ?';
-		$seatsInfo = $this->db->run($queryReserverSeats, $params)->fetch(PDO::FETCH_ASSOC);
-
+		$seatsInfoArr = $this->db->run($queryReservedSeats, $params)->fetchAll(PDO::FETCH_ASSOC);
+        $seatsInfo = [];
+        foreach ($seatsInfoArr as $item){
+            array_push($seatsInfo, $item['seat']);
+        }
 		$all['hallInfo'] = $hallInfo;
 		$all['seatsInfo'] = $seatsInfo;
 

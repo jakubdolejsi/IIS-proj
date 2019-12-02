@@ -35,6 +35,10 @@ class CashierController extends BaseController
 	    catch (UpdateException $e) {
 	    	$this->alert($e->getMessage());
 	    }
+        $user = $this->getModelFactory()->createUserModel();
+        $data = $user->getReservationInfo($params);
+        $this->data['halls'] = $data['hallInfo'];
+        $this->data['reservedSeats'] = $data['seatsInfo'];
 	    $this->loadView('cashierCreate');
     }
 

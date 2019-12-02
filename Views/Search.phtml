@@ -94,7 +94,7 @@
             <?php endforeach ?>
             <td>
                 <!-- Zasednuti tlacitka 'Rezervovat' pokud udalost jiz probehla/zacala -->
-                <button class="btn btn-primary " onclick="location.href = 'reservation/create/<?= (str_replace(' ', '%20', $event['type']))
+                <button class="btn btn-primary" onclick="location.href = 'reservation/create/<?= (str_replace(' ', '%20', $event['type']))
                 ?>/<?=(str_replace(' ', '%20', $id)) ?>/<?=(str_replace(' ', '%20', $event['label']))?>/<?=
                 (str_replace(' ' , '%20', $event['begin']))?>'"
 
