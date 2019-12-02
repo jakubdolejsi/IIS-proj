@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-2"/>
+    <title>Projekt IIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+<body>
+
+<!-- Zkontrolujte prosím nastavení kódování v hlavičce dokumentu 
+     podle použitého editoru -->
+
+<h1>Kino: rezervace vstupenek na kulturní události</h1> <!-- Nahradte názvem svého zadání -->
+
+<dl>
+	<dt>Autoři</dt>
+	<dd>Jakub Dolejší <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xdolej09@stud.fit.vutbr.cz">xdolej09@stud.fit.vutbr.cz</a> -
+		Backend
+	</dd>
+	<dd>Mark A. Menzyński <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xmenzy00@stud.fit.vutbr.cz">xmenzy00@stud.fit.vutbr.cz</a> -
+		Frontend
+	</dd>
+  <dd>Tomáš Svěrák <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xsvera04@stud.fit.vutbr.cz">xsvera04@stud.fit.vutbr.cz</a> -
+	  Backend
+	</dd>
+	<dt>URL aplikace</dt>
+	<dd><a href="http://www.stud.fit.vutbr.cz/~xdolej09/IIS/">http://www.stud.fit.vutbr.cz/~dolej09/IIS/</a></dd>
+	<dd>(http://www.stud.fit.vutbr.cz/~xddolej09/IIS/home)</dd>
+</dl>
+
+<h2>Uživatelé systému pro testování</h2>
+<p>Uveďte prosím existující zástupce <strong>všech rolí uživatelů</strong>.</p>
+<table>
+<tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>admin.iis@email.cz</td><td>admin</td><td>Administrátor</td></tr>
+<tr><td>editor.iis@email.cz</td><td>editor</td><td>Redaktor</td></tr>
+<tr><td>cashier.iis@email.cz</td><td>cashier</td><td>Pokladní</td></tr>
+<tr><td>reguser.iis@email.cz</td><td>user</td><td>Divák</td></tr>
+</table>
+<br>
+Přihlášení do emailové schránky(např. přes portál seznam.cz)
+<table>
+	<tr><th>email</th><th>Heslo</th></tr>
+	<tr><td>admin.iis@email.cz</td><td>adminHeslo</td></tr>
+	<tr><td>editor.iis@email.cz</td><td>editorHeslo</td></tr>
+	<tr><td>cashier.iis@email.cz</td><td>cashierHeslo</td></tr>
+	<tr><td>reguser.iis@email.cz</td><td>userHeslo</td></tr>
+</table>
+
+<p>(Diagram případů užití není nutné vkládat, pokud IS implementuje role a případy užití definované zadáním.)</p> 
+
+<h2>Implementace</h2>
+<p>Stručná dokumentace k implementaci, která popisuje, které části projektu (např. PHP skripty) implementují jednotlivé případy použití.</p>
+<p>
+	[Abstrakt]
+	<br>
+	Projekt ja napsán architekturou MVC, kde jsou oddělené pohledy od aplikační logiky. Je tříděn do třech hlavních
+	částí, Views, Models a Controllers. Návrh aplikace či její samotné fungování jsme si vymysleli a napsali
+	sami, nebylo tudíž využito žádného backend frameworku. Na začátku vykonávání skriptu router dle URI hlavičky
+	rozpozná
+	kontroler,	což
+	je první parametr, a následně na něm zavolá příslušnou metodu, což je druhý parametr. V těchto metodách se
+	obvykle vytvoří patřičný model, např. UserModel, který představuješ nejvyšší vrstvu business logiky. Dále se
+	přes objekt autentifikace zavolá konkrétní metoda, která už má přístup k databázi a provádí samotné dotazy.
+	K případům užití pro stručnost uvedu pouze kontrolery; nicméně z nich(případně z metod, které obsahují) by mělo být
+	patrné, co	vše	se zde provádí.
+<dl>
+	<dt>AboutController</dt>
+	<dd>zobrazí základní informace o portálu</dd>
+	
+	<dt>AdminController</dt>
+	<dd>Provádí akce, na které má právo pouze administrátor, např. přidání uživatele</dd>
+	
+	<dt>AuthController</dt>
+	<dd>Má na starosti správu portálu. Dle role rozpozná uživatele(admin, cashier atd.) a přesměruje ho na jeho
+		stránku</dd>
+	
+	<dt>CashierController</dt>
+	<dd>Provádí akce, které může vykonávat pokladní</dd>
+	
+	<dt>EditorController</dt>
+	<dd>Provádí akce, které může vykonávat redaktor</dd>
+	
+	<dt>ErrorController</dt>
+	<dd>Přesměruje užviatele na chybovou stránku</dd>
+	
+	<dt>EmailVerificationController</dt>
+	<dd>Ověří uživatele při registraci dle linku/hashe, který mu byl zaslán do emailu</dd>
+	
+	<dt>HomeController</dt>
+	<dd>Domovská stránka</dd>
+	
+	<dt>LoginController</dt>
+	<dd>Provádí přihlášení</dd>
+	
+	<dt>LogoutController</dt>
+	<dd>Provádí odhlášení</dd>
+	
+	<dt>ReservationController</dt>
+	<dd>Provede rezervaci</dd>
+	
+	<dt>RegistrationController</dt>
+	<dd>Provede registraci nového uživatele, případně doregistraci</dd>
+	
+	<dt>SearchController</dt>
+	<dd>Umožní vyhledávat kulturní události</dd>
+	
+	<dt>SettingsController</dt>
+	<dd>Umožňuje editovat profil</dd>
+	
+	<dt>TicketController</dt>
+	<dd>Umožňuje zobrazit lístky daného uživatele</dd>
+</dl>
+<br>
+
+<h3>Databáze</h3>
+
+<img src="er.jpg">
+
+<h2>Instalace</h2>
+
+Stručně popište: 
+<ul>
+<li>postup instalace na server,</li>
+	<ul>
+		Na serveru Eva by se měla nacházet funkční verze projektu, kde je upraven autoloader a router tak, aby se za
+		kořenový adresář bral /~xlogin00/IIS/. V případě přesunutí projektu na jiné místo je nutné toto změnit.
+	</ul>
+<li>softwarové požadavky (verze PHP apod.),</li>
+	<ul>
+		Verze PHP: 7.3
+	</ul>
+<li>Databáze je již inicializovaná a naplněná vzorovými testovacými daty.</li>
+</ul>
+</body>
+</html>
