@@ -9,42 +9,76 @@
 </head>
 
 <body>
-<form method="post" enctype="multipart/form-data">
-    <div class="generalSettings">
-        <div class="settings">
-            <label for="name">jmeno:</label>
-            <input type="text" id="name" name="name" value="<?= $works['name'] ?>">
+
+<div class="mx-auto" style="width: 600px">
+    <h3 class="text-center mb-4">Editor - Úprava události</h3>
+    <form method="post">
+        <div class="container">
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="name">Jméno</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" class="form-control" id="name" name="name" value="<?= $works['name'] ?>">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="type">Typ</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" class="form-control" id="type" name="type" value="<?= $works['type'] ?>">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="genre">Žánr</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" class="form-control" id="genre" name="genre" value="<?= $works['genre'] ?>">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="actors">Herci</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" class="form-control" id="actors" name="actors" value="<?= $works['actors'] ?>">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="ranking">Hodnocení</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" class="form-control" id="ranking" name="ranking" value="<?= $works['ranking'] ?>">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="description">Popis</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" class="form-control" id="description" name="description" value="<?= $works['description'] ?>">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="description">Obrázek</label>
+                </div>
+                <div class="col-9">
+                    <input type="file" class="form-control-file" id="image" name="image">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3"></div>
+                <div class="col-9">
+                    <input type="submit" class="btn btn-primary" id="submit" name="submit" value="Potvrdit" onclick="ajaxForm()">
+                    <input type="button" class="btn btn-secondary" value="Zpět" onclick="window.location.href='editor/works'">
+                </div>
+            </div>
         </div>
-        <div class="settings">
-            <label for="type">typ:</label>
-            <input type="text" id="type" name="type" value="<?= $works['type'] ?>">
-        </div>
-        <div class="settings">
-            <label for="genre">zanr:</label>
-            <input type="text" id="genre" name="genre" value="<?= $works['genre'] ?>">
-        </div>
-        <div class="settings">
-            <label for="actors">herci:</label>
-            <input type="text" id="actors" name="actors" value="<?= $works['actors'] ?>">
-        </div>
-        <div class="settings">
-            <label for="ranking">ranking:</label>
-            <input type="text" id="ranking" name="ranking" value="<?= $works['ranking'] ?>">
-        </div>
-        <div class="settings">
-            <label for="description">popis:</label>
-            <input type="text" id="description" name="description" value="<?= $works['description'] ?>">
-        </div>
-        <div class="settings">
-            <label for="image">obrazek :</label>
-            <input type="file" id="image" name="image">
-        </div>
-        <div class="settings">
-            <input type="submit" id="submit" name="submit" value="Potvrdit" onclick="ajaxForm()">
-        </div>
-        <div class="settings">
-            <input type=button value="Zpet" onclick="window.location.href='editor/works'">
-        </div>
-    </div>
-</form>
+    </form>
+</div>
+
 </body>
