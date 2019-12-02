@@ -10,27 +10,55 @@
 </head>
 <body>
 
-<div class="settings">
-    <input type="button" value="Pridat novy sal" onclick="location.href='editor/halls/add'">
-	<?php foreach ($hall as $event) : ?>
-        <div class="concreteItem">
-            <input type="button" value="upravit" onclick="location.href= 'editor/halls/edit/<?= str_replace
-			(' ',
-				'%20', $event['id'])
-			?>';"/>
-            <input type="button" value="smazat" onclick="location.href= 'editor/halls/remove/<?=
-			str_replace
-			(' ',
-				'%20', $event['id'])
-			?>';"/>
+<div class="mx-auto" style="width: 700px">
+	<table class="table table-striped w-auto mb-3">
+    <thead class="table-primary">
+		<tr class="text-center">
+			<th>Upravit</th>
+			<th>Smazat</th>
+			<th>ID</th>
+			<th>Sál</th>
+			<th>Schéma</th>
+			<th>Kapacita</th>
+			<th>Sedadel v řadě</th>
+			<th>Počet řad</th>
+		<tr>
+	</thead>
+	<tbody>
+		<?php foreach ($hall as $event) : ?>
+		<tr class="text-center">
+			<td>
+				<button type="button" class="btn btn-primary px-2 py-1" onclick="location.href= 'editor/halls/edit/<?= str_replace
+					(' ',
+						'%20', $event['id'])
+					?>';">
+					<i class="fas fa-edit"></i>
+				</button>
+			</td>
+			<td>
+				<button type="button" class="btn btn-secondary px-2 py-1" value="smazat" onclick="location.href= 'editor/halls/remove/<?=
+					str_replace
+					(' ',
+						'%20', $event['id'])
+					?>';">
+					<i class="fas fa-trash-alt"></i>
+				</button>
+			</td>
 
 			<?php foreach ($event as $item => $value) : ?>
-				<?= $this->langMapper($item) ?> : <?= $value ?> &nbsp;|
+				<td  class="align-middle">
+				<?= $value ?>
+				</td>
 			<?php endforeach ?>
-        </div>
-	<?php endforeach ?>
-    <input type="submit" value="Zpet" onclick=window.location.href='editor'>
+		</tr>
+		<?php endforeach ?>
+	</tbody>
+</table>
+
+<input type="button" class="btn btn-primary mr-1" value="Přidat nový sál" onclick="location.href='editor/halls/add'">
+<input type="submit" class="btn btn-secondary" value="Zpět" onclick=window.location.href='editor'>
 
 </div>
+
 </body>
 </html>
