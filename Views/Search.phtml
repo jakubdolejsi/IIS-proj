@@ -10,23 +10,29 @@
 </head>
 <body>
 
-<div class="mx-auto">
+<div class="mx-auto" style="width: 800px">
     <h2 class="text-center mb-4">Vyhledávání kulturních událostí</h2>
-    <form method="post" class="mx-auto" style="width: 600px">
+    <form method="post" class="mx-auto">
         <div class="form-group row">
-            <label for="date" class="col-3 col-form-label">Datum</label>
+            <label for="name" class="col-3 col-form-label">Název <i>(volitelné)</i></label>
+            <div class="col-9">
+                <input type="text" name="name" id="name" class="form-control">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="date" class="col-3 col-form-label">Datum <i>(volitelné)</i></label>
             <div class="col-9">
                 <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>">
             </div>
         </div>
         <div class="form-group row">
-            <label for="begin" class="col-3 col-form-label">Začátek</label>
+            <label for="begin" class="col-3 col-form-label">Začátek <i>(volitelné)</i></label>
             <div class="col-9">
                 <input type="time" name="begin" id="begin" class="form-control">
             </div>
         </div>
         <div class="form-group row">
-            <label for="type" class="col-3 col-form-label">Typ</label>
+            <label for="type" class="col-3 col-form-label">Typ <i>(volitelné)</i></label>
             <div class="col-9">
                 <select class="custom-select form-control" id="type" name="type">
                     <option value=""></option>
@@ -39,12 +45,6 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="name" class="col-3 col-form-label">Název</label>
-            <div class="col-9">
-                <input type="text" placeholder="Zadejte název události" name="name" id="name" class="form-control">
-            </div>
-        </div>
-        <div class="form-group row">
             <div class="col-3"></div>
             <div class="col-9">
                 <button type="submit" class="btn btn-primary">Hledat</i></button>
@@ -52,26 +52,26 @@
         </div>
     </form>
 
-    <table class="table mt-5">
-        <div class="active">
-            <!-- Zobrazeni nadpisu pouze pri zavolani getAllFutureEvents        -->
-            <?php if (($_SERVER['REQUEST_METHOD'] === 'GET')) : ?>
-                <h4>Nadcházející události</h4>
-            <?php elseif (empty($_POST['date']) && empty($_POST['begin']) && empty($_POST['type']) && empty($_POST['name'])) : ?>
-                <h4>Nadcházející události</h4>
-            <?php endif ?>
-        </div>
+    <div class="active mt-5">
+        <!-- Zobrazeni nadpisu pouze pri zavolani getAllFutureEvents -->
+        <?php if (($_SERVER['REQUEST_METHOD'] === 'GET')) : ?>
+            <h4>Nadcházející události</h4>
+        <?php elseif (empty($_POST['date']) && empty($_POST['begin']) && empty($_POST['type']) && empty($_POST['name'])) : ?>
+            <h4>Nadcházející události</h4>
+        <?php endif ?>
+    </div>
+    <table class="table">
         <thead class="table-primary">
         <tr>
-            <th></th>
+            <th scope="col">Info</th>
             <th scope="col">Jméno</th>
             <th scope="col">Typ</th>
             <th scope="col">Žánr</th>
             <th scope="col">Datum</th>
             <th scope="col">Začátek</th>
-            <th scope="col">Označení sálu</th>
+            <th scope="col">Sál</th>
             <th scope="col">Cena</th>
-            <th></th>
+            <th scope="col"></th>
         </tr>
         </thead>
 
@@ -95,7 +95,6 @@
                     <button class="btn btn-primary " onclick="location.href = 'reservation/create/<?= (str_replace(' ', '%20', $event['type']))
                     ?>/<?= (str_replace(' ', '%20', $id)) ?>/<?= (str_replace(' ', '%20', $event['label'])) ?>/<?=
                     (str_replace(' ', '%20', $event['begin'])) ?>'"
-
                     > Rezervovat
                     </button>
                 </td>
