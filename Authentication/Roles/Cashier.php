@@ -113,7 +113,7 @@ class Cashier extends RegisteredUser
 									join theatre.hall as h on ce.id_hall = h.id
 									where h.label = ? and ce.begin = ? and cw.type = ? and ce.id = ? and t.seat = ?';
 
-		$queryParams = [$urlParams[2], $urlParams[3], urldecode($urlParams[0]), $urlParams[1], $seatInfo['seat']];
+		$queryParams = [$urlParams['label'], $urlParams['begin'], urldecode($urlParams['type']), $urlParams['id'], $seatInfo['seat']];
 
 		return empty($this->db->run($existingReservationQuery, $queryParams)->fetchAll(PDO::FETCH_ASSOC));
 	}
