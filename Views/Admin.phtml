@@ -8,7 +8,8 @@
 </head>
 <body>
 
-<div class="mt-3 mx-auto px-5" style="width: 600px">
+<div class="mt-3 mx-auto px-5" style="width: 900px">    
+    <h2 class="mb-4">Správce</h2>
     <div class="container ml-0">
         <div class="row mb-3 w-auto">
             <div class="col w-auto">
@@ -18,7 +19,7 @@
                         Pokladní
                     </button>
                     <button type="button" id="editor" class="btn btn-primary mx-1" onclick="location.href='editor'">
-                        Redaktor
+                        Správce kina
                     </button>
                 </div>
             </div>
@@ -37,8 +38,8 @@
                 <div class="form-group mb-3">
                     <div class="input-group">
                         <input type="text" class="form-control" id="email" name="email" placeholder="E-mail">
-                        <select class="custom-select form-control" id="role" name="role">
-                            <option selected="selected" value="">Role...</option>
+                        <select class="custom-select form-control" id="role" name="role" required>
+                            <option selected disabled hidden value="">Vyberte roli...</option>
                             <option value="registrovaný uživatel">Registrovaný uživatel</option>
                             <option value="pokladní">Pokladní</option>
                             <option value="redaktor">Redaktor</option>

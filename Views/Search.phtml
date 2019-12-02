@@ -29,14 +29,13 @@
             <label for="type" class="col-3 col-form-label">Typ</label>
             <div class="col-9">
                 <select class="custom-select form-control" id="type" name="type">
-                    <option></option>
+                    <option value=""></option>
                     <option value="Film">Film</option>
                     <option value="Přednáška">Přednáška</option>
                     <option value="Prezentace">Prezentace</option>
                     <option value="Divadelní představení">Divadelní představení</option>
                     <option value="Stand-up">Stand-up</option>
                 </select>
-
             </div>
         </div>
         <div class="form-group row">
@@ -50,60 +49,61 @@
             <div class="col-9">
                 <button type="submit" class="btn btn-primary">Hledat</i></button>
             </div>
+        </div>
     </form>
-</div>
 
-<table class="table mt-5 w-100">
-    <div class="active">
-
-        <!-- Zobrazeni nadpisu pouze pri zavolani getAllFutureEvents        -->
-		<?php if (($_SERVER['REQUEST_METHOD'] === 'GET')) : ?>
-            <h4>Nadcházející události</h4>
-		<?php elseif (empty($_POST['date']) && empty($_POST['begin']) && empty($_POST['type']) && empty($_POST['name'])) : ?>
-            <h4>Nadcházející události</h4>
-		<?php endif ?>
-    </div>
-    <thead class="table-primary">
-    <tr>
-        <th></th>
-        <th scope="col">Jméno</th>
-        <th scope="col">Typ</th>
-        <th scope="col">Žánr</th>
-        <th scope="col">Datum</th>
-        <th scope="col">Začátek</th>
-        <th scope="col">Označení sálu</th>
-        <th scope="col">Cena</th>
-        <th></th>
-    </tr>
-    </thead>
-
-    <tbody>
-	<?php foreach ($events as $event) : ?>
+    <table class="table mt-5">
+        <div class="active">
+            <!-- Zobrazeni nadpisu pouze pri zavolani getAllFutureEvents        -->
+            <?php if (($_SERVER['REQUEST_METHOD'] === 'GET')) : ?>
+                <h4>Nadcházející události</h4>
+            <?php elseif (empty($_POST['date']) && empty($_POST['begin']) && empty($_POST['type']) && empty($_POST['name'])) : ?>
+                <h4>Nadcházející události</h4>
+            <?php endif ?>
+        </div>
+        <thead class="table-primary">
         <tr>
-            <td>
-                <button class="btn btn-outline-secondary" onclick="location.href='search/event/<?php echo(str_replace(' ', '%20', $event['name'])) ?> ';">
-                    <i class="fas fa-info"></i>
-                </button>
-            </td>
-			<?php $id = $event['id'];
-			unset($event['id']) ?>
-			<?php foreach ($event as $value) : ?>
-                <td>
-					<?php echo($value); ?>
-                </td>
-			<?php endforeach ?>
-            <td>
-                <!-- Zasednuti tlacitka 'Rezervovat' pokud udalost jiz probehla/zacala -->
-                <button class="btn btn-primary" onclick="location.href = 'reservation/create/<?= (str_replace(' ', '%20', $event['type']))
-                ?>/<?=(str_replace(' ', '%20', $id)) ?>/<?=(str_replace(' ', '%20', $event['label']))?>/<?=
-                (str_replace(' ' , '%20', $event['begin']))?>'"
-                > Rezervovat
-                </button>
-            </td>
-
+            <th></th>
+            <th scope="col">Jméno</th>
+            <th scope="col">Typ</th>
+            <th scope="col">Žánr</th>
+            <th scope="col">Datum</th>
+            <th scope="col">Začátek</th>
+            <th scope="col">Označení sálu</th>
+            <th scope="col">Cena</th>
+            <th></th>
         </tr>
-	<?php endforeach; ?>
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+        <?php foreach ($events as $event) : ?>
+            <tr>
+                <td>
+                    <button class="btn btn-outline-secondary" onclick="location.href='search/event/<?php echo(str_replace(' ', '%20', $event['name'])) ?> ';">
+                        <i class="fas fa-info"></i>
+                    </button>
+                </td>
+                <?php $id = $event['id'];
+                unset($event['id']) ?>
+                <?php foreach ($event as $value) : ?>
+                    <td>
+                        <?php echo($value); ?>
+                    </td>
+                <?php endforeach ?>
+                <td>
+                    <!-- Zasednuti tlacitka 'Rezervovat' pokud udalost jiz probehla/zacala -->
+                    <button class="btn btn-primary " onclick="location.href = 'reservation/create/<?= (str_replace(' ', '%20', $event['type']))
+                    ?>/<?= (str_replace(' ', '%20', $id)) ?>/<?= (str_replace(' ', '%20', $event['label'])) ?>/<?=
+                    (str_replace(' ', '%20', $event['begin'])) ?>'"
+
+                    > Rezervovat
+                    </button>
+                </td>
+
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 
 </body>
