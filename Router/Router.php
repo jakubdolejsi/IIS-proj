@@ -38,6 +38,7 @@ final class Router extends BaseController
         unset($url[0],$url[1], $url[2]);
         $url = array_values($url);
         $method = 'action'. ucwords($url[0] ?? 'default');
+        unset($url[0]);
         method_exists($this->controller, $method) ? $this->controller->$method(array_values($url)) : $this->redirect('error');
 //		$this->controller->process($url);
 

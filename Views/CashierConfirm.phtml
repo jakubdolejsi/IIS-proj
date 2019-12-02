@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html lang="cs-cz">
+<head>
+    <meta charset="UTF-8"/>
+    <base href="/localhost"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+</head>
+<body>
+<div class="welcome">
+    <h3>Vyhledání rezervace</h3>
+</div>
+<form method="post">
+    <div class="searchGeneral">
+        <label for="lastName">Číslo rezervace</label>
+        <input type="text" id="id" name="id">
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email">
+        <input type="submit" class="fa fa-search" value="Hledat">
+    </div>
+</form>
+<input type="button" onclick="location.href= 'cashier'" value="Zpět">
+<?php foreach ($tickets as $ticket) : ?>
+    <div class="concreteItem">
+
+        <!--- Pouze pokud nebylo zaplaceno/ neprobehlo--->
+        <input type="button" value="Potvrdit úhradu" onclick="location.href= 'cashier/confirm/payment/<?=
+        str_replace
+        (' ',
+            '%20', $ticket['id'])
+        ?>'"
+        <?php if ($ticket['is_paid'] === 'Ano'): ?>
+            disabled title="Již zaplaceno"
+        <?php elseif (($ticket['date'] < $todayDate) || (($ticket['begin'] < $currentTime) && ($ticket['date'] <= $todayDate))): ?>
+               disabled title="Nelze zaplatit - událost již proběhla"
+        <?php endif ?>/>
+        
+        <input type="button" value="Zrušit rezervaci" onclick="location.href= 'cashier/confirm/storno/<?=
+        str_replace
+        (' ',
+            '%20', $ticket['id'])
+        ?>';"/>
+
+
+        <?php foreach ($ticket as $item => $value) : ?>
+            <?= $this->langMapper($item) ?> : <?= $value ?> &nbsp;|
+        <?php endforeach?>
+    </div>
+<?php endforeach ?>
+
+<p id="msg"></p>
+</body>
+</html>

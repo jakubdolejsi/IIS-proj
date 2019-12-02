@@ -27,6 +27,7 @@ class ReservationController extends BaseController
 				$ticketId = $user->createReservation($params);
 			}
 			catch (InvalidRequestException $e) {
+			    exit();
 				$this->alert($e->getMessage());
 				$this->redirect('search');
 			}

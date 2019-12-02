@@ -217,6 +217,8 @@ class NotRegisteredUser extends Password{
      */
     protected function getUrlParams($params): array
     {
+        unset($params[0]);
+        $params = array_values($params);
         $arr = [];
         $values = ['type', 'id', 'label', 'begin'];
         $i = 0;
@@ -319,8 +321,11 @@ class NotRegisteredUser extends Password{
 
 	public function getReservedSeatInfo($params)
 	{
+	    unset($params[0]);
+	    $params = array_values($params);
 		[$type, $idCW, $label, $begin] = $params;
 		//FIXME advanced debug
+
 
 		$queryHall = 'select hall.row_count, hall.column_count from xsvera04.hall join culture_event ce on hall.id = ce.id_hall
 		join culture_work cw on ce.id_culture_work = cw.id

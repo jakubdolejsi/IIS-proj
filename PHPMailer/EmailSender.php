@@ -74,7 +74,7 @@ class EmailSender
         }else{
             $https = 'http://';
         }
-        $link = "$https"."$_SERVER[HTTP_HOST]/"."emailVerification?"."id=$userId&"."hash=$code";
+        $link = "$https"."$_SERVER[HTTP_HOST]/~xsvera04/IIS/"."emailVerification?"."id=$userId&"."hash=$code";
         $mailer->isHTML(true);
         $mailer->Subject = 'Ověření registrace';
         $mailer->Body = "<h1>Verifikační kód</h1> Tento kód prosím zadejte pro dokončení registrace: <b>$code</b><br><br>Ověření lze provést i kliknutím na následující odkaz: $link";

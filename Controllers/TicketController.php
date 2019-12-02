@@ -54,8 +54,10 @@ class TicketController extends BaseController
 
     public function actionStorno($params){
         $this->hasPermission('admin', 'editor', 'cashier', 'registeredUser');
+
         $ticket = $this->getModelFactory()->createTicketManager();
         $userId = $this->getModelFactory()->createUserModel()->getUserInfo()->getId();
+
         if($ticket->checkURL($params)){
             try{
                 $ticket->validateTicket($params, $userId);
