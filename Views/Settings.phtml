@@ -8,19 +8,41 @@
 </head>
 
 <body>
-<div class="generalSettings">
-    <div class="settings">
-        Jméno: <?= $this->data['firstName'] ?>
+
+<div class="mx-auto" style="width: 600px">
+    <div class="container">
+        <div class="row form-group">
+            <div class="col-3">
+                <label for="name">Jméno</label>
+            </div>
+            <div class="col-9">
+                <input type="text" class="form-control" disabled value="<?= $this->data['firstName'] ?>">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-3">
+                <label for="type">Příjmení</label>
+            </div>
+            <div class="col-9">
+                <input type="text" class="form-control" disabled value="<?= $this->data['lastName'] ?>">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-3">
+                <label for="genre">E-mail</label>
+            </div>
+            <div class="col-9">
+                <input type="text" class="form-control" disabled value="<?= $this->data['email'] ?>">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-3"></div>
+            <div class="col-9">
+                <input type="submit" class="btn btn-primary" value="Upravit profil" onclick=window.location.href='settings/edit'>
+                <input type="submit" class="btn btn-primary" value="Změnit heslo" onclick=window.location.href='settings/password'>
+            </div>
     </div>
-    <div class="settings">
-        Příjmení: <?= $this->data['lastName'] ?>
-    </div>
-    <div class="settings">
-        Email: <?= $this->data['email'] ?>
-    </div>
-    <div class="settings">
-        <input type="submit" value="Upravit profil" onclick=window.location.href='settings/edit'>
-        <input type="submit" value="Změnit heslo" onclick=window.location.href='settings/password'>
-    </div>
+</div>
+
 </div>
 </body>
