@@ -133,13 +133,10 @@ class Editor extends Cashier
 	public function addWork($data)
 	{
 		unset($data['submit']);
+		$data[] = empty($_FILES['image']['name']) ? '' : $this->realUpload();
 		$data = array_values($data);
-		if (count($data) === 6) {
-			$data[] = '';
-		} else {
-			$data[] = $this->uploadImage();
-		}
-		$query = 'insert into theatre.culture_work (culture_work.name, culture_work.type, culture_work.genre, culture_work.actors, culture_work.ranking, culture_work.description, image)
+
+		$query = 'insert into theatre.culture_work (culture_work.name, culture_work.type, culture_work.genre, culture_work.actors, culture_work.ranking, culture_work.description, culture_work.image)
 				VALUES (?,?,?,?,?,?,?)';
 		$res = $this->db->run($query, $data);
 		if ($res->errorCode() !== '00000') {
@@ -213,8 +210,8 @@ class Editor extends Cashier
 		unset($data['submit']);
 		$datas = array_values($data);
 
-		$query = 'insert into theatre.culture_event (culture_event.id_hall, culture_event.id_culture_work, culture_event.type, culture_event.date, culture_event.begin, culture_event.end, culture_event.price) 
-				VALUES (?,?,?,?,?,?,?)';
+		$query = 'insert into theatre.culture_event (culture_event.id_hall, culture_event.id_culture_work, culture_event.date, culture_event.begin, culture_event.end, culture_event.price) 
+				VALUES (?,?,?,?,?,?)';
 		$res = $this->db->run($query, $datas);
 		if ($res->errorCode() !== '00000') {
 			$x = $res->errorCode();
