@@ -9,30 +9,60 @@
 </head>
 
 <body>
-<form method="post">
-    <div class="generalSettings">
-        <div class="settings">
-            <label for="label">label :</label>
-            <input type="text" id="label" name="label">
+
+<div class="mx-auto" style="width: 600px">
+    <form method="post">
+        <div class="container">
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="label">Sál</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" class="form-control" id="label" name="label">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="label">Schéma sálu</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" class="form-control" id="seat_schema" name="seat_schema">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="capacity">Kapacita</label>
+                </div>
+                <div class="col-9">
+                    <input type="number" class="form-control" id="capacity" name="capacity">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="column-count">Sedadel v řadě</label>
+                </div>
+                <div class="col-9">
+                    <input type="number" class="form-control" id="column_count" name="column_count">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="column-count">Počet řad</label>
+                </div>
+                <div class="col-9">
+                    <input type="number" class="form-control" id="row_count" name="row_count">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3"></div>
+                <div class="col-9">
+                    <input type="submit" class="btn btn-primary" id="submit" name="submit" value="Potvrdit" onclick="ajaxForm()">
+                    <input type="button" class="btn btn-primary" value="Zpět" onclick="window.location.href='editor/halls'">
+                </div>
+            </div>
         </div>
-        <div class="settings">
-            <label for="seat_schema">seat_schema :</label>
-            <input type="text" id="seat_schema" name="seat_schema">
-        </div>
-        <div class="settings">
-            <label for="column_count">column_count:</label>
-            <input type="number" id="column_count" name="column_count">
-        </div>
-        <div class="settings">
-            <label for="row_count">row_count:</label>
-            <input type="number" id="row_count" name="row_count">
-        </div>
-        <div class="settings">
-            <input type="submit" id="submit" name="submit" value="Potvrdit" onclick="ajaxForm()">
-        </div>
-        <div class="settings">
-            <input type=button value="Zpet" onclick="window.location.href='editor/halls'">
-        </div>
-    </div>
+    </form>
+</div>
+
 </form>
 </body>
