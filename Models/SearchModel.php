@@ -83,6 +83,7 @@ class SearchModel extends BaseModel
 		}
 		$query = substr_replace($query, '', -3) . ' order by ce.date asc, ce.begin asc';
 
+		header('content-type: image/jpeg');
 		return $this->db->run($query, array_values($data))->fetchAll(PDO::FETCH_ASSOC);
 	}
 

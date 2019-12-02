@@ -38,7 +38,7 @@
                 <?php endforeach ?>
             </div>
             <div class="col-auto">
-                <img class="img-fluid mt-3" src= <?= $event['image'] ?> alt="" style="max-width: 400px">
+                <img class="img-fluid mt-3" src= "data:image/jpeg;base64,<?= base64_encode($event['image']) ?>" alt="" style="max-width: 400px">
             </div>
         </div>
     </div>

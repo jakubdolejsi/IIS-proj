@@ -118,7 +118,7 @@ class Editor extends Cashier
 
 	public function getAllWorks()
 	{
-		$query = 'select * from theatre.culture_work as cw';
+		$query = 'select cw.id, cw.name, cw.type, cw.ranking, cw.actors, cw.description, cw.genre from theatre.culture_work as cw';
 
 		return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -151,7 +151,7 @@ class Editor extends Cashier
 	{
 		unset($data['submit']);
 		$returnData = $data;
-		$data['image'] = empty($_FILES['image']['name']) ? '' : $this->uploadImage();
+		$data['image'] = empty($_FILES['image']['name']) ? '' : $this->realUpload();
 
 		$data = array_values($data);
 		$data[] = $id[1];
@@ -204,6 +204,10 @@ class Editor extends Cashier
 		return $target_dir . basename($_FILES['image']['name']);
 	}
 
+	private function realUpload()
+	{
+		return (file_get_contents($_FILES['image']['tmp_name']));
+	}
 	public function addEvent($data)
 	{
 		unset($data['submit']);

@@ -42,7 +42,7 @@ class EditorController extends BaseController
 		}
 		catch (UpdateException $exception) {
 			$this->alert($exception->getMessage());
-			$this->redirect('editor/events');
+			$this->redirect('editor/works');
 		}
 
 		$this->loadView($view);
