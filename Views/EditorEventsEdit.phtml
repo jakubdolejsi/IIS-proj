@@ -9,34 +9,60 @@
 </head>
 
 <body>
-<form method="post">
-    <div class="generalSettings">
-        <div class="settings">
-            <label for="type">type:</label>
-            <input type="text" id="type" name="type" value="<?= $events['type'] ?>">
+
+<div class="mx-auto" style="width: 600px">
+    <h3 class="text-center mb-4">Editor - Úprava události</h3>
+    <form method="post">
+        <div class="container">
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="date">Datum</label>
+                </div>
+                <div class="col-9">
+                    <input type="date" class="form-control" id="date" name="date" value="<?= $events['date'] ?>">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="begin">Začátek</label>
+                </div>
+                <div class="col-9">
+                    <input type="time" class="form-control" id="begin" name="begin" value="<?= $events['begin'] ?>">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="end">Konec</label>
+                </div>
+                <div class="col-9">
+                    <input type="time" class="form-control" id="end" name="end" value="<?= $events['end'] ?>">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="end">Konec</label>
+                </div>
+                <div class="col-9">
+                    <input type="time" class="form-control" id="end" name="end" value="<?= $events['end'] ?>">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label for="price">Cena</label>
+                </div>
+                <div class="col-9">
+                    <input type="number" class="form-control" id="price" name="price" value="<?= $events['price'] ?>">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3"></div>
+                <div class="col-9">
+                    <input type="submit" class="btn btn-primary" id="submit" name="submit" value="Potvrdit" onclick="ajaxForm()">
+                    <input type="button" class="btn btn-secondary" value="Zpet" onclick="window.location.href='editor/events'">
+                </div>
+            </div>
         </div>
-        <div class="settings">
-            <label for="date">date:</label>
-            <input type="date" id="date" name="date" value="<?= $events['date'] ?>">
-        </div>
-        <div class="settings">
-            <label for="begin">begin :</label>
-            <input type="time" id="begin" name="begin" value="<?= $events['begin'] ?>">
-        </div>
-        <div class="settings">
-            <label for="end">end:</label>
-            <input type="time" id="end" name="end" value="<?= $events['end'] ?>">
-        </div>
-        <div class="settings">
-            <label for="price">price:</label>
-            <input type="number" id="price" name="price" value="<?= $events['price'] ?>">
-        </div>
-        <div class="settings">
-            <input type="submit" id="submit" name="submit" value="Potvrdit" onclick="ajaxForm()">
-        </div>
-        <div class="settings">
-            <input type=button value="Zpet" onclick="window.location.href='editor/events'">
-        </div>
-    </div>
-</form>
+    </form>
+</div>
+
 </body>
