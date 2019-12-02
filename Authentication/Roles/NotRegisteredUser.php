@@ -252,9 +252,9 @@ class NotRegisteredUser extends Password{
 									join theatre.culture_event as ce on t.id_culture_event = ce.id
 									join theatre.culture_work as cw on ce.id_culture_work = cw.id
 									join theatre.hall as h on ce.id_hall = h.id
-									where h.label = ? and ce.begin = ? and ce.type = ? and cw.id = ? and t.seat = ?';
+									where h.label = ? and ce.begin = ? and cw.type = ? and ce.id = ? and t.seat = ?';
 
-        $queryParams = [$urlParams['label'], $urlParams['begin'], $urlParams['type'], $urlParams['id'], $seatInfo['seat']];
+        $queryParams = [$urlParams['label'], $urlParams['begin'], urldecode($urlParams['type']), $urlParams['id'], $seatInfo['seat']];
 
         return empty($this->db->run($existingReservationQuery, $queryParams)->fetchAll(PDO::FETCH_ASSOC));
     }

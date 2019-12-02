@@ -11,7 +11,7 @@ use Exceptions\InvalidRequestException;
 use Exceptions\LoggedUserException;
 use Exceptions\NoUserException;
 use Exceptions\PasswordsAreNotSameException;
-use Exceptions\ReservationSuccessException;
+use Exceptions\UserNotVerifiedException;
 use Exceptions\SqlSomethingGoneWrongException;
 use Exceptions\UpdateException;
 use Exceptions\UpdateSuccess;
@@ -43,7 +43,6 @@ class UserModel extends BaseModel
 
 			return $role->createNewReservation($params);
 		}
-		//return $role->getReservedSeatInfo($params);
 	}
 
 	/**
@@ -105,11 +104,12 @@ class UserModel extends BaseModel
 		return isset($_SESSION['user_id']);
 	}
 
-	/**
-	 * @throws InvalidPasswordException
-	 * @throws LoggedUserException
-	 * @throws NoUserException
-	 */
+    /**
+     * @throws InvalidPasswordException
+     * @throws LoggedUserException
+     * @throws NoUserException
+     * @throws UserNotVerifiedException
+     */
 	public function login(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -4,7 +4,9 @@
 namespace Models;
 
 
+use Exceptions\AlreadyOccupiedSeatException;
 use Exceptions\InvalidRequestException;
+use Exceptions\UpdateException;
 
 
 class CashierModel extends BaseModel
@@ -30,14 +32,19 @@ class CashierModel extends BaseModel
         return $role->getAllTickets();
     }
 
-	/**
-	 * @param $params
-	 * @throws \Exceptions\UpdateException
-	 */
+    /**
+     * @param $params
+     * @throws AlreadyOccupiedSeatException
+     * @throws UpdateException
+     */
 	public function createReservationCashier($params){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         	$data = $this->loadPOST();
             $role = $this->auth->role()->getRoleFromSession();
+            if (!$role->isSeatFree($params, $data)) {
+                throw new AlreadyOccupiedSeatException('Sedadlo je již obsazeno!');
+            }
+
             $role->newReservation($params, $data);
         }
     }
