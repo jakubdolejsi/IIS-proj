@@ -56,7 +56,7 @@ class ViewRenderer implements IViewable
 	 * @param string $view
 	 * @throws aBaseException
 	 */
-	public function loadBaseView($view): void
+	public function loadBaseView($view)
 	{
 		$validView = $this->validateView($view);
 		if (!$validView) {

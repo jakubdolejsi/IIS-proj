@@ -22,7 +22,7 @@ class RegisteredUser extends NotRegisteredUser
 		$dataToUpdate['id'] = (int)$id[0];
 		$dataToUpdate['is_verified'] = (int)$dataToUpdate['is_verified'];
 		$dataToUpdate = array_values($dataToUpdate);
-		$query = 'update theatre.user set user.firstName = ?, user.lastName = ?, user.email = ?, user.role = ?, user.is_verified = ? where user.id = ?';
+		$query = 'update xdolej09.user set user.firstName = ?, user.lastName = ?, user.email = ?, user.role = ?, user.is_verified = ? where user.id = ?';
 
 		$this->db->run($query, $dataToUpdate);
 	}
@@ -56,7 +56,7 @@ class RegisteredUser extends NotRegisteredUser
 		if (!$user->compareNewPassword()) {
 			throw new PasswordsAreNotSameException('Hesla se neshodují!');
 		}
-		$query = 'select password from theatre.user where email = ?';
+		$query = 'select password from xdolej09.user where email = ?';
 		$oldHash = $this->db->run($query, $this->getUserBySessionID()->getEmail())->fetch(PDO::FETCH_ASSOC);
 		if (!$this->verifyHashPassword($user->getPassword(), $oldHash['password'])) {
 			throw new PasswordsAreNotSameException('Původní heslo je nesprávné!');
@@ -74,7 +74,7 @@ class RegisteredUser extends NotRegisteredUser
 	{
 		$newEmail = $this->loadPOST()['email'];
 		$actualEmail = $this->getUserBySessionID()->getEmail();
-		$query = 'update theatre.user set email = ? where email = ?';
+		$query = 'update xdolej09.user set email = ? where email = ?';
 		$res = $this->db->run($query, [$newEmail, $actualEmail]);
 		if ($res->errorCode() !== '00000') {
 			throw new UpdateException('Úprava se nezdařila!');
@@ -84,7 +84,7 @@ class RegisteredUser extends NotRegisteredUser
 
 	public function getUserByID($id)
 	{
-		$query = 'select * from theatre.user as u where u.id = ?';
+		$query = 'select * from xdolej09.user as u where u.id = ?';
 
 		return $this->db->run($query, $id)->fetch(PDO::FETCH_ASSOC);
 	}
@@ -108,16 +108,16 @@ class RegisteredUser extends NotRegisteredUser
 	private function createNewTicket($urlParams, $seatInfo)
 	{
 		$payment = $this->loadPOST()['type'];
-		$userIdQuery = 'select u.id from theatre.user as u where u.email = ?';
+		$userIdQuery = 'select u.id from xdolej09.user as u where u.email = ?';
 		$userId = $this->db->run($userIdQuery, $this->getUserBySessionID()->getEmail())->fetch(PDO::FETCH_ASSOC)['id'];
 		if (!isset($userId)) {
 			throw new InvalidRequestException('Neplatná URL adresa!');
 		}
 
 		$cultureEventIdQueryParams = [$urlParams['label'], $urlParams['begin'], urldecode($urlParams['type']), $urlParams['id']];
-		$cultureEventIdQuery = 'select ce.id, ce.price from theatre.culture_event as ce
-							join theatre.culture_work as cw on ce.id_culture_work = cw.id
-							join theatre.hall as h on ce.id_hall = h.id
+		$cultureEventIdQuery = 'select ce.id, ce.price from xdolej09.culture_event as ce
+							join xdolej09.culture_work as cw on ce.id_culture_work = cw.id
+							join xdolej09.hall as h on ce.id_hall = h.id
 							where h.label = ? and ce.begin = ? and cw.type = ? and ce.id = ?';
 		$cultureEventRes = $this->db->run($cultureEventIdQuery, $cultureEventIdQueryParams)->fetch(PDO::FETCH_ASSOC);
 		if (!isset($cultureEventRes['id'])) {
@@ -126,7 +126,7 @@ class RegisteredUser extends NotRegisteredUser
 
 		$queryParams = [$userId, $cultureEventRes['id'], $cultureEventRes['price'], $seatInfo['seat'], 0,
 			$payment, 2];
-		$query = 'insert into theatre.ticket (id_user, id_culture_event, price, seat, discount, payment_type, is_paid) 
+		$query = 'insert into xdolej09.ticket (id_user, id_culture_event, price, seat, discount, payment_type, is_paid) 
 				values (?, ?, ?, ?, ?, ?, ?)';
 
 		$res = $this->db->run($query, $queryParams);
@@ -144,7 +144,7 @@ class RegisteredUser extends NotRegisteredUser
 	 */
 	private function updatePassword(UserDetail $userDetail): void
 	{
-		$query = 'update theatre.user set password = ? where email = ?';
+		$query = 'update xdolej09.user set password = ? where email = ?';
 		$password = $userDetail->getPassword();
 		$email = $this->getUserBySessionID()->getEmail();
 

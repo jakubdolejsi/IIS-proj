@@ -15,10 +15,10 @@ class Editor extends Cashier
 	{
 //		var_dump($data);
 
-		$hallIdQuery = 'select h.id from theatre.hall as h where h.seat_schema = ?';
+		$hallIdQuery = 'select h.id from xdolej09.hall as h where h.seat_schema = ?';
 		$hallId = $this->db->run($hallIdQuery, $data['id_hall'])->fetch(PDO::FETCH_ASSOC);
 
-		$cwQuery = 'select cw.id from theatre.culture_work as cw where cw.name = ?';
+		$cwQuery = 'select cw.id from xdolej09.culture_work as cw where cw.name = ?';
 		$cwID = $this->db->run($cwQuery, $data['id_culture_work'])->fetch(PDO::FETCH_ASSOC);
 
 		unset($data['submit']);
@@ -27,7 +27,7 @@ class Editor extends Cashier
 
 		$datas = array_values($data);
 
-		$query = 'insert into theatre.culture_event (culture_event.id_hall, culture_event.id_culture_work, culture_event.date, culture_event.begin, culture_event.end, culture_event.price) 
+		$query = 'insert into xdolej09.culture_event (culture_event.id_hall, culture_event.id_culture_work, culture_event.date, culture_event.begin, culture_event.end, culture_event.price) 
 				VALUES (?,?,?,?,?,?)';
 		$res = $this->db->run($query, $datas);
 		if ($res->errorCode() !== '00000') {
@@ -43,7 +43,7 @@ class Editor extends Cashier
 		$capacity = $data[2] * $data[3];
 		$datas = [$data[0], $data[1], $capacity, $data[2], $data[3]];
 
-		$query = 'insert into theatre.hall (label, seat_schema, capacity, row_count, column_count)
+		$query = 'insert into xdolej09.hall (label, seat_schema, capacity, row_count, column_count)
 				VALUES (?,?,?,?,?)';
 		$res = $this->db->run($query, $datas);
 		if ($res->errorCode() !== '00000') {
@@ -57,7 +57,7 @@ class Editor extends Cashier
 		$data[] = empty($_FILES['image']['name']) ? '' : $this->realUpload();
 		$data = array_values($data);
 
-		$query = 'insert into theatre.culture_work (culture_work.name, culture_work.type, culture_work.genre, culture_work.actors, culture_work.ranking, culture_work.description, culture_work.image)
+		$query = 'insert into xdolej09.culture_work (culture_work.name, culture_work.type, culture_work.genre, culture_work.actors, culture_work.ranking, culture_work.description, culture_work.image)
 				VALUES (?,?,?,?,?,?,?)';
 		$res = $this->db->run($query, $data);
 		if ($res->errorCode() !== '00000') {
@@ -72,7 +72,7 @@ class Editor extends Cashier
 		$data = array_values($data);
 		$data[] = $id[1];
 
-		$query = 'update theatre.culture_event  set culture_event.type = ?, culture_event.date = ?, culture_event.begin = ?,
+		$query = 'update xdolej09.culture_event  set culture_event.type = ?, culture_event.date = ?, culture_event.begin = ?,
 				culture_event.end = ?, culture_event.price = ? where culture_event.id = ?';
 		$res = $this->db->run($query, $data);
 		if ($res->errorCode() !== '00000') {
@@ -89,7 +89,7 @@ class Editor extends Cashier
 		$data = array_values($data);
 		$data[] = $id[1];
 
-		$query = 'update theatre.hall  set hall.label = ?, hall.seat_schema = ?, hall.capacity = ?, hall.row_count = ?, hall.column_count = ?
+		$query = 'update xdolej09.hall  set hall.label = ?, hall.seat_schema = ?, hall.capacity = ?, hall.row_count = ?, hall.column_count = ?
 				where hall.id = ?';
 		$res = $this->db->run($query, $data);
 		if ($res->errorCode() !== '00000') {
@@ -108,7 +108,7 @@ class Editor extends Cashier
 		$data = array_values($data);
 		$data[] = $id[1];
 
-		$query = 'update theatre.culture_work set culture_work.name = ?, culture_work.type = ?, culture_work.genre = ?,
+		$query = 'update xdolej09.culture_work set culture_work.name = ?, culture_work.type = ?, culture_work.genre = ?,
     			culture_work.actors = ?, culture_work.ranking = ?, culture_work.description = ?, culture_work.image = ?
     			where culture_work.id = ?';
 
@@ -122,38 +122,38 @@ class Editor extends Cashier
 
 	public function getAllEvents(): array
 	{
-		$query = 'select * from theatre.culture_event as ce';
+		$query = 'select * from xdolej09.culture_event as ce';
 
 		return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
 	}
 
 	public function getAllHalls(): array
 	{
-		$query = 'select h.id, h.label, h.seat_schema, h.capacity, h.column_count, h.row_count from theatre.hall as h';
+		$query = 'select h.id, h.label, h.seat_schema, h.capacity, h.column_count, h.row_count from xdolej09.hall as h';
 
 		return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
 	}
 
 	public function getAllWorks()
 	{
-		$query = 'select cw.id, cw.name, cw.type, cw.ranking, cw.actors, cw.description, cw.genre from theatre.culture_work as cw';
+		$query = 'select cw.id, cw.name, cw.type, cw.ranking, cw.actors, cw.description, cw.genre from xdolej09.culture_work as cw';
 
 		return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
 	}
 
 	public function getEventById($id)
 	{
-		$query = 'select * from theatre.culture_event as ce where ce.id = ?';
+		$query = 'select * from xdolej09.culture_event as ce where ce.id = ?';
 
 		return $this->db->run($query, array_values($id))->fetch(PDO::FETCH_ASSOC);
 	}
 
 	public function getHallAndCultureWorkIds()
 	{
-		$queryHall = 'select seat_schema from theatre.hall';
+		$queryHall = 'select seat_schema from xdolej09.hall';
 		$hallIds = $this->db->run($queryHall)->fetchAll(PDO::FETCH_ASSOC);
 
-		$queryWork = 'select name from theatre.culture_work';
+		$queryWork = 'select name from xdolej09.culture_work';
 		$workIDs = $this->db->run($queryWork)->fetchAll(PDO::FETCH_ASSOC);
 
 		return [$hallIds, $workIDs];
@@ -161,27 +161,27 @@ class Editor extends Cashier
 
 	public function getHallById($id)
 	{
-		$query = 'select * from theatre.hall as h where h.id = ?';
+		$query = 'select * from xdolej09.hall as h where h.id = ?';
 
 		return $this->db->run($query, $id[1])->fetch(PDO::FETCH_ASSOC);
 	}
 
 	public function getWorksById($id)
 	{
-		$query = 'select * from theatre.culture_work where culture_work.id = ?';
+		$query = 'select * from xdolej09.culture_work where culture_work.id = ?';
 
 		return $this->db->run($query, array_values($id))->fetch(PDO::FETCH_ASSOC);
 	}
 
 	public function removeEventByID($id)
 	{
-		$deteleTicketsQuery = 'delete from theatre.ticket where id_culture_event = ?';
+		$deteleTicketsQuery = 'delete from xdolej09.ticket where id_culture_event = ?';
 		$res = $this->db->run($deteleTicketsQuery, $id[1]);
 		if ($res->errorCode() !== '00000') {
 			throw new UpdateException('Odebírání se nezdařilo!');
 		}
 
-		$query = 'delete from theatre.culture_event where culture_event.id = ?';
+		$query = 'delete from xdolej09.culture_event where culture_event.id = ?';
 		$res = $this->db->run($query, $id[1]);
 		if ($res->errorCode() !== '00000') {
 			throw new UpdateException('Odebírání se nezdařilo!');
@@ -191,7 +191,7 @@ class Editor extends Cashier
 
 	public function removeHallbyId($id)
 	{
-		$query = 'DELETE FROM theatre.hall where hall.id = ?;';
+		$query = 'DELETE FROM xdolej09.hall where hall.id = ?;';
 		$res = $this->db->run($query, $id[1]);
 		if ($res === '00000') {
 			throw new UpdateException('Odebírání se nezdařilo!');
@@ -201,7 +201,7 @@ class Editor extends Cashier
 
 	public function removeWorksByID($id)
 	{
-		$eventsQuery = 'select id from theatre.culture_event where culture_event.id_culture_work = ?';
+		$eventsQuery = 'select id from xdolej09.culture_event where culture_event.id_culture_work = ?';
 		$eventId[1] = $this->db->run($eventsQuery, $id[1])->fetch(PDO::FETCH_ASSOC)['id'];
 		if (isset($eventId[1])) {
 			try {
@@ -211,7 +211,7 @@ class Editor extends Cashier
 			catch (UpdateException $e) {
 			}
 		}
-		$removeWorkQuery = 'delete from theatre.culture_work where culture_work.id = ?';
+		$removeWorkQuery = 'delete from xdolej09.culture_work where culture_work.id = ?';
 		$res = $this->db->run($removeWorkQuery, $id[1]);
 		if ($res->errorCode() !== '00000') {
 			throw new UpdateException('Úprava se nezdařila!!');

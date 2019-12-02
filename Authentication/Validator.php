@@ -7,6 +7,20 @@ namespace Authentication;
 abstract class Validator
 {
 
+	protected function loadPOST(): array
+	{
+		$verifiedData = array_map([$this, 'parseInput'], $_POST);
+		$this->languageMapper($verifiedData);
+
+		return $verifiedData;
+	}
+
+	private function parseInput($data): string
+	{
+        return htmlspecialchars(stripslashes(trim($data)),ENT_QUOTES, 'UTF-8');
+	}
+
+
 	public function languageMapper(array &$data): void
 	{
 
@@ -34,20 +48,7 @@ abstract class Validator
 	}
 
 	protected function loadGET(): array
-	{
-		return (array_map([$this, 'parseInput'], $_GET));
-	}
-
-	protected function loadPOST(): array
-	{
-		$verifiedData = array_map([$this, 'parseInput'], $_POST);
-		$this->languageMapper($verifiedData);
-
-		return $verifiedData;
-	}
-
-	private function parseInput($data): string
-	{
-		return htmlspecialchars(stripslashes(trim($data)));
-	}
+    {
+        return (array_map([$this, 'parseInput'], $_GET));
+    }
 }

@@ -14,7 +14,7 @@ interface IViewable
 	 * @param $baseView
 	 * @return mixed
 	 */
-	public function loadBaseView(string $baseView): void;
+	public function loadBaseView($baseView);
 
 	/**
 	 * @param $controllerView

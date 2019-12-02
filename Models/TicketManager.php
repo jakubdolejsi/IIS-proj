@@ -29,7 +29,7 @@ class TicketManager extends BaseModel
 			if ($price !== $pricePost) {
 				throw new PaymentException("Špatně zadaná částka, nutno zaplatit $price Kč!");
 			}
-			$query = 'UPDATE theatre.ticket SET is_paid = ? where id = ?';
+			$query = 'UPDATE xdolej09.ticket SET is_paid = ? where id = ?';
 			$this->db->run($query, ['Ano', $params[0]]);
 
 			return TRUE;
@@ -64,10 +64,10 @@ class TicketManager extends BaseModel
 		}
 
 		$email = $data['searchEmail'];
-		$query = 'select t.price, t.seat, t.discount, u.email, ce.date, ce.begin, cw.name from theatre.ticket as t 
-				join theatre.user as u on t.id_user = u.id
-				join theatre.culture_event as ce on t.id_culture_event = ce.id
-				join theatre.culture_work as cw on ce.id_culture_work = cw.id
+		$query = 'select t.price, t.seat, t.discount, u.email, ce.date, ce.begin, cw.name from xdolej09.ticket as t 
+				join xdolej09.user as u on t.id_user = u.id
+				join xdolej09.culture_event as ce on t.id_culture_event = ce.id
+				join xdolej09.culture_work as cw on ce.id_culture_work = cw.id
 				where u.email = ?';
 
 		return $this->db->run($query, $email)->fetchAll(PDO::FETCH_ASSOC);
@@ -80,11 +80,11 @@ class TicketManager extends BaseModel
 	public function getTicketByEmail($email)
 	{
 		$date = date('Y-m-d');
-		$query = 'select t.id, cw.name, ce.begin, ce.date, t.price, t.seat, h.label, t.payment_type, t.is_paid from theatre.ticket as t 
-				join theatre.user as u on t.id_user = u.id
-				join theatre.culture_event as ce on t.id_culture_event = ce.id
-				join theatre.culture_work as cw on ce.id_culture_work = cw.id
-				join theatre.hall as h on ce.id_hall = h.id
+		$query = 'select t.id, cw.name, ce.begin, ce.date, t.price, t.seat, h.label, t.payment_type, t.is_paid from xdolej09.ticket as t 
+				join xdolej09.user as u on t.id_user = u.id
+				join xdolej09.culture_event as ce on t.id_culture_event = ce.id
+				join xdolej09.culture_work as cw on ce.id_culture_work = cw.id
+				join xdolej09.hall as h on ce.id_hall = h.id
 				where u.email = ? and ce.date >= ? order by ce.date asc, ce.begin asc';
 
 		return $this->db->run($query, [$email, $date])->fetchAll(PDO::FETCH_ASSOC);
@@ -96,11 +96,11 @@ class TicketManager extends BaseModel
 	 */
 	public function getTicketById($ticketId)
 	{
-		$query = 'select t.id, t.id_user, cw.name, ce.begin, ce.date, t.price, t.seat, t.payment_type, h.label from theatre.ticket as t 
-				join theatre.user as u on t.id_user = u.id
-				join theatre.culture_event as ce on t.id_culture_event = ce.id
-				join theatre.culture_work as cw on ce.id_culture_work = cw.id
-				join theatre.hall as h on ce.id_hall = h.id
+		$query = 'select t.id, t.id_user, cw.name, ce.begin, ce.date, t.price, t.seat, t.payment_type, h.label from xdolej09.ticket as t 
+				join xdolej09.user as u on t.id_user = u.id
+				join xdolej09.culture_event as ce on t.id_culture_event = ce.id
+				join xdolej09.culture_work as cw on ce.id_culture_work = cw.id
+				join xdolej09.hall as h on ce.id_hall = h.id
 				where t.id = ?';
 
 		return $this->db->run($query, $ticketId)->fetch(PDO::FETCH_ASSOC);
@@ -110,8 +110,8 @@ class TicketManager extends BaseModel
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$dataToQuery = $this->loadPOST();
-			$query = 'update theatre.ticket as t join theatre.user as u on t.id_user = u.id
-					join theatre.culture_event as ce on t.id_culture_event = ce.id
+			$query = 'update xdolej09.ticket as t join xdolej09.user as u on t.id_user = u.id
+					join xdolej09.culture_event as ce on t.id_culture_event = ce.id
 					set t.price =?, t.seat = ?, t.discount = ?
 					where u.email = ? and t.id_culture_event = ce.id';
 
@@ -128,7 +128,7 @@ class TicketManager extends BaseModel
 
 	public function stornoReservation($id)
 	{
-		$query = 'DELETE FROM theatre.ticket where ticket.id = ?';
+		$query = 'DELETE FROM xdolej09.ticket where ticket.id = ?';
 		$this->db->run($query, $id);
 	}
 
@@ -148,10 +148,10 @@ class TicketManager extends BaseModel
 	 */
 	private function getAllTickets(): array
 	{
-		$query = 'select t.price, t.seat, t.discount, u.email, ce.date, ce.begin, cw.name  from theatre.ticket as t 
-				join theatre.user as u on t.id_user = u.id
-				join theatre.culture_event as ce on t.id_culture_event = ce.id
-				join theatre.culture_work as cw on ce.id_culture_work = cw.id';
+		$query = 'select t.price, t.seat, t.discount, u.email, ce.date, ce.begin, cw.name  from xdolej09.ticket as t 
+				join xdolej09.user as u on t.id_user = u.id
+				join xdolej09.culture_event as ce on t.id_culture_event = ce.id
+				join xdolej09.culture_work as cw on ce.id_culture_work = cw.id';
 
 		return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
 	}
