@@ -63,7 +63,8 @@ class ReservationController extends BaseController
 			}
 		}
 		if (isset($ticketId)) {
-			$ticket = $this->getModelFactory()->createTicketManager()->getTicketById($ticketId);
+		    $ticketModel = $this->getModelFactory()->createTicketManager();
+			$ticket = $ticketModel->getTicketById($ticketId);
 
 			$mail = new PHPMailer(TRUE);
 			$settings = new EmailSender;
@@ -80,6 +81,7 @@ class ReservationController extends BaseController
 			}
 			catch (Exception $e) {
 				$this->alert("Nepodařilo se odeslat lístek na email. Chyba: {$mail->ErrorInfo}");
+				$ticketModel->stornoReservation($ticketId);
 				$this->redirect('search');
 			}
 			$this->alert("Na váš email byly odeslány informace o rezervaci!");
