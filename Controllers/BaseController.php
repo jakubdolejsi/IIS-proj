@@ -57,6 +57,7 @@ abstract class BaseController
 		echo "<script>
 				window.location.href='/$url';
 			</script>";
+		exit();
 	}
 
 	protected function alert($message): void
