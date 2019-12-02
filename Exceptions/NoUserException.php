@@ -4,6 +4,6 @@
 namespace Exceptions;
 
 
-class NoUserException extends baseException
+class NoUserException extends BaseException
 {
 }

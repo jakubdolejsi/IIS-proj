@@ -15,20 +15,19 @@ class CashierModel extends BaseModel
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	        $data = $this->loadPOST();
 
-            if ($data['id'] !== '' && $data['email'] !== '') {
-                $tickets = $role->getTicketByEmailAndIdPOST();
-            } else if ($data['id'] !== '') {
-                $tickets = $role->getTicketByIdPOST();
-            } else if ($data['email'] !== '') {
-                $tickets = $role->getFutureTicketByEmailPOST();
+            if (!empty($data['id'])) {
+                return $role->getTicketByIdPOST();
+            } else if (!empty($data['email'])) {
+                return $role->getFutureTicketByEmailPOST();
+            }else if (!empty($data['hall'])){
+                return $role->getTicketsByHallLabel();
+            }else if(!empty($data['event'])){
+                return $role->getTicketsByEventName();
+            }else{
+                return $role->getAllTickets();
             }
         }
-        if(isset($tickets)){
-            if($tickets !== null){
-                return $tickets;
-            }
-        }
-        return [];
+        return $role->getAllTickets();
     }
 
     public function createReservationCashier($params){
@@ -39,16 +38,16 @@ class CashierModel extends BaseModel
         }
     }
 
-    public function checkURLParamsConfirm($params){
+    public function checkURLParamsSearch($params){
         $role = $this->auth->role()->getRoleFromSession();
 
         if(isset($params[0])){
             if($params[0] !== ''){
-                if($params[0] === 'payment'){
+                if($params[0] === 'confirm'){
                     $role->confirmPayment($params[1]);
                     return true;
-                }else if($params[0] === 'storno'){
-                    $role->stornoReservation($params[1]);
+                }else if($params[0] === 'remove'){
+                    $role->removeReservation($params[1]);
                     return true;
                 }else{
                     throw new InvalidRequestException();

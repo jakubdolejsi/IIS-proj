@@ -2,6 +2,6 @@
 
 namespace Exceptions;
 
-class CompleteRegistrationException extends baseException
+class CompleteRegistrationException extends BaseException
 {
 }

@@ -8,15 +8,24 @@
 </head>
 <body>
 <div class="welcome">
-    <h3>Vyhledání rezervace</h3>
+    <h3>Vyhledání rezervace (nějak ošetřit aby mohl zadat pouze jedno pole)</h3>
 </div>
 <form method="post">
     <div class="searchGeneral">
         <label for="lastName">Číslo rezervace</label>
         <input type="text" id="id" name="id">
+
         <label for="email">Email</label>
         <input type="text" id="email" name="email">
+
+        <label for="hall">Označení sálu</label>
+        <input type="text" id="hall" name="hall">
+
+        <label for="event">Událost</label>
+        <input type="text" id="event" name="event">
         <input type="submit" class="fa fa-search" value="Hledat">
+
+
     </div>
 </form>
 <input type="button" onclick="location.href= 'cashier'" value="Zpět">
@@ -24,7 +33,7 @@
     <div class="concreteItem">
 
         <!--- Pouze pokud nebylo zaplaceno/ neprobehlo--->
-        <input type="button" value="Potvrdit úhradu" onclick="location.href= 'cashier/confirm/payment/<?=
+        <input type="button" value="Potvrdit úhradu" onclick="location.href= 'cashier/search/confirm/<?=
         str_replace
         (' ',
             '%20', $ticket['id'])
@@ -35,7 +44,7 @@
                disabled title="Nelze zaplatit - událost již proběhla"
         <?php endif ?>/>
         
-        <input type="button" value="Zrušit rezervaci" onclick="location.href= 'cashier/confirm/storno/<?=
+        <input type="button" value="Zrušit rezervaci" onclick="location.href= 'cashier/search/remove/<?=
         str_replace
         (' ',
             '%20', $ticket['id'])

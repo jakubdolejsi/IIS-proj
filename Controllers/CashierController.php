@@ -20,18 +20,19 @@ class CashierController extends BaseController
 
     public function actionCreate($params)
     {
+        $this->hasPermission('cashier', 'admin');
     	$cashier = $this->getModelFactory()->createCashierModel();
     	$cashier->createReservationCashier($params);
     	$this->loadView('cashierCreate');
     }
 
-    public function actionConfirm($params):void
+    public function actionSearch($params):void
     {
 	    $this->hasPermission('cashier', 'admin');
         $cashier = $this->getModelFactory()->createCashierModel();
         try{
-            if($cashier->checkURLParamsConfirm($params)){
-                $this->redirect('cashier/confirm/');
+            if($cashier->checkURLParamsSearch($params)){
+                $this->redirect('cashier/search/');
             }
         }catch (InvalidRequestException $exception){
             $this->redirect('error');
@@ -41,7 +42,7 @@ class CashierController extends BaseController
         $this->data['todayDate'] = date('Y-m-d');
         $this->data['tickets'] = $cashier->checkSearchParameters();
 
-        $this->loadView('cashierConfirm');
+        $this->loadView('cashierSearch');
     }
 
 	public function actionReservation($params)

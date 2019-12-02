@@ -10,7 +10,7 @@ use Helpers\Sessions\Session;
 
 
 /**
- * Class baseModel
+ * Class BaseModel
  * @package Models
  */
 abstract class BaseModel extends Validator
