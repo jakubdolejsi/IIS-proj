@@ -4,6 +4,7 @@
 namespace Controllers;
 
 
+use Exceptions\AlreadyOccupiedSeatException;
 use Exceptions\InvalidRequestException;
 use Exceptions\UpdateException;
 
@@ -27,7 +28,10 @@ class CashierController extends BaseController
     	$cashier = $this->getModelFactory()->createCashierModel();
 	    try {
 		    $cashier->createReservationCashier($params);
-	    }
+	    }catch (AlreadyOccupiedSeatException $e){
+	        $this->alert($e->getMessage());
+	        $this->redirect("cashier/create/$params[0]/$params[1]/$params[2]/$params[3]");
+        }
 	    catch (UpdateException $e) {
 	    	$this->alert($e->getMessage());
 	    }

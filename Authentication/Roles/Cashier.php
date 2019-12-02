@@ -131,4 +131,17 @@ class Cashier extends RegisteredUser
 		}
 	}
 
+    public function isSeatFree($urlParams, $seatInfo): bool
+    {
+        $existingReservationQuery = 'select * from theatre.ticket as t 
+									join theatre.culture_event as ce on t.id_culture_event = ce.id
+									join theatre.culture_work as cw on ce.id_culture_work = cw.id
+									join theatre.hall as h on ce.id_hall = h.id
+									where h.label = ? and ce.begin = ? and cw.type = ? and ce.id = ? and t.seat = ?';
+
+        $queryParams = [$urlParams[2], $urlParams[3], urldecode($urlParams[0]), $urlParams[1], $seatInfo['seat']];
+
+        return empty($this->db->run($existingReservationQuery, $queryParams)->fetchAll(PDO::FETCH_ASSOC));
+    }
+
 }
