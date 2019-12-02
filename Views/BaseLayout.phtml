@@ -3,7 +3,7 @@
 <html lang="cs-cz">
 <head>
     <meta charset="UTF-8"/>
-    <base href="/localhost"/>
+    <base href="/~xsvera04/IIS/"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 	<link rel="stylesheet" type="text/css" href="Views/CSS/baseStyle.css"/>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -34,7 +34,7 @@
 				<div id="auth">
 					<?php
 						if (!empty($_SESSION['user_id']) && $_SESSION['role'] !== 'registeredUser') {
-							echo '<a class="nav-item nav-link" href="auth">Správa</a>';
+							echo '<a class="nav-item nav-link" href="auth">Auth stuff</a>';
 						}
 					?>
 				</div>

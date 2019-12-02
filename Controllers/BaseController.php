@@ -51,14 +51,13 @@ abstract class BaseController
 	 * @param string $url
 	 */
 
-	protected function redirect(string $url): void
-	{
-		// todo snad funguje dobre...
-		echo "<script>
-				window.location.href='/$url';
+    protected function redirect(string $url): void
+    {
+        // todo snad funguje dobre...
+        echo "<script>
+				window.location.href='/~xsvera04/IIS/$url';
 			</script>";
-		exit();
-	}
+    }
 
 	protected function alert($message): void
 	{
@@ -149,7 +148,7 @@ abstract class BaseController
 	 */
 	protected function loadView(string $view): void
 	{
-		$this->view = $view;
+		$this->view = ucwords($view);
 	}
 
 	protected function loadData($index, array $data)

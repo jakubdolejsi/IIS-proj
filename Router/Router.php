@@ -3,6 +3,8 @@
 namespace Router;
 
 use Controllers\BaseController;
+use Controllers\HomeController;
+use Exceptions\InvalidRequestException;
 use Exceptions\ViewLoadException;
 use ViewRenderer\ViewRenderer;
 
@@ -32,9 +34,11 @@ final class Router extends BaseController
 		$url = $this->parseUrl($params);
 		$this->controller = $this->loadClass($this->getControllerClass($url));
 
-		$method = 'action'. ucwords($url[1] ?? 'default');
-		unset($url[0],$url[1]);
-		method_exists($this->controller, $method) ? $this->controller->$method(array_values($url)) : $this->redirect('error');
+//		var_dump( $url);
+        unset($url[0],$url[1], $url[2]);
+        $url = array_values($url);
+        $method = 'action'. ucwords($url[0] ?? 'default');
+        method_exists($this->controller, $method) ? $this->controller->$method(array_values($url)) : $this->redirect('error');
 //		$this->controller->process($url);
 
 		try {
@@ -46,15 +50,18 @@ final class Router extends BaseController
 		}
 	}
 
-	/**
-	 * @param array $url
-	 * @return string
-	 */
-	private function getControllerClass(array $url)
-	{
-		return (ucwords($url[0]) . 'Controller');
-	}
 
+    /**
+     * @param array $url
+     * @return string
+     */
+    private function getControllerClass(array $url)
+    {
+        unset($url[0]);
+        unset($url[1]);
+        $url = array_values($url);
+        return (ucwords($url[0]) . 'Controller');
+    }
 
 	/**
 	 * @param string $url
@@ -70,22 +77,18 @@ final class Router extends BaseController
 		return ($url);
 	}
 
-	/**
-	 * @param string $class
-	 * @return BaseController
-	 */
-	private function loadClass(string $class): BaseController
-	{
-		$cls = $class . '.php';
-		// TODO: recursive search...
-		$path = getcwd() . '\\Controllers\\' . $cls;
-		if (!file_exists($path)) {
-			$this->redirect('error');
-		}
-		$class = 'Controllers\\' . $class;
+    private function loadClass(string $class): BaseController
+    {
+        $cls = $class . '.php';
+        // TODO: recursive search...
+        $path = getcwd() . DIRECTORY_SEPARATOR .'Controllers'. DIRECTORY_SEPARATOR . $cls;
+        if (!file_exists($path)) {
+            $this->redirect('error');
+        }
+        $class = 'Controllers\\' . $class;
+        return new $class($this->getContainer());
+    }
 
-		return new $class($this->getContainer());
-	}
 
 
 	private function getMethod()

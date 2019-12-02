@@ -14,9 +14,9 @@ class SearchModel extends BaseModel
 	 */
 	public function getAllEvents(): array
 	{
-		$query = 'select cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label, ce.price from theatre.culture_event as ce 
-				join theatre.culture_work as cw on ce.id_culture_work = cw.id
-				join theatre.hall as h on ce.id_hall = h.id';
+		$query = 'select cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label, ce.price from xsvera04.culture_event as ce 
+				join xsvera04.culture_work as cw on ce.id_culture_work = cw.id
+				join xsvera04.hall as h on ce.id_hall = h.id';
 
 		return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -24,9 +24,9 @@ class SearchModel extends BaseModel
     public function getAllFutureEvents(): array
     {
         $date = date('Y-m-d');
-        $query = 'select ce.id, cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label, ce.price from theatre.culture_event as ce 
-				join theatre.culture_work as cw on ce.id_culture_work = cw.id
-				join theatre.hall as h on ce.id_hall = h.id where ce.date >= ? order by ce.date asc, ce.begin asc';
+        $query = 'select ce.id, cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label, ce.price from xsvera04.culture_event as ce 
+				join xsvera04.culture_work as cw on ce.id_culture_work = cw.id
+				join xsvera04.hall as h on ce.id_hall = h.id where ce.date >= ? order by ce.date asc, ce.begin asc';
 
         return $this->db->run($query, $date)->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -65,9 +65,9 @@ class SearchModel extends BaseModel
 	 */
 	private function getConcreteEvents($data): array
 	{
-		$query = 'select cw.id, cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label, ce.price from theatre.culture_event as ce 
-				join theatre.culture_work as cw on ce.id_culture_work = cw.id
-				join theatre.hall as h on ce.id_hall = h.id
+		$query = 'select cw.id, cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label, ce.price from xsvera04.culture_event as ce 
+				join xsvera04.culture_work as cw on ce.id_culture_work = cw.id
+				join xsvera04.hall as h on ce.id_hall = h.id
 				where ';
 
 		foreach ($data as $key => $value) {
@@ -89,7 +89,7 @@ class SearchModel extends BaseModel
 	public function getCultureWorkByName($name)
 	{
 		$name = array_values(str_replace('%20', ' ', $name));
-		$query = 'select cw.name, cw.type, cw.genre, cw.actors, cw.ranking, cw.description, cw.image from theatre.culture_work as cw where cw.name = ?';
+		$query = 'select cw.name, cw.type, cw.genre, cw.actors, cw.ranking, cw.description, cw.image from xsvera04.culture_work as cw where cw.name = ?';
 
 		return $this->db->run($query, $name)->fetch(PDO::FETCH_ASSOC);
 	}

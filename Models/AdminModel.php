@@ -10,7 +10,7 @@ use PDO;
 class AdminModel extends BaseModel
 {
     public function getAllUsers(){
-        $query = 'select u.id, u.firstName, u.lastName, u.email, u.role from theatre.user as u';
+        $query = 'select u.id, u.firstName, u.lastName, u.email, u.role from xsvera04.user as u';
 
         return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -49,7 +49,7 @@ class AdminModel extends BaseModel
      */
     private function getConcreteUsers($data): array
     {
-        $query = 'select u.id, u.firstName, u.lastName, u.email, u.role from theatre.user as u 
+        $query = 'select u.id, u.firstName, u.lastName, u.email, u.role from xsvera04.user as u 
 				where ';
 
         foreach ($data as $key => $value) {
@@ -81,10 +81,10 @@ class AdminModel extends BaseModel
 	 */
 	public function deleteUserByID($id): void
 	{
-		$deleteTicketsQuery = 'delete from theatre.ticket where id_user = ?';
+		$deleteTicketsQuery = 'delete from xsvera04.ticket where id_user = ?';
 		$this->db->run($deleteTicketsQuery, $id);
 
-		$deleteUserQuery = 'delete from theatre.user where id = ?';
+		$deleteUserQuery = 'delete from xsvera04.user where id = ?';
 		$this->db->run($deleteUserQuery, $id);
 	}
 
