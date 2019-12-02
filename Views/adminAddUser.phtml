@@ -10,48 +10,58 @@
 
 
 <div id="userModify">
-    <h3 align="center">Pridani uzivatele</h3>
-    <form method="post">
-        <div class="generalSettings">
-            <div class="item">
-                <label for="jmeno">Jméno:</label>
-                <input type="text" id="jmeno" name="jmeno" value="<?= $_POST['jmeno'] ?? '' ?>" placeholder="Jméno" required>
+    
+    <form method="post" class="mx-auto" style="width: 600px">
+            <h3 class="text-center mb-4">Správce - Přidání uživatele</h3>
+            <div class="form-group row">
+                <label for="jmeno" class="col-3 col-form-label">Jméno</label>
+                <div class="col-9">
+                    <input type="text" class="form-control" id="jmeno" name="jmeno" value="<?= $_POST['jmeno'] ?? '' ?>" placeholder="Jméno" required>
+                </div>
             </div>
-            <div class="item">
-                <label for="prijmeni">Příjmení:</label>
-                <input type="text" id="prijmeni" name="prijmeni" value="<?= $_POST['prijmeni'] ?? '' ?>" placeholder="Příjmení" required>
+            <div class="form-group row">
+                <label for="prijmeni" class="col-3 col-form-label">Příjmení</label>
+                <div class="col-9">
+                    <input type="text" class="form-control" id="prijmeni" name="prijmeni" value="<?= $_POST['prijmeni'] ?? '' ?>" placeholder="Příjmení" required>
+                </div>
             </div>
-            <div class="item">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="<?= $_POST['email'] ?? '' ?>" placeholder="Email" required>
+            <div class="form-group row">
+                <label for="email" class="col-3 col-form-label">E-mail</label>
+                <div class="col-9">
+                    <input type="email" class="form-control" id="email" name="email" value="<?= $_POST['email'] ?? '' ?>" placeholder="E-mail" required>
+                </div>
             </div>
-            <div class="item">
-                <label for="role">Role:</label>
-                <input list="roles" name="role" id="role" required value="<?= $_POST['role'] ?? '' ?>">
-
-                <datalist id="roles">
-                    <option value="Registrovaný uživatel">
-                    <option value="Redaktor">
-                    <option value="Pokladní">
-                    <option value="Admin">
-                </datalist>
-
+            <div class="form-group row">
+                <label for="role" class="col-3 col-form-label">Role</label>
+                <div class="col-9">
+                    <select class="custom-select form-control" id="role" name="role" required>
+                        <option selected disabled hidden value="">Vyberte roli...</option>
+                        <option value="registrovaný uživatel">Registrovaný uživatel</option>
+                        <option value="pokladní">Pokladní</option>
+                        <option value="redaktor">Redaktor</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
             </div>
-            <div class="item">
-                <label for="heslo">Heslo:</label>
-                <input type="password" id="heslo" name="heslo" placeholder="Heslo" required>
+            <div class="form-group row">
+                <label for="heslo" class="col-3 col-form-label">Heslo</label>
+                <div class="col-9">
+                    <input type="password" class="form-control" id="heslo" name="heslo" placeholder="Heslo" required>
+                </div>
             </div>
-            <div class="item">
-                <label for="kontrolniHeslo">Kontrolní Heslo:</label>
-                <input type="password" id="kontrolniHeslo" name="kontrolniHeslo" placeholder="Heslo znovu" required>
+            <div class="form-group row">
+                <label for="kontrolniHeslo" class="col-3 col-form-label">Potvrzení hesla</label>
+                <div class="col-9">
+                    <input type="password" class="form-control" id="kontrolniHeslo" name="kontrolniHeslo" placeholder="Potvrzení hesla" required>
+                </div>
             </div>
-            <div class="settings">
-                <input type=submit value="Uložit">
+            <div class="form-group row">
+                <div class="col-3"></div>
+                <div class="col-9">
+                    <button type="submit" class="btn btn-primary">Přidat uživatele</button>
+                    <button type="button"  class="btn btn-secondary" onclick="window.location.href='admin'">Zpět</button>
+                </div>
             </div>
-            <div class="settings">
-                <input type=button value="Zpět" onclick="window.location.href='admin'">
-            </div>
-        </div>
     </form>
 </div>
 </body>
