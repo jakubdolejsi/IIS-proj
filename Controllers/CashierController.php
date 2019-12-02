@@ -23,31 +23,29 @@ class CashierController extends BaseController
 
 	public function actionCreate($params): void
 	{
-		$this->hasPermission('cashier', 'admin');
-
-		$cashier = $this->getModelFactory()->createCashierModel();
-		try {
-			$cashier->createReservationCashier($params);
-		}
-		catch (AlreadyOccupiedSeatException $e) {
-			$this->alert($e->getMessage());
-			$this->redirect("cashier/create/$params[0]/$params[1]/$params[2]/$params[3]");
-		}
-		catch (UpdateException $e) {
-			$this->alert($e->getMessage());
-		}
-		$this->loadView('cashierCreate');
-	}
+        $this->hasPermission('cashier', 'admin');
+        
+    	$cashier = $this->getModelFactory()->createCashierModel();
+	    try {
+		    $cashier->createReservationCashier($params);
+	    }catch (AlreadyOccupiedSeatException $e){
+	        $this->alert($e->getMessage());
+	        $this->redirect("cashier/create/$params[0]/$params[1]/$params[2]/$params[3]");
+        }
+	    catch (UpdateException $e) {
+	    	$this->alert($e->getMessage());
+	    }
+        $user = $this->getModelFactory()->createUserModel();
+        $data = $user->getReservationInfo($params);
+        $this->data['halls'] = $data['hallInfo'];
+        $this->data['reservedSeats'] = $data['seatsInfo'];
+	    $this->loadView('cashierCreate');
+    }
 
 	public function actionDefault(): void
 	{
 		$this->hasPermission('cashier', 'admin');
 		$this->loadView('cashier');
-	}
-
-	public function actionReservation($params)
-	{
-
 	}
 
 	public function actionSearch($params): void

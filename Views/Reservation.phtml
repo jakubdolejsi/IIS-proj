@@ -9,66 +9,54 @@
 
 <body>
 
-<?php
-// var_dump($this);
-$label_rows = 10;
-$label_cols = 10;
-//var_dump($halls);
-//var_dump($reservedSeats);
-?>
-
-<form method="post">
+<form method="post" class="mx-auto" style="width: 600px">
     <h2 class="text-center">Rezervace pro událost</h2>
 
     <table class="w-auto m-auto table table-borderless" data-toggle="buttons">
         <tr>
             <td></td>
-            <td colspan="<?= $label_cols ?>" class="">
+            <td colspan="<?=$halls['column_count']?>" class="">
                 <button class="btn btn-secondary btn-block" disabled>plátno / jeviště</button>
             </td>
         </tr>
-		<?php for ($i = 0; $i < $label_rows; $i++): ?>
-            <tr>
-                <td class="m-auto p-0 align-middle text-secondary">
-					<?= chr($i + 65) ?>
-                </td>
-                <td class="w-auto px-0 py-0 pb-1 border-bottom border-dark border-skip-last">
-					<?php for ($j = 0; $j < $label_cols; $j++): ?>
-
-                        <label class="m-0 pr-1 p-0 btn chair btn-outline-success">
-                            <input type="radio" class="w-0 m-0 p-0" name="seat" id="seat" value="<?= chr($i + 65) . ($j + 1) ?>" autocomplete="off">
-                            <i class="m-0 p-0 fas fa-couch"></i>
-                        </label>
-					<?php endfor ?>
-                </td>
-            </tr>
-		<?php endfor ?>
+        <?php for($i = 0; $i < $halls['row_count']; $i++): ?>
+        <?php $x = chr($i + 65);?>
+        <tr>
+            <td class="m-auto p-0 align-middle text-secondary">
+                <?= chr($i + 65) ?>
+            </td>
+            <td class="w-auto px-0 py-0 pb-1 border-bottom border-dark border-skip-last">
+                <?php for($j = 0; $j < $halls['column_count']; $j++): ?>
+                <?php $y = $j+1;?>
+                <?php if(!in_array(chr($i + 65).($j+1), $reservedSeats)): ?>
+                <label class="m-0 pr-1 p-0 btn chair btn-outline-success">
+                    <input type="radio" class="w-0 m-0 p-0" name="seat" id="seat" value="<?=chr($i + 65).($j+1)?>" autocomplete="off" required>
+                    <?php else :?>
+                    <label class="m-0 pr-1 p-0 btn chair btn-outline-danger">
+                        <input type="radio" class="w-0 m-0 p-0" name="seat" id="seat" value="<?=chr($i + 65).($j+1)?>" autocomplete="off" disabled title="Sedadlo obsazeno">
+                    <?php endif?>
+                    <i class="m-0 p-0 fas fa-couch"></i>
+                </label>
+                <?php endfor ?>
+            </td>
+        </tr>    
+    <?php endfor ?>
 
     </table>
 
-    <!-- <label for="column">Sloupec</label>
-    <input type="number" id="column" name="column" min="1" max="15" value="1" required>
+    <div class="form-group row">
+        <label class="col-3 col-form-label" for="type">Typ platby</label>
+        <div class="col-20">
+            <select class="custom-select form-control" id="type" name="type">
+                <option value="na pokladně">Na pokladně</option>
+                <option value="předem">Předem</option>
+            </select>
+        </div>
+    </div>
 
-    <label for="row">Rada</label>
-    <select list="rows" name="row" id="row">
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="D">D</option>
-        <option value="E">E</option>
-        <option value="F">F</option>
-        <option value="G">G</option>
-    </select> -->
-
-    <label for="type">Typ platby</label>
-    <select id="type" name="type">
-        <option value="na pokladně">Na pokladně</option>
-        <option value="předem">Předem</option>
-    </select>
-
-    <div class="item">
-        <input type="submit" value="Potvrdit">
-        <input type=button value="Zpět" onclick="window.location.href='search'">
+    <div >
+        <input class="btn btn-primary" type="submit" value="Potvrdit">
+        <input class="btn btn-primary" type=button value="Zpět" onclick="window.location.href='search'">
     </div>
 </form>
 </div>
