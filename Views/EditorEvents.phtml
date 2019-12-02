@@ -10,26 +10,50 @@
 </head>
 <body>
 
-<div class="settings">
-    <input type="button" value="Pridat novou udalost" onclick="location.href='editor/events/add'">
-	<?php foreach ($events as $event) : ?>
-        <div class="concreteItem">
-            <input type="button" value="upravit" onclick="location.href= 'editor/events/edit/<?= str_replace
-			(' ',
-				'%20', $event['id'])
-			?>';"/>
-            <input type="button" value="smazat" onclick="location.href= 'editor/events/remove/<?=
-			str_replace
-			(' ',
-				'%20', $event['id'])
-			?>';"/>
-
+<div class="mx-auto" style="width: 800px">
+	<h2 class="mb-3">Správa událostí</h2>
+	<table class="table table-striped w-auto mb-3">
+    <thead class="table-primary">
+		<tr class="text-center">
+			<th>Upravit</th>
+			<th>Smazat</th>
+			<th>ID</th>
+			<th>Číslo sálu</th>
+			<th>Číslo události</th>
+			<th>Datum</th>
+			<th>Začátek</th>
+			<th>Konec</th>
+			<th>Cena</th>
+		<tr>
+	</thead>
+	<tbody>
+		<?php foreach ($events as $event) : ?>
+		<tr class="text-center">
+			<td class="align-middle">
+				<button type="button" class="btn btn-primary px-2 py-1" onclick="location.href= 'editor/events/edit/<?= str_replace
+				(' ',
+					'%20', $event['id'])
+				?>';">
+				<i class="fas fa-edit"></i>
+				</button>
+			</td>
+			<td class="align-middle">
+				<button type="button" class="btn btn-secondary px-2 py-1" onclick="location.href= 'editor/events/remove/<?=
+				str_replace
+				(' ',
+					'%20', $event['id'])
+				?>';">
+				<i class="fas fa-trash-alt"></i>
+				</button>
+			</td>
 			<?php foreach ($event as $item => $value) : ?>
-				<?= $this->langMapper($item) ?> : <?= $value ?> &nbsp;|
+				<td class="align-middle">
+				<?= $value ?>
+				</td>
 			<?php endforeach ?>
-        </div>
-	<?php endforeach ?>
-    <input type="submit" value="Zpet" onclick=window.location.href='editor'>
+		</tr>
+		<?php endforeach ?>
+	</tbody>
 
 </div>
 </body>
