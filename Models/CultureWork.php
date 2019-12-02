@@ -11,7 +11,7 @@ class CultureWork extends BaseModel
 {
 	public function getCultureWorkByEvent($eventType): array
 	{
-		$eventType = str_replace('%20', ' ', $eventType);
+		$eventType = str_replace('%20', ' ', urldecode($eventType));
 		$query = 'select * from theatre.culture_work as cw 
 				join theatre.culture_event as ce on cw.id = ce.id_culture_work
 				where cw.type = ?';
