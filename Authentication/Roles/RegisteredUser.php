@@ -59,7 +59,7 @@ class RegisteredUser extends NotRegisteredUser
             throw new InvalidRequestException('Neplatná URL adresa!');
         }
 
-        $cultureEventIdQueryParams = [urldecode($urlParams['label']), urldecode($urlParams['begin']), urldecode($urlParams['type']), urldecode($urlParams['id'])];
+        $cultureEventIdQueryParams = [$urlParams['label'], $urlParams['begin'], urldecode($urlParams['type']), $urlParams['id']];
         $cultureEventIdQuery = 'select ce.id, ce.price from theatre.culture_event as ce
 							join theatre.culture_work as cw on ce.id_culture_work = cw.id
 							join theatre.hall as h on ce.id_hall = h.id
