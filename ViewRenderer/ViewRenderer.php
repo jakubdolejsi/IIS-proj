@@ -110,7 +110,11 @@ class ViewRenderer implements IViewable
             'image'           => 'obrázek',
             'is_paid'         => 'uhrazeno',
             'is_verificed'    => 'ověřeno',
-            'payment_type'    => 'způsob platby'
+            'payment_type'    => 'způsob platby',
+			'registeredUser' => 'registrovaný uživatel',
+			'editor' => 'redaktor',
+			'admin' => 'admin',
+			'cashier' => 'pokladní',
 		];
 		if (array_key_exists($data, $langDict)) {
 			$data = $langDict[ $data ];

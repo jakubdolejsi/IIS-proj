@@ -25,7 +25,14 @@
         </div>
         <div class="settings">
             <label for="role">role :</label>
-            <input type="text" id="role" name="role" value="<?= $user['role'] ?>">
+
+            <select name="role" id="role">
+                <option selected="selected"><?= $this->langMapper($user['role'])?></option>
+                <option>registrovaný uživatel</option>
+                <option>pokladní</option>
+                <option>redaktor</option>
+                <option>admin</option>
+            </select>
         </div>
         <div class="settings">
             <label for="is_verified">Ověřen:</label>
@@ -39,4 +46,15 @@
         </div>
     </div>
 </form>
+
+<script type="text/javascript">
+    const opt = {};
+    $("#role > option").each(function () {
+        if(opt[$(this).text()]) {
+            $(this).remove();
+        } else {
+            opt[$(this).text()] = $(this).val();
+        }
+    });
+</script>
 </body>
