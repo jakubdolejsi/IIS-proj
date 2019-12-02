@@ -17,7 +17,7 @@ use Exceptions\UpdateException;
 use Exceptions\UpdateSuccess;
 
 
-class UserModel extends baseModel
+class UserModel extends BaseModel
 {
 	public function checkVerificationCode()
 	{

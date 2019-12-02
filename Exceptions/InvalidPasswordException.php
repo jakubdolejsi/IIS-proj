@@ -4,6 +4,6 @@
 namespace Exceptions;
 
 
-class InvalidPasswordException extends baseException
+class InvalidPasswordException extends BaseException
 {
 }

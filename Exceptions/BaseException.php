@@ -7,7 +7,7 @@ use Exception;
 
 
 /**
- * Class baseException
+ * Class BaseException
  * @package Exceptions
  */
 class BaseException extends Exception
