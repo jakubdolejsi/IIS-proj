@@ -38,6 +38,7 @@ class UserModel extends BaseModel
 	 */
 	public function createReservation($params)
 	{
+
 		$role = $this->auth->role()->getRoleFromSession();
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

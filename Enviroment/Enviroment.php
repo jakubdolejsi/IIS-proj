@@ -27,7 +27,7 @@ class Enviroment
 		$host = self::DB_OPTIONS['DB_HOST'];
 		$dbName = self::DB_OPTIONS['DB_NAME'];
 
-		return "mysql:host={$host};dbname={$dbName};port=/var/run/mysql/mysql.sock";
+		return "mysql:host={$host};dbname={$dbName};charset=utf8;port=/var/run/mysql/mysql.sock";
 	}
 
 	public static function setErrorNotification()

@@ -217,11 +217,10 @@ class NotRegisteredUser extends Password{
      */
     protected function getUrlParams($params): array
     {
-        unset($params[0]);
-        $params = array_values($params);
         $arr = [];
         $values = ['type', 'id', 'label', 'begin'];
         $i = 0;
+
         foreach ($params as $key => $value) {
             $arr[ $values[ $i ] ] = str_replace('%20', ' ', $value);
             if (empty($value)) {
@@ -321,8 +320,8 @@ class NotRegisteredUser extends Password{
 
 	public function getReservedSeatInfo($params)
 	{
-	    unset($params[0]);
-	    $params = array_values($params);
+//	    unset($params[0]);
+//	    $params = array_values($params);
 		[$type, $idCW, $label, $begin] = $params;
 		//FIXME advanced debug
 
