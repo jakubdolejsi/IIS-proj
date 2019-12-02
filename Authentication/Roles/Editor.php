@@ -13,7 +13,18 @@ class Editor extends Cashier
 
 	public function addEvent($data)
 	{
+//		var_dump($data);
+
+		$hallIdQuery = 'select h.id from theatre.hall as h where h.seat_schema = ?';
+		$hallId = $this->db->run($hallIdQuery, $data['id_hall'])->fetch(PDO::FETCH_ASSOC);
+
+		$cwQuery = 'select cw.id from theatre.culture_work as cw where cw.name = ?';
+		$cwID = $this->db->run($cwQuery, $data['id_culture_work'])->fetch(PDO::FETCH_ASSOC);
+
 		unset($data['submit']);
+		$data['id_hall'] = $hallId['id'];
+		$data['id_culture_work'] = $cwID['id'];
+
 		$datas = array_values($data);
 
 		$query = 'insert into theatre.culture_event (culture_event.id_hall, culture_event.id_culture_work, culture_event.date, culture_event.begin, culture_event.end, culture_event.price) 
@@ -139,10 +150,10 @@ class Editor extends Cashier
 
 	public function getHallAndCultureWorkIds()
 	{
-		$queryHall = 'select id from theatre.hall';
+		$queryHall = 'select seat_schema from theatre.hall';
 		$hallIds = $this->db->run($queryHall)->fetchAll(PDO::FETCH_ASSOC);
 
-		$queryWork = 'select id from theatre.culture_work';
+		$queryWork = 'select name from theatre.culture_work';
 		$workIDs = $this->db->run($queryWork)->fetchAll(PDO::FETCH_ASSOC);
 
 		return [$hallIds, $workIDs];

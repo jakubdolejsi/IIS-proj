@@ -15,22 +15,22 @@ $workIds = $events[1];
 <form method="post">
     <div class="generalSettings">
         <div class="settings">
-            <label for="id_hall">id_hall:</label>
+            <label for="id_hall">Sal:</label>
             <select id="id_hall" name="id_hall">
 				<?php foreach ($hallIds as $ids) {
 					foreach ($ids as $id) {
-						echo "<option value=$id >$id</option>";
+						echo '<option value = "'.$id.'" > '.$id.'</option>';
 					}
 				} ?>
 
             </select>
         </div>
         <div class="settings">
-            <label for="id_culture_work">id_culture_work:</label>
+            <label for="id_culture_work">Dilo:</label>
             <select id="id_culture_work" name="id_culture_work">
 				<?php foreach ($workIds as $ids) {
 					foreach ($ids as $id) {
-						echo "<option value=$id >$id</option>";
+						echo '<option value = "'.$id.'" > '.$id.'</option>';
 					}
 				} ?>
 
