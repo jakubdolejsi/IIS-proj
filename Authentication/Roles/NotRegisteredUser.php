@@ -86,10 +86,12 @@ class NotRegisteredUser extends Password{
 
     public function verifyHash()
     {
-        if(isset($_GET['user'])){
+        if(isset($_GET['id'])){
 	        $id = $this->loadGET()['id'];
-        }else{
+        }else if(isset($_SESSION['user'])){
             $id = $_SESSION['user'];
+        }else{
+
         }
 	    $insertedCode = $this->loadGET()['hash'];
         $query = 'select user.hash from xsvera04.user where id=? and hash=?';
@@ -180,7 +182,7 @@ class NotRegisteredUser extends Password{
 
     public function completeVerification()
     {
-        if(isset($_GET['user'])){
+        if(isset($_GET['id'])){
 	        $id = $this->loadGET()['id'];
         }else{
             $id = $_SESSION['user'];
@@ -297,6 +299,7 @@ class NotRegisteredUser extends Password{
 							join xsvera04.culture_work as cw on ce.id_culture_work = cw.id
 							join xsvera04.hall as h on ce.id_hall = h.id
 							where h.label = ? and ce.begin = ? and cw.type = ? and ce.id = ?';
+
         $cultureEventRes = $this->db->run($cultureEventIdQuery, $cultureEventIdQueryParams)->fetch(PDO::FETCH_ASSOC);
         if (!isset($cultureEventRes['id'])) {
             throw new InvalidRequestException('Neplatná URL adresa!');

@@ -15,6 +15,7 @@ class Cashier extends RegisteredUser
     public function getTicketByIdPOST()
     {
 	    $data = $this->loadPOST();
+
         $query = 'select t.id, cw.name, ce.begin, ce.date, t.price, t.seat, h.label, t.payment_type, t.is_paid from xsvera04.ticket as t 
 				join xsvera04.user as u on t.id_user = u.id
 				join xsvera04.culture_event as ce on t.id_culture_event = ce.id
@@ -38,6 +39,7 @@ class Cashier extends RegisteredUser
 				join xsvera04.culture_work as cw on ce.id_culture_work = cw.id
 				join xsvera04.hall as h on ce.id_hall = h.id
 				where u.email = ? and ce.date >= ? order by ce.date asc, ce.begin asc';
+
         $date = date('Y-m-d');
         return $this->db->run($query, [$data['email'], $date])->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -117,6 +119,7 @@ class Cashier extends RegisteredUser
 		$x = $this->db->run($createUserQuery, $userValues);
 		$id = $this->db->lastInsertId();
 		$priceQuery = 'select price from xsvera04.culture_event where id = ?';
+
 		$price = $this->db->run($priceQuery, $params[1])->fetch(PDO::FETCH_ASSOC)['price'];
 
 		// id musi byt culture event !!!!

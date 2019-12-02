@@ -64,6 +64,7 @@ class RegisteredUser extends NotRegisteredUser
 							join xsvera04.culture_work as cw on ce.id_culture_work = cw.id
 							join xsvera04.hall as h on ce.id_hall = h.id
 							where h.label = ? and ce.begin = ? and cw.type = ? and ce.id = ?';
+
         $cultureEventRes = $this->db->run($cultureEventIdQuery, $cultureEventIdQueryParams)->fetch(PDO::FETCH_ASSOC);
         if (!isset($cultureEventRes['id'])) {
             throw new InvalidRequestException('Neplatná URL adresa!');

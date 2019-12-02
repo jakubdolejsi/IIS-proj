@@ -69,7 +69,7 @@ class ViewRenderer implements IViewable
 	 * @param string $view
 	 * @throws aBaseException
 	 */
-	public function loadControllerView(?string $view): void
+	public function loadControllerView($view): void
 	{
 		$validView = $this->validateView($view);
 		$this->controllerView = $validView;
