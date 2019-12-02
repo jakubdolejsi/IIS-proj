@@ -9,55 +9,55 @@
 
 <body>
 
-<form method="post" class="mx-auto" style="width: 600px">
-    <h2 class="text-center">Rezervace pro událost</h2>
+<div class="mx-auto">
+    <form method="post">
+        <h2 class="text-center">Rezervace pro událost</h2>
 
-    <table class="w-auto m-auto table table-borderless" data-toggle="buttons">
-        <tr>
-            <td></td>
-            <td colspan="<?=$halls['column_count']?>" class="">
-                <button class="btn btn-secondary btn-block" disabled>plátno / jeviště</button>
-            </td>
-        </tr>
-        <?php for($i = 0; $i < $halls['row_count']; $i++): ?>
-        <?php $x = chr($i + 65);?>
-        <tr>
-            <td class="m-auto p-0 align-middle text-secondary">
-                <?= chr($i + 65) ?>
-            </td>
-            <td class="w-auto px-0 py-0 pb-1 border-bottom border-dark border-skip-last">
-                <?php for($j = 0; $j < $halls['column_count']; $j++): ?>
-                <?php $y = $j+1;?>
-                <?php if(!in_array(chr($i + 65).($j+1), $reservedSeats)): ?>
-                <label class="m-0 pr-1 p-0 btn chair btn-outline-success">
-                    <input type="radio" class="w-0 m-0 p-0" name="seat" id="seat" value="<?=chr($i + 65).($j+1)?>" autocomplete="off" required>
-                    <?php else :?>
-                    <label class="m-0 pr-1 p-0 btn chair btn-outline-danger">
-                        <input type="radio" class="w-0 m-0 p-0" name="seat" id="seat" value="<?=chr($i + 65).($j+1)?>" autocomplete="off" disabled title="Sedadlo obsazeno">
-                    <?php endif?>
-                    <i class="m-0 p-0 fas fa-couch"></i>
-                </label>
-                <?php endfor ?>
-            </td>
-        </tr>    
-    <?php endfor ?>
+        <table class="w-auto m-auto table table-borderless" data-toggle="buttons">
+            <tr>
+                <td></td>
+                <td colspan="<?=$halls['column_count']?>" class="">
+                    <button class="btn btn-secondary btn-block" disabled>plátno / jeviště</button>
+                </td>
+            </tr>
+            <?php for($i = 0; $i < $halls['row_count']; $i++): ?>
+            <?php $x = chr($i + 65);?>
+            <tr>
+                <td class="m-auto p-0 align-middle text-secondary">
+                    <?= chr($i + 65) ?>
+                </td>
+                <td class="w-auto px-0 py-0 pb-1 border-bottom border-dark border-skip-last">
+                    <?php for($j = 0; $j < $halls['column_count']; $j++): ?>
+                    <?php $y = $j+1;?>
+                    <?php if(!in_array(chr($i + 65).($j+1), $reservedSeats)): ?>
+                    <label class="m-0 pr-1 p-0 btn chair btn-outline-success">
+                        <input type="radio" class="w-0 m-0 p-0" name="seat" id="seat" value="<?=chr($i + 65).($j+1)?>" autocomplete="off" required>
+                        <?php else :?>
+                        <label class="m-0 pr-1 p-0 btn chair btn-outline-danger">
+                            <input type="radio" class="w-0 m-0 p-0" name="seat" id="seat" value="<?=chr($i + 65).($j+1)?>" autocomplete="off" disabled title="Sedadlo obsazeno">
+                        <?php endif?>
+                        <i class="m-0 p-0 fas fa-couch"></i>
+                    </label>
+                    <?php endfor ?>
+                </td>
+            </tr>    
+            <?php endfor ?>
 
-    </table>
+        </table>
 
-    <div class="form-group row">
-        <label class="col-3 col-form-label" for="type">Typ platby</label>
-        <div class="col-20">
-            <select class="custom-select form-control" id="type" name="type">
-                <option value="na pokladně">Na pokladně</option>
-                <option value="předem">Předem</option>
-            </select>
+        <div class="mx-auto mt-3" style="width: 300px">
+            <div class="form-group row">
+                <label class="col-form-label" for="type">Typ platby</label>
+                <select class="custom-select form-control" id="type" name="type">
+                    <option value="na pokladně">Na pokladně</option>
+                    <option value="předem">Předem</option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <input type="submit" class="btn btn-primary mr-2" value="Potvrdit">
+                <input type="button" class="btn btn-secondary" value="Zpět" onclick="window.location.href='search'">
+            </div>
         </div>
-    </div>
-
-    <div >
-        <input class="btn btn-primary" type="submit" value="Potvrdit">
-        <input class="btn btn-secondary" type=button value="Zpět" onclick="window.location.href='search'">
-    </div>
-</form>
+    </form>
 </div>
 </body>
