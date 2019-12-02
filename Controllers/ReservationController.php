@@ -40,7 +40,7 @@ class ReservationController extends BaseController
 				$this->alert($e->getMessage());
 				$this->redirect('ticket');
 			}
-		}else{
+		} else {
 			$this->loadView('reservationUnregistered');
 
 			$registeredOK = $user->oneTimeRegister();
@@ -49,7 +49,7 @@ class ReservationController extends BaseController
 
 				try {
 					$ticketId = $user->createReservation($params);
-                }
+				}
 				catch (InvalidRequestException $e) {
 					$this->alert($e->getMessage());
 					$this->redirect('search');
@@ -62,27 +62,28 @@ class ReservationController extends BaseController
 				}
 			}
 		}
-		if(isset($ticketId)){
-            $ticket = $this->getModelFactory()->createTicketManager()->getTicketById($ticketId);
+		if (isset($ticketId)) {
+			$ticket = $this->getModelFactory()->createTicketManager()->getTicketById($ticketId);
 
-            $mail = new PHPMailer(true);
-            $settings = new EmailSender;
-            if(!$user->isLogged()){
-                $user = $user->getRole()->getNotRegisteredUserByEmail();
-                $settings->setupReservationEmail($mail, $ticket);
-            }else{
-                $user = $user->getUserInfo();
-                $settings->setupReservationEmailRegistered($mail, $ticket, $user);
-            }
-            try{
-                $settings->setRecipient($mail, $user->getEmail());
-                $settings->sendEmail($mail);
-            } catch (Exception $e) {
-                $this->alert("Nepodařilo se odeslat lístek na email. Chyba: {$mail->ErrorInfo}");
-                $this->redirect('search');
-            }
-            $this->alert("Na váš email byly odeslány informace o rezervaci!");
-            $this->redirect('home');
+			$mail = new PHPMailer(TRUE);
+			$settings = new EmailSender;
+			if (!$user->isLogged()) {
+				$user = $user->getRole()->getNotRegisteredUserByEmail();
+				$settings->setupReservationEmail($mail, $ticket);
+			} else {
+				$user = $user->getUserInfo();
+				$settings->setupReservationEmailRegistered($mail, $ticket, $user);
+			}
+			try {
+				$settings->setRecipient($mail, $user->getEmail());
+				$settings->sendEmail($mail);
+			}
+			catch (Exception $e) {
+				$this->alert("Nepodařilo se odeslat lístek na email. Chyba: {$mail->ErrorInfo}");
+				$this->redirect('search');
+			}
+			$this->alert("Na váš email byly odeslány informace o rezervaci!");
+			$this->redirect('home');
 		}
 		$data = $user->getReservationInfo($params);
 		$this->data['halls'] = $data['hallInfo'];
@@ -92,6 +93,6 @@ class ReservationController extends BaseController
 
 	public function actionDefault(): void
 	{
-	    $this->redirect('error');
+		$this->redirect('error');
 	}
 }

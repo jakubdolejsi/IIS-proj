@@ -9,12 +9,41 @@ use PDO;
 
 class AdminModel extends BaseModel
 {
-    public function getAllUsers(){
-        $query = 'select u.id, u.firstName, u.lastName, u.email, u.role from theatre.user as u';
+	/**
+	 * @param $id
+	 */
+	public function deleteUserByID($id): void
+	{
+		$deleteTicketsQuery = 'delete from theatre.ticket where id_user = ?';
+		$this->db->run($deleteTicketsQuery, $id);
 
-        return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
-    }
+		$deleteUserQuery = 'delete from theatre.user where id = ?';
+		$this->db->run($deleteUserQuery, $id);
+	}
 
+	public function getAllUsers()
+	{
+		$query = 'select u.id, u.firstName, u.lastName, u.email, u.role from theatre.user as u';
+
+		return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function process(): array
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$data = $this->auth->role()->loadPOST();
+			if ($this->arrayEmpty($data)) {
+				return $this->getAllUsers();
+			}
+
+			return $this->getConcreteUsers($data);
+		}
+
+		return $this->getAllUsers();
+	}
 
 	public function processEdit($id)
 	{
@@ -28,64 +57,36 @@ class AdminModel extends BaseModel
 		return $role->getUserByID($id);
 	}
 
-    /**
-     * @return array
-     */
-    public function process(): array
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	        $data = $this->auth->role()->loadPOST();
-            if ($this->arrayEmpty($data)) {
-                return $this->getAllUsers();
-            }
-            return $this->getConcreteUsers($data);
-        }
-        return $this->getAllUsers();
-    }
+	private function arrayEmpty($data): bool
+	{
+		foreach ($data as $key => $value) {
+			if (empty($value)) {
+				unset($data[ $key ]);
+			}
+		}
 
-    /**
-     * @param $data
-     * @return array
-     */
-    private function getConcreteUsers($data): array
-    {
-        $query = 'select u.id, u.firstName, u.lastName, u.email, u.role from theatre.user as u 
-				where ';
-
-        foreach ($data as $key => $value) {
-            if (!empty($value)) {
-                $query .= " u.$key = ? and";
-            } else {
-                unset($data[ $key ]);
-            }
-        }
-        $query = substr_replace($query, '', -3) . ' order by u.lastName asc';
-
-        return $this->db->run($query, array_values($data))->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-
-    private function arrayEmpty($data): bool
-    {
-        foreach ($data as $key => $value) {
-            if (empty($value)) {
-                unset($data[ $key ]);
-            }
-        }
-        return empty($data);
-    }
-
+		return empty($data);
+	}
 
 	/**
-	 * @param $id
+	 * @param $data
+	 * @return array
 	 */
-	public function deleteUserByID($id): void
+	private function getConcreteUsers($data): array
 	{
-		$deleteTicketsQuery = 'delete from theatre.ticket where id_user = ?';
-		$this->db->run($deleteTicketsQuery, $id);
+		$query = 'select u.id, u.firstName, u.lastName, u.email, u.role from theatre.user as u 
+				where ';
 
-		$deleteUserQuery = 'delete from theatre.user where id = ?';
-		$this->db->run($deleteUserQuery, $id);
+		foreach ($data as $key => $value) {
+			if (!empty($value)) {
+				$query .= " u.$key = ? and";
+			} else {
+				unset($data[ $key ]);
+			}
+		}
+		$query = substr_replace($query, '', -3) . ' order by u.lastName asc';
+
+		return $this->db->run($query, array_values($data))->fetchAll(PDO::FETCH_ASSOC);
 	}
 
 }

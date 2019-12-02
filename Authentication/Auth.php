@@ -18,12 +18,12 @@ class Auth
 		$this->db = $db;
 	}
 
-	/**
-	 * @return Role
+	/** @return NotRegisteredUser
+	 * @internal Vola se pouze pri rezervaci jako neregistrovany uzivatel
 	 */
-	public function role(): Role
+	public function notRegisteredUser(): NotRegisteredUser
 	{
-		return new Role($this->db);
+		return new NotRegisteredUser($this->db);
 	}
 
 	/** @return RegisteredUser
@@ -34,12 +34,12 @@ class Auth
 		return new RegisteredUser($this->db);
 	}
 
-    /** @return NotRegisteredUser
-     * @internal Vola se pouze pri rezervaci jako neregistrovany uzivatel
-     */
-    public function notRegisteredUser(): NotRegisteredUser
-    {
-        return new NotRegisteredUser($this->db);
-    }
+	/**
+	 * @return Role
+	 */
+	public function role(): Role
+	{
+		return new Role($this->db);
+	}
 
 }

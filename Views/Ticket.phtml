@@ -11,32 +11,32 @@
 <body>
 
 <div id="ticketItem" style="text-align: center">
-        <h1>Seznam lístků</h1>
+    <h1>Seznam lístků</h1>
 
 
-		<?php foreach ($ticket as $concrete) : ?>
-            <div class="concreteItem">
+	<?php foreach ($ticket as $concrete) : ?>
+        <div class="concreteItem">
 
-           <!-- Uhradit lze pokud událost ještě neproběhla, nebo není vybraná platba na pokladně                -->
-                <input type="button" onclick="location.href='ticket/confirm/<?= $concrete['id']?>'" value="Uhradit"
-                    <?php if ($concrete['is_paid'] === 'Ano'): ?>
-                       disabled title="Již zaplaceno"
-                    <?php elseif (($concrete['date'] < $todayDate) || (($concrete['begin'] < $currentTime) && ($concrete['date'] <= $todayDate))): ?>
-                       disabled title="Nelze zaplatit - událost již proběhla"
-                    <?php elseif($concrete['is_paid'] === 'Ne' && $concrete['payment_type'] === 'na pokladně'): ?>
-                        disabled title="Platbu můžete provést až na pokladně"
-                    <?php endif ?>/>
+            <!-- Uhradit lze pokud událost ještě neproběhla, nebo není vybraná platba na pokladně                -->
+            <input type="button" onclick="location.href='ticket/confirm/<?= $concrete['id'] ?>'" value="Uhradit"
+				<?php if ($concrete['is_paid'] === 'Ano'): ?>
+                    disabled title="Již zaplaceno"
+				<?php elseif (($concrete['date'] < $todayDate) || (($concrete['begin'] < $currentTime) && ($concrete['date'] <= $todayDate))): ?>
+                    disabled title="Nelze zaplatit - událost již proběhla"
+				<?php elseif ($concrete['is_paid'] === 'Ne' && $concrete['payment_type'] === 'na pokladně'): ?>
+                    disabled title="Platbu můžete provést až na pokladně"
+				<?php endif ?>/>
 
             <!-- Storno button se zobrazi pouze pokud udalost jeste neprobehla (nezacala)                -->
-                    <input type="button" onclick="location.href='ticket/storno/<?= $concrete['id']?>'" value="Stornovat"
-                        <?php if (($concrete['date'] < $todayDate) || (($concrete['begin'] < $currentTime) && ($concrete['date'] <= $todayDate))): ?>
-                            disabled title="Nelze stornovat - událost již proběhla"
-                        <?php endif ?>/>
+            <input type="button" onclick="location.href='ticket/storno/<?= $concrete['id'] ?>'" value="Stornovat"
+				<?php if (($concrete['date'] < $todayDate) || (($concrete['begin'] < $currentTime) && ($concrete['date'] <= $todayDate))): ?>
+                    disabled title="Nelze stornovat - událost již proběhla"
+				<?php endif ?>/>
 
-                <?php foreach ($concrete as $item => $value) : ?>
+			<?php foreach ($concrete as $item => $value) : ?>
 				<?= $this->langMapper($item) ?> : <?= $value ?> &nbsp;|
 			<?php endforeach ?>
-            </div>
-		<?php endforeach ?>
-    </div>
+        </div>
+	<?php endforeach ?>
+</div>
 </body>

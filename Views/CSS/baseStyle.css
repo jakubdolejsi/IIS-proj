@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
 }
+
 body {
     font-family: Nunito, serif;
 }
@@ -18,6 +19,6 @@ body {
     appearance: none;
 }
 
-table.table-borderless tr:last-child  {
+table.table-borderless tr:last-child {
     border-bottom-style: hidden;
 }

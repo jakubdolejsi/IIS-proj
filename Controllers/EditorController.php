@@ -11,6 +11,13 @@ use Exceptions\UpdateSuccess;
 class EditorController extends BaseController
 {
 
+	public function actionDefault(): void
+	{
+		$this->hasPermission('admin', 'editor');
+
+		$this->loadView('editor');
+	}
+
 	public function actionEvents($params): void
 	{
 		$this->hasPermission('admin', 'editor');
@@ -29,24 +36,6 @@ class EditorController extends BaseController
 
 		$this->loadView($view);
 		$this->data['events'] = $data;
-	}
-
-	public function actionWorks($params): void
-	{
-		$this->hasPermission('admin', 'editor');
-
-		$editor = $this->getModelFactory()->createEditorModel();
-		$method = $this->getMethod($params, __FUNCTION__);
-		try {
-			[$data, $view] = method_exists($editor, $method) ? $editor->$method($params) : $this->redirect('error');
-		}
-		catch (UpdateException $exception) {
-			$this->alert($exception->getMessage());
-			$this->redirect('editor/works');
-		}
-
-		$this->loadView($view);
-		$this->data['works'] = $data;
 	}
 
 	public function actionHalls($params): void
@@ -70,11 +59,22 @@ class EditorController extends BaseController
 		$this->data['hall'] = $data;
 	}
 
-	public function actionDefault(): void
+	public function actionWorks($params): void
 	{
 		$this->hasPermission('admin', 'editor');
 
-		$this->loadView('editor');
+		$editor = $this->getModelFactory()->createEditorModel();
+		$method = $this->getMethod($params, __FUNCTION__);
+		try {
+			[$data, $view] = method_exists($editor, $method) ? $editor->$method($params) : $this->redirect('error');
+		}
+		catch (UpdateException $exception) {
+			$this->alert($exception->getMessage());
+			$this->redirect('editor/works');
+		}
+
+		$this->loadView($view);
+		$this->data['works'] = $data;
 	}
 
 	private function getMethod(&$params, $func)

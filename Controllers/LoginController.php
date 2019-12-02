@@ -30,9 +30,9 @@ class LoginController extends BaseController
 		catch (NoUserException $exception) {
 			$this->alert($exception->getMessage());
 		}
-		catch (UserNotVerifiedException $exception){
-		    $this->alert($exception->getMessage());
-        }
+		catch (UserNotVerifiedException $exception) {
+			$this->alert($exception->getMessage());
+		}
 		catch (LoggedUserException $exception) {
 			$this->redirect('home');
 		}

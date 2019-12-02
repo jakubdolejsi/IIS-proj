@@ -20,6 +20,11 @@ class UserProfileEditModel
 		$this->initProperties($user);
 	}
 
+	public function comparePassword(): bool
+	{
+		return $this->newPassword === $this->newPasswordRetype;
+	}
+
 	public function getEmail()
 	{
 		return $this->email;
@@ -38,11 +43,6 @@ class UserProfileEditModel
 	public function getOldPassword()
 	{
 		return $this->oldPassword;
-	}
-
-	public function comparePassword(): bool
-	{
-		return $this->newPassword === $this->newPasswordRetype;
 	}
 
 	private function initProperties(array $user): void

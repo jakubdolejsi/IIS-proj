@@ -32,6 +32,22 @@ final class Container
 	private $session;
 
 	/**
+	 * @return ModelFactory
+	 */
+	public function getModelFactory(): ModelFactory
+	{
+		return new ModelFactory($this->getAuth(), $this->getDb(), $this->getSession());
+	}
+
+	/**
+	 * @return ViewFactory
+	 */
+	public function getViewFactory(): ViewFactory
+	{
+		return new ViewFactory;
+	}
+
+	/**
 	 * @return Auth
 	 */
 	private function getAuth(): Auth
@@ -65,21 +81,5 @@ final class Container
 		}
 
 		return $this->session;
-	}
-
-	/**
-	 * @return ModelFactory
-	 */
-	public function getModelFactory(): ModelFactory
-	{
-		return new ModelFactory($this->getAuth(), $this->getDb(), $this->getSession());
-	}
-
-	/**
-	 * @return ViewFactory
-	 */
-	public function getViewFactory(): ViewFactory
-	{
-		return new ViewFactory;
 	}
 }

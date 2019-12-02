@@ -57,7 +57,7 @@
     <div class="active">
 
         <!-- Zobrazeni nadpisu pouze pri zavolani getAllFutureEvents        -->
-		<?php if(($_SERVER['REQUEST_METHOD'] === 'GET')) : ?>
+		<?php if (($_SERVER['REQUEST_METHOD'] === 'GET')) : ?>
             <h4>Nadcházející události</h4>
 		<?php elseif (empty($_POST['date']) && empty($_POST['begin']) && empty($_POST['type']) && empty($_POST['name'])) : ?>
             <h4>Nadcházející události</h4>
@@ -81,22 +81,22 @@
 	<?php foreach ($events as $event) : ?>
         <tr>
             <td>
-                <button class="btn btn-outline-secondary" onclick="location.href='search/event/<?php echo (str_replace(' ', '%20', $event['name'])) ?> ';">
+                <button class="btn btn-outline-secondary" onclick="location.href='search/event/<?php echo(str_replace(' ', '%20', $event['name'])) ?> ';">
                     <i class="fas fa-info"></i>
                 </button>
             </td>
 			<?php $id = $event['id'];
-			unset($event['id'])?>
+			unset($event['id']) ?>
 			<?php foreach ($event as $value) : ?>
                 <td>
-					<?php echo ($value); ?>
+					<?php echo($value); ?>
                 </td>
 			<?php endforeach ?>
             <td>
                 <!-- Zasednuti tlacitka 'Rezervovat' pokud udalost jiz probehla/zacala -->
                 <button class="btn btn-primary " onclick="location.href = 'cashier/create/<?= (str_replace(' ', '%20', $event['type']))
-				?>/<?=(str_replace(' ', '%20', $id)) ?>/<?=(str_replace(' ', '%20', $event['label']))?>/<?=
-				(str_replace(' ' , '%20', $event['begin']))?>'"
+				?>/<?= (str_replace(' ', '%20', $id)) ?>/<?= (str_replace(' ', '%20', $event['label'])) ?>/<?=
+				(str_replace(' ', '%20', $event['begin'])) ?>'"
 
                 > Rezervovat
                 </button>

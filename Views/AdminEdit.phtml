@@ -27,7 +27,7 @@
             <label for="role">role :</label>
 
             <select name="role" id="role">
-                <option selected="selected"><?= $this->langMapper($user['role'])?></option>
+                <option selected="selected"><?= $this->langMapper($user['role']) ?></option>
                 <option>registrovaný uživatel</option>
                 <option>pokladní</option>
                 <option>redaktor</option>
@@ -50,9 +50,10 @@
 <script type="text/javascript">
     const opt = {};
     $("#role > option").each(function () {
-        if(opt[$(this).text()]) {
+        if (opt[$(this).text()]) {
             $(this).remove();
-        } else {
+        }
+        else {
             opt[$(this).text()] = $(this).val();
         }
     });

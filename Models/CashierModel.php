@@ -11,66 +11,72 @@ use Exceptions\UpdateException;
 
 class CashierModel extends BaseModel
 {
-    public function checkSearchParameters(){
-        $role = $this->auth->role()->getRoleFromSession();
+	public function checkSearchParameters()
+	{
+		$role = $this->auth->role()->getRoleFromSession();
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	        $data = $this->loadPOST();
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$data = $this->loadPOST();
 
-            if (!empty($data['id'])) {
-                return $role->getTicketByIdPOST();
-            } else if (!empty($data['email'])) {
-                return $role->getFutureTicketByEmailPOST();
-            }else if (!empty($data['hall'])){
-                return $role->getTicketsByHallLabel();
-            }else if(!empty($data['event'])){
-                return $role->getTicketsByEventName();
-            }else{
-                return $role->getAllTickets();
-            }
-        }
-        return $role->getAllTickets();
-    }
+			if (!empty($data['id'])) {
+				return $role->getTicketByIdPOST();
+			} elseif (!empty($data['email'])) {
+				return $role->getFutureTicketByEmailPOST();
+			} elseif (!empty($data['hall'])) {
+				return $role->getTicketsByHallLabel();
+			} elseif (!empty($data['event'])) {
+				return $role->getTicketsByEventName();
+			} else {
+				return $role->getAllTickets();
+			}
+		}
 
-    /**
-     * @param $params
-     * @throws AlreadyOccupiedSeatException
-     * @throws UpdateException
-     */
-	public function createReservationCashier($params){
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        	$data = $this->loadPOST();
-            $role = $this->auth->role()->getRoleFromSession();
-            if (!$role->isSeatFree($params, $data)) {
-                throw new AlreadyOccupiedSeatException('Sedadlo je již obsazeno!');
-            }
+		return $role->getAllTickets();
+	}
 
-            $role->newReservation($params, $data);
-        }
-    }
+	public function checkURLParamsSearch($params)
+	{
+		$role = $this->auth->role()->getRoleFromSession();
 
-    public function checkURLParamsSearch($params){
-        $role = $this->auth->role()->getRoleFromSession();
+		if (isset($params[0])) {
+			if ($params[0] !== '') {
+				if ($params[0] === 'confirm') {
+					$role->confirmPayment($params[1]);
 
-        if(isset($params[0])){
-            if($params[0] !== ''){
-                if($params[0] === 'confirm'){
-                    $role->confirmPayment($params[1]);
-                    return true;
-                }else if($params[0] === 'remove'){
-                    $role->removeReservation($params[1]);
-                    return true;
-                }else{
-                    throw new InvalidRequestException();
-                }
-            }
-        }
-        return false;
-    }
+					return TRUE;
+				} elseif ($params[0] === 'remove') {
+					$role->removeReservation($params[1]);
 
-    public function confirmReservation($params)
-    {
-	    $ticket = $this->loadPOST();
+					return TRUE;
+				} else {
+					throw new InvalidRequestException;
+				}
+			}
+		}
 
-    }
+		return FALSE;
+	}
+
+	public function confirmReservation($params)
+	{
+		$ticket = $this->loadPOST();
+	}
+
+	/**
+	 * @param $params
+	 * @throws AlreadyOccupiedSeatException
+	 * @throws UpdateException
+	 */
+	public function createReservationCashier($params)
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$data = $this->loadPOST();
+			$role = $this->auth->role()->getRoleFromSession();
+			if (!$role->isSeatFree($params, $data)) {
+				throw new AlreadyOccupiedSeatException('Sedadlo je již obsazeno!');
+			}
+
+			$role->newReservation($params, $data);
+		}
+	}
 }

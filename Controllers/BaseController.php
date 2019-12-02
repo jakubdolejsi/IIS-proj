@@ -16,14 +16,11 @@ use DI\ViewFactory;
 abstract class BaseController
 {
 
-	private $view;
-
 	/**
 	 * @var array
 	 */
 	protected $data = [];
-
-
+	private $view;
 	/**
 	 * @var ModelFactory
 	 */
@@ -48,26 +45,6 @@ abstract class BaseController
 	abstract public function actionDefault(): void;
 
 	/**
-	 * @param string $url
-	 */
-
-	protected function redirect(string $url): void
-	{
-		// todo snad funguje dobre...
-		echo "<script>
-				window.location.href='/$url';
-			</script>";
-		exit();
-	}
-
-	protected function alert($message): void
-	{
-		echo "<script>
-				alert('$message');
-			</script>";
-	}
-
-	/**
 	 * @return array
 	 */
 	public function getData(): array
@@ -76,23 +53,23 @@ abstract class BaseController
 	}
 
 	/**
+	 * @return ModelFactory
+	 */
+	public function getModelFactory(): ModelFactory
+	{
+		if (!$this->modelFactory) {
+			$this->modelFactory = $this->container->getModelFactory();
+		}
+
+		return $this->modelFactory;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getView(): ?string
 	{
 		return $this->view;
-	}
-
-	/**
-	 * @return ModelFactory
-	 */
-	public function getModelFactory(): ModelFactory
-	{
-		if(!$this->modelFactory)
-		{
-			$this->modelFactory = $this->container->getModelFactory();
-		}
-		return $this->modelFactory;
 	}
 
 	/**
@@ -106,6 +83,13 @@ abstract class BaseController
 		$this->blame();
 	}
 
+	protected function alert($message): void
+	{
+		echo "<script>
+				alert('$message');
+			</script>";
+	}
+
 	/**
 	 * @return Container
 	 */
@@ -117,31 +101,23 @@ abstract class BaseController
 		$this->blame();
 	}
 
-	/**
-	 * @param $cls
-	 * @return bool
-	 */
-	private function isCalledClassRouter($cls): bool
+	protected function hasPermission(...$permission)
 	{
-		return $cls === 'Router\Router';
-	}
-
-	private function blame(): void
-	{
-		echo '<pre>', var_dump('Nedostatečné oprávnění!'), '</pre>';
-		exit();
-	}
-
-	/**
-	 * @return ViewFactory
-	 */
-	private function setViewFactory(): ViewFactory
-	{
-		if(!$this->viewFactory)
-		{
-			$this->viewFactory = $this->container->getViewFactory();
+		$hasPermission = FALSE;
+		foreach ($permission as $item) {
+			if ($_SESSION['role'] === $item) {
+				$hasPermission = TRUE;
+			}
 		}
-		return $this->viewFactory;
+		if (!$hasPermission) {
+			$this->alert('Nemáte oprávnění!');
+			$this->redirect('home');
+		}
+	}
+
+	protected function loadData($index, array $data)
+	{
+		$this->data[ $index ] = $data;
 	}
 
 	/**
@@ -152,23 +128,43 @@ abstract class BaseController
 		$this->view = $view;
 	}
 
-	protected function loadData($index, array $data)
+	/**
+	 * @param string $url
+	 */
+
+	protected function redirect(string $url): void
 	{
-		$this->data[ $index ] = $data;
+		// todo snad funguje dobre...
+		echo "<script>
+				window.location.href='/$url';
+			</script>";
+		exit();
 	}
 
-	protected function hasPermission(...$permission)
+	private function blame(): void
 	{
-		$hasPermission = FALSE;
-		foreach ($permission as $item)
-		{
-			if($_SESSION['role'] === $item) {
-				$hasPermission = true;
-			}
+		echo '<pre>', var_dump('Nedostatečné oprávnění!'), '</pre>';
+		exit();
+	}
+
+	/**
+	 * @param $cls
+	 * @return bool
+	 */
+	private function isCalledClassRouter($cls): bool
+	{
+		return $cls === 'Router\Router';
+	}
+
+	/**
+	 * @return ViewFactory
+	 */
+	private function setViewFactory(): ViewFactory
+	{
+		if (!$this->viewFactory) {
+			$this->viewFactory = $this->container->getViewFactory();
 		}
-		if(!$hasPermission) {
-			$this->alert('Nemáte oprávnění!');
-			$this->redirect('home');
-		}
+
+		return $this->viewFactory;
 	}
 }

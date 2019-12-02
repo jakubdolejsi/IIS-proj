@@ -14,14 +14,23 @@ use ViewRenderer\ViewRenderer;
 final class Router extends BaseController
 {
 	/**
-	 * @var ViewRenderer
-	 */
-	private $viewRenderer;
-	/**
 	 * @var BaseController
 	 */
 	protected $controller;
+	/**
+	 * @var ViewRenderer
+	 */
+	private $viewRenderer;
 
+	public function actionDefault(): void
+	{
+		// TODO: Implement actionDefault() method.
+	}
+
+	public function getViewRenderer()
+	{
+		return $this->viewRenderer;
+	}
 
 	/**
 	 * @param array $params
@@ -32,10 +41,10 @@ final class Router extends BaseController
 		$url = $this->parseUrl($params);
 		$this->controller = $this->loadClass($this->getControllerClass($url));
 
-		$method = 'action'. ucwords($url[1] ?? 'default');
-		unset($url[0],$url[1]);
+		$method = 'action' . ucwords($url[1] ?? 'default');
+		unset($url[0], $url[1]);
 		method_exists($this->controller, $method) ? $this->controller->$method(array_values($url)) : $this->redirect('error');
-//		$this->controller->process($url);
+		//		$this->controller->process($url);
 
 		try {
 			$this->initView();
@@ -55,19 +64,18 @@ final class Router extends BaseController
 		return (ucwords($url[0]) . 'Controller');
 	}
 
+	private function getMethod()
+	{
+	}
 
 	/**
-	 * @param string $url
-	 * @return array
+	 * Set view properties
 	 */
-	private function parseUrl(string $url)
+	private function initView(): void
 	{
-		$url = explode('/', trim(ltrim(parse_url($url)['path'], '/')));
-		if (empty($url[0])) {
-			$this->redirect('home');
-		}
-
-		return ($url);
+		$this->viewRenderer->loadControllerView($this->controller->getView());
+		$this->viewRenderer->loadBaseView('BaseLayout');
+		$this->viewRenderer->loadData($this->controller->getData());
 	}
 
 	/**
@@ -87,28 +95,17 @@ final class Router extends BaseController
 		return new $class($this->getContainer());
 	}
 
-
-	private function getMethod()
-	{
-	}
-
-	public function getViewRenderer()
-	{
-		return $this->viewRenderer;
-	}
-
 	/**
-	 * Set view properties
+	 * @param string $url
+	 * @return array
 	 */
-	private function initView(): void
+	private function parseUrl(string $url)
 	{
-		$this->viewRenderer->loadControllerView($this->controller->getView());
-		$this->viewRenderer->loadBaseView('BaseLayout');
-		$this->viewRenderer->loadData($this->controller->getData());
-	}
+		$url = explode('/', trim(ltrim(parse_url($url)['path'], '/')));
+		if (empty($url[0])) {
+			$this->redirect('home');
+		}
 
-	public function actionDefault(): void
-	{
-		// TODO: Implement actionDefault() method.
+		return ($url);
 	}
 }

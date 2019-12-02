@@ -37,7 +37,7 @@ class Role extends Validator
 
 	public function getRoleFromSession()
 	{
-        $res['role'] = $_SESSION['role'];
+		$res['role'] = $_SESSION['role'];
 
 		return $this->setRole($res['role']);
 	}
@@ -45,8 +45,8 @@ class Role extends Validator
 	private function setRole($role)
 	{
 		switch ($role) {
-            case 'notRegisteredUser':
-                return new NotRegisteredUser($this->db);
+			case 'notRegisteredUser':
+				return new NotRegisteredUser($this->db);
 			case 'registeredUser':
 				return new RegisteredUser($this->db);
 			case 'cashier':

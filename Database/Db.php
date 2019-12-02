@@ -26,7 +26,6 @@ final class Db extends PDO
 
 		parent::__construct(Enviroment::getDsn(), Enviroment::DB_OPTIONS['DB_USERNAME'],
 			Enviroment::DB_OPTIONS['DB_PASSWORD'], Enviroment::DB_OPTIONS['OPTIONS']);
-
 	}
 
 
@@ -47,18 +46,18 @@ final class Db extends PDO
 	 * @param $args
 	 * @return array
 	 */
-	private function toArray($args): array
+	private function nullCheck($args)
 	{
-		return (is_string($args)) ? [$args] : $args;
+		return $args ?? [];
 	}
 
 	/**
 	 * @param $args
 	 * @return array
 	 */
-	private function nullCheck($args)
+	private function toArray($args): array
 	{
-		return $args ?? [];
+		return (is_string($args)) ? [$args] : $args;
 	}
 
 }

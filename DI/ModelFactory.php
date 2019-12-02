@@ -46,22 +46,14 @@ final class ModelFactory
 		$this->session = $session;
 	}
 
-	/**
-	 * @return UserModel
-	 */
-	public function createUserModel(): UserModel
+	public function createAdminModel(): AdminModel
 	{
-		return new UserModel($this->auth, $this->db, $this->session);
+		return new AdminModel($this->auth, $this->db, $this->session);
 	}
 
-	public function createTicketManager(): TicketManager
+	public function createCashierModel(): CashierModel
 	{
-		return new TicketManager($this->auth, $this->db, $this->session);
-	}
-
-	public function createSearchModel(): SearchModel
-	{
-		return new SearchModel($this->auth, $this->db, $this->session);
+		return new CashierModel($this->auth, $this->db, $this->session);
 	}
 
 	public function createCultureWork(): CultureWork
@@ -69,23 +61,31 @@ final class ModelFactory
 		return new CultureWork($this->auth, $this->db, $this->session);
 	}
 
-	public function createHallModel(): HallModel
-	{
-		return new HallModel($this->auth, $this->db, $this->session);
-	}
-
-    public function createAdminModel(): AdminModel
-    {
-        return new AdminModel($this->auth, $this->db, $this->session);
-    }
-
 	public function createEditorModel(): EditorModel
 	{
 		return new EditorModel($this->auth, $this->db, $this->session);
 	}
 
-    public function createCashierModel(): CashierModel
-    {
-        return new CashierModel($this->auth, $this->db, $this->session);
-    }
+	public function createHallModel(): HallModel
+	{
+		return new HallModel($this->auth, $this->db, $this->session);
+	}
+
+	public function createSearchModel(): SearchModel
+	{
+		return new SearchModel($this->auth, $this->db, $this->session);
+	}
+
+	public function createTicketManager(): TicketManager
+	{
+		return new TicketManager($this->auth, $this->db, $this->session);
+	}
+
+	/**
+	 * @return UserModel
+	 */
+	public function createUserModel(): UserModel
+	{
+		return new UserModel($this->auth, $this->db, $this->session);
+	}
 }

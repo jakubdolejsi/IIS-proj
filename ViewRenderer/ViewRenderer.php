@@ -83,6 +83,19 @@ class ViewRenderer implements IViewable
 		//		$x = $this->langMapper($data);
 		$this->data = $data;
 	}
+
+	private function czToEnMapper($data)
+	{
+		$langDict = [
+			'přednáška' => 'prednaska',
+		];
+		if (array_key_exists($data, $langDict)) {
+			$data = $langDict[ $data ];
+		}
+
+		return $data;
+	}
+
 	private function langMapper($data)
 	{
 
@@ -103,34 +116,23 @@ class ViewRenderer implements IViewable
 			'actors'          => 'herci',
 			'seat'            => 'sedadlo',
 			'label'           => 'označení sálu',
-            'seat_schema'     => 'schéma',
-            'capacity'        => 'kapacita',
-            'column_count'    => 'počet sloupců',
-            'row_count'       => 'počet řádků',
-            'image'           => 'obrázek',
-            'is_paid'         => 'uhrazeno',
-            'is_verificed'    => 'ověřeno',
-            'payment_type'    => 'způsob platby',
-			'registeredUser' => 'registrovaný uživatel',
-			'editor' => 'redaktor',
-			'admin' => 'admin',
-			'cashier' => 'pokladní',
+			'seat_schema'     => 'schéma',
+			'capacity'        => 'kapacita',
+			'column_count'    => 'počet sloupců',
+			'row_count'       => 'počet řádků',
+			'image'           => 'obrázek',
+			'is_paid'         => 'uhrazeno',
+			'is_verificed'    => 'ověřeno',
+			'payment_type'    => 'způsob platby',
+			'registeredUser'  => 'registrovaný uživatel',
+			'editor'          => 'redaktor',
+			'admin'           => 'admin',
+			'cashier'         => 'pokladní',
 		];
 		if (array_key_exists($data, $langDict)) {
 			$data = $langDict[ $data ];
 		}
 
-		return $data;
-	}
-
-	private function czToEnMapper($data)
-	{
-		$langDict = [
-			'přednáška'       => 'prednaska',
-		];
-		if (array_key_exists($data, $langDict)) {
-			$data = $langDict[ $data ];
-		}
 		return $data;
 	}
 

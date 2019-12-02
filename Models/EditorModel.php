@@ -14,6 +14,7 @@ class EditorModel extends BaseModel
 
 			$data = $role->addEvent($this->loadPOST());
 		}
+
 		return [$role->getHallAndCultureWorkIds(), 'editorEventsAdd'];
 	}
 
@@ -27,7 +28,17 @@ class EditorModel extends BaseModel
 		return ['', 'editorHallsAdd'];
 	}
 
+	public function addWork($params)
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$data = $this->loadPOST();
+			$role = $this->auth->role()->getRoleFromSession();
 
+			$role->addWork($data);
+		}
+
+		return ['', 'editorWorksAdd'];
+	}
 
 	public function defaultEvent()
 	{
@@ -41,6 +52,13 @@ class EditorModel extends BaseModel
 		$role = $this->auth->role()->getRoleFromSession();
 
 		return [$role->getAllHalls(), 'editorHalls'];
+	}
+
+	public function defaultWork()
+	{
+		$role = $this->auth->role()->getRoleFromSession();
+
+		return [$role->getAllWorks(), 'editorWorks'];
 	}
 
 	public function editEvent($params)
@@ -71,6 +89,19 @@ class EditorModel extends BaseModel
 		return [$data, 'editorHallsEdit'];
 	}
 
+	public function editWork($params)
+	{
+		$role = $this->auth->role()->getRoleFromSession();
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+			$data = $role->editWorkById($this->loadPOST(), $params);
+
+			return [$data, 'editorWorksEdit'];
+		}
+		$data = $role->getWorksById($params);
+
+		return [$data, 'editorWorksEdit'];
+	}
 
 	public function removeEvent($params)
 	{
@@ -88,43 +119,11 @@ class EditorModel extends BaseModel
 		return ['', 'editor'];
 	}
 
-	public function defaultWork()
-	{
-		$role = $this->auth->role()->getRoleFromSession();
-
-		return [$role->getAllWorks(), 'editorWorks'];
-	}
-
-	public function addWork($params)
-	{
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$data = $this->loadPOST();
-			$role = $this->auth->role()->getRoleFromSession();
-
-			$role->addWork($data);
-		}
-
-		return ['', 'editorWorksAdd'];
-	}
-
-	public function editWork($params)
-	{
-		$role = $this->auth->role()->getRoleFromSession();
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-			$data = $role->editWorkById($this->loadPOST(), $params);
-
-			return [$data, 'editorWorksEdit'];
-		}
-		$data = $role->getWorksById($params);
-
-		return [$data, 'editorWorksEdit'];
-	}
-
 	public function removeWork($params)
 	{
 		$role = $this->auth->role()->getRoleFromSession();
 		$role->removeWorksByID($params);
+
 		return [$role->getAllWorks(), 'editorWorks'];
 	}
 

@@ -26,7 +26,6 @@ abstract class BaseModel extends Validator
 		$this->auth = $auth;
 		$this->db = $db;
 		$this->session = $session;
-
 	}
 
 }

@@ -11,10 +11,10 @@ use Exceptions\InvalidRequestException;
 use Exceptions\LoggedUserException;
 use Exceptions\NoUserException;
 use Exceptions\PasswordsAreNotSameException;
-use Exceptions\UserNotVerifiedException;
 use Exceptions\SqlSomethingGoneWrongException;
 use Exceptions\UpdateException;
 use Exceptions\UpdateSuccess;
+use Exceptions\UserNotVerifiedException;
 
 
 class UserModel extends BaseModel
@@ -76,6 +76,13 @@ class UserModel extends BaseModel
 		return $this->auth->notRegisteredUser()->generateHash();
 	}
 
+	public function getReservationInfo($params)
+	{
+		$role = $this->auth->notRegisteredUser();
+
+		return $role->getReservedSeatInfo($params);
+	}
+
 	public function getRole()
 	{
 		return $this->auth->role()->getRoleFromSession();
@@ -104,12 +111,12 @@ class UserModel extends BaseModel
 		return isset($_SESSION['user_id']);
 	}
 
-    /**
-     * @throws InvalidPasswordException
-     * @throws LoggedUserException
-     * @throws NoUserException
-     * @throws UserNotVerifiedException
-     */
+	/**
+	 * @throws InvalidPasswordException
+	 * @throws LoggedUserException
+	 * @throws NoUserException
+	 * @throws UserNotVerifiedException
+	 */
 	public function login(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -159,7 +166,6 @@ class UserModel extends BaseModel
 		return FALSE;
 	}
 
-
 	public function verifiyUser()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -169,13 +175,6 @@ class UserModel extends BaseModel
 		}
 
 		return FALSE;
-	}
-
-
-	public function getReservationInfo($params)
-	{
-		$role = $this->auth->notRegisteredUser();
-		return $role->getReservedSeatInfo($params);
 	}
 
 }

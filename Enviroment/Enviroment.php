@@ -13,12 +13,12 @@ class Enviroment
 		'OPTIONS'     => [],
 	];
 
-//	const DEVEL = 1;
-//
-//	const PRODUCTION = 3;
-//
+	//	const DEVEL = 1;
+	//
+	//	const PRODUCTION = 3;
+	//
 	const VERSION = [
-		'DEVEL' => 1,
+		'DEVEL'      => 1,
 		'PRODUCTION' => 3,
 	];
 
@@ -30,6 +30,11 @@ class Enviroment
 		return "mysql:host={$host};dbname={$dbName};charset=utf8";
 	}
 
+	public static function setEncoding()
+	{
+		mb_internal_encoding('UTF-8');
+	}
+
 	public static function setErrorNotification()
 	{
 		if ($GLOBALS['VERSION'] == self::VERSION['DEVEL']) {
@@ -39,26 +44,26 @@ class Enviroment
 
 	public static function setSessions()
 	{
-        if(!isset($_SESSION)) {
-            session_start();
-        }
+		if (!isset($_SESSION)) {
+			session_start();
+		}
 
-        //Odhlaseni po vice nez 30 minutach neaktivity
-        if (isset($_SESSION['lastActive']) && (time() - $_SESSION['lastActive'] > 1800)){
-            session_unset();
-            session_destroy();
-            session_start();
-        }
-        $_SESSION['lastActive'] = time();
+		//Odhlaseni po vice nez 30 minutach neaktivity
+		if (isset($_SESSION['lastActive']) && (time() - $_SESSION['lastActive'] > 1800)) {
+			session_unset();
+			session_destroy();
+			session_start();
+		}
+		$_SESSION['lastActive'] = time();
 
-        if(!isset($_SESSION['role'])){
-            $_SESSION['role'] = 'notRegisteredUser';
-        }
+		if (!isset($_SESSION['role'])) {
+			$_SESSION['role'] = 'notRegisteredUser';
+		}
 	}
 
-	public static function setEncoding()
+	public static function setVersion($version)
 	{
-		mb_internal_encoding('UTF-8');
+		$GLOBALS['VERSION'] = $version;
 	}
 
 	private static function development()
@@ -70,12 +75,7 @@ class Enviroment
 		ini_set('display_startup_errors', 1);
 		ini_set('display_errors', 1);
 		ini_set('log_errors', 1);
-        ini_set('error_log', $dir);
+		ini_set('error_log', $dir);
 		error_reporting(E_ALL);
-	}
-
-	public static function setVersion($version)
-	{
-		$GLOBALS['VERSION'] = $version;
 	}
 }

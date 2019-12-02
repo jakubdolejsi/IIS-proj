@@ -12,16 +12,6 @@ use Exceptions\PasswordsAreNotSameException;
 class AdminController extends BaseController
 {
 
-	public function actionDefault(): void
-	{
-		$this->hasPermission('admin');
-		$admin = $this->getModelFactory()->createAdminModel();
-		$users = $admin->process();
-		$this->loadView('admin');
-		$this->data['users'] = $users;
-	}
-
-
 	public function actionAdd($params)
 	{
 		$this->hasPermission('admin');
@@ -29,7 +19,7 @@ class AdminController extends BaseController
 		$user = $this->getModelFactory()->createUserModel();
 		try {
 			$user->register();
-			$user->verifiyUser();
+			$user->verifiyUser(); //TODO SNAD FUNKCNI
 		}
 		catch (PasswordsAreNotSameException $e) {
 			$this->alert($e->getMessage());
@@ -43,16 +33,14 @@ class AdminController extends BaseController
 		$this->loadView('adminAddUser');
 	}
 
-
-	public function actionEdit($params)
+	public function actionDefault(): void
 	{
 		$this->hasPermission('admin');
-
 		$admin = $this->getModelFactory()->createAdminModel();
-		$this->data['user'] = $admin->processEdit($params);
-		$this->loadView('adminEdit');
+		$users = $admin->process();
+		$this->loadView('admin');
+		$this->data['users'] = $users;
 	}
-
 
 	public function actionDelete($params)
 	{
@@ -63,6 +51,15 @@ class AdminController extends BaseController
 
 		$this->data['users'] = $admin->getAllUsers();
 		$this->redirect('admin');
+	}
+
+	public function actionEdit($params)
+	{
+		$this->hasPermission('admin');
+
+		$admin = $this->getModelFactory()->createAdminModel();
+		$this->data['user'] = $admin->processEdit($params);
+		$this->loadView('adminEdit');
 	}
 
 }

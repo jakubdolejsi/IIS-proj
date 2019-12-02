@@ -26,14 +26,19 @@ class UserDetail
 
 	protected $id;
 
-	public function getId()
-    {
-	    return $this->id;
-    }
-
 	public function __construct(array $user)
 	{
 		$this->initProperties($user);
+	}
+
+	public function compareActualPassword(): bool
+	{
+		return $this->password === $this->controlPassword;
+	}
+
+	public function compareNewPassword(): bool
+	{
+		return $this->newPassword === $this->newPasswordRetype;
 	}
 
 	public function getAllProperties(): array
@@ -44,6 +49,7 @@ class UserDetail
 				$arr[] = $value;
 			}
 		}
+
 		return $arr;
 	}
 
@@ -52,14 +58,16 @@ class UserDetail
 		return $this->controlPassword;
 	}
 
-	public function getNewPassword()
-	{
-		return $this->newPassword;
-	}
-
 	public function getEmail()
 	{
 		return $this->email;
+	}
+
+	public function setEmail($email): UserDetail
+	{
+		$this->email = $email;
+
+		return $this;
 	}
 
 	public function getFirstName()
@@ -67,9 +75,31 @@ class UserDetail
 		return $this->firstName;
 	}
 
+	public function getHash(): bool
+	{
+		return $this->hash;
+	}
+
+	public function getId()
+	{
+		return $this->id;
+	}
+
 	public function getLastName()
 	{
 		return $this->lastName;
+	}
+
+	public function getNewPassword()
+	{
+		return $this->newPassword;
+	}
+
+	public function setNewPassword($passwordHash): UserDetail
+	{
+		$this->newPassword = $passwordHash;
+
+		return $this;
 	}
 
 	public function getPassword()
@@ -84,13 +114,6 @@ class UserDetail
 		return $this;
 	}
 
-	public function setNewPassword($passwordHash): UserDetail
-	{
-		$this->newPassword = $passwordHash;
-
-		return $this;
-	}
-
 	public function getRole()
 	{
 		return $this->role;
@@ -99,43 +122,21 @@ class UserDetail
 	public function setRole($role): UserDetail
 	{
 		$this->role = $role;
-		return $this;
-	}
-
-	public function setEmail($email): UserDetail
-	{
-		$this->email = $email;
 
 		return $this;
 	}
-
 
 	public function unsetControlPassword(): UserDetail
 	{
 		unset($this->controlPassword);
+
 		return $this;
 	}
 
-	public function compareActualPassword(): bool
-	{
-		return $this->password === $this->controlPassword;
-	}
-
-	public function compareNewPassword(): bool
-	{
-		return $this->newPassword === $this->newPasswordRetype;
-	}
-
-	public function getHash():bool
-    {
-        return $this->hash;
-    }
-
-
 	private function initProperties(array $user): void
 	{
-	    foreach ($user as $key=>$value){
-	        $this->$key = $value;
-        }
+		foreach ($user as $key => $value) {
+			$this->$key = $value;
+		}
 	}
 }

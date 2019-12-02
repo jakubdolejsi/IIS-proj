@@ -21,15 +21,23 @@ class SearchModel extends BaseModel
 		return $this->db->run($query)->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-    public function getAllFutureEvents(): array
-    {
-        $date = date('Y-m-d');
-        $query = 'select ce.id, cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label, ce.price from theatre.culture_event as ce 
+	public function getAllFutureEvents(): array
+	{
+		$date = date('Y-m-d');
+		$query = 'select ce.id, cw.name, cw.type, cw.genre, ce.date, ce.begin, h.label, ce.price from theatre.culture_event as ce 
 				join theatre.culture_work as cw on ce.id_culture_work = cw.id
 				join theatre.hall as h on ce.id_hall = h.id where ce.date >= ? order by ce.date asc, ce.begin asc';
 
-        return $this->db->run($query, $date)->fetchAll(PDO::FETCH_ASSOC);
-    }
+		return $this->db->run($query, $date)->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function getCultureWorkByName($name)
+	{
+		$name = array_values(str_replace('%20', ' ', $name));
+		$query = 'select cw.name, cw.type, cw.genre, cw.actors, cw.ranking, cw.description, cw.image from theatre.culture_work as cw where cw.name = ?';
+
+		return $this->db->run($query, $name)->fetch(PDO::FETCH_ASSOC);
+	}
 
 	/**
 	 * @return array
@@ -71,12 +79,12 @@ class SearchModel extends BaseModel
 				where ';
 
 		foreach ($data as $key => $value) {
-			if((!empty($value) && $key ==='begin')){
-                $query .= " ce.$key >= ? and";
-            }else if(!empty($value) && $key === 'date') {
-                $query .= " ce.$key = ? and";
-            }else if (!empty($value)) {
-                $query .= " cw.$key = ? and";
+			if ((!empty($value) && $key === 'begin')) {
+				$query .= " ce.$key >= ? and";
+			} elseif (!empty($value) && $key === 'date') {
+				$query .= " ce.$key = ? and";
+			} elseif (!empty($value)) {
+				$query .= " cw.$key = ? and";
 			} else {
 				unset($data[ $key ]);
 			}
@@ -84,14 +92,7 @@ class SearchModel extends BaseModel
 		$query = substr_replace($query, '', -3) . ' order by ce.date asc, ce.begin asc';
 
 		header('content-type: image/jpeg');
+
 		return $this->db->run($query, array_values($data))->fetchAll(PDO::FETCH_ASSOC);
-	}
-
-	public function getCultureWorkByName($name)
-	{
-		$name = array_values(str_replace('%20', ' ', $name));
-		$query = 'select cw.name, cw.type, cw.genre, cw.actors, cw.ranking, cw.description, cw.image from theatre.culture_work as cw where cw.name = ?';
-
-		return $this->db->run($query, $name)->fetch(PDO::FETCH_ASSOC);
 	}
 }

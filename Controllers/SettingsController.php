@@ -5,13 +5,25 @@ namespace Controllers;
 
 
 use Exceptions\PasswordsAreNotSameException;
-use Exceptions\UpdateException;
 use Exceptions\UpdateSuccess;
 use Models\UserModel;
 
 
 class SettingsController extends BaseController
 {
+
+	public function actionDefault(): void
+	{
+		$this->hasPermission('admin', 'editor', 'cashier', 'registeredUser');
+
+		$user = $this->getModelFactory()->createUserModel();
+
+		if (!$user->isLogged()) {
+			$this->redirect('auth');
+		}
+		$this->loadView('settings');
+		$this->setData($user);
+	}
 
 	public function actionEdit(): void
 	{
@@ -26,7 +38,8 @@ class SettingsController extends BaseController
 		$action = 'editProfile';
 		try {
 			$user->editProfile();
-		} catch (UpdateSuccess $e) {
+		}
+		catch (UpdateSuccess $e) {
 			$this->alert($e->getMessage());
 		}
 
@@ -56,21 +69,6 @@ class SettingsController extends BaseController
 		$this->loadView('settingsPassword');
 		$this->setData($user);
 	}
-
-	public function actionDefault(): void
-	{
-		$this->hasPermission('admin', 'editor', 'cashier', 'registeredUser');
-
-		$user = $this->getModelFactory()->createUserModel();
-
-		if (!$user->isLogged()) {
-			$this->redirect('auth');
-		}
-		$this->loadView('settings');
-		$this->setData($user);
-
-	}
-
 
 	private function setData(UserModel $user): void
 	{

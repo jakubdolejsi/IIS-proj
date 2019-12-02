@@ -34,26 +34,26 @@
 
         <!--- Pouze pokud nebylo zaplaceno/ neprobehlo--->
         <input type="button" value="Potvrdit úhradu" onclick="location.href= 'cashier/search/confirm/<?=
-        str_replace
-        (' ',
-            '%20', $ticket['id'])
-        ?>'"
-        <?php if ($ticket['is_paid'] === 'Ano'): ?>
-            disabled title="Již zaplaceno"
-        <?php elseif (($ticket['date'] < $todayDate) || (($ticket['begin'] < $currentTime) && ($ticket['date'] <= $todayDate))): ?>
-               disabled title="Nelze zaplatit - událost již proběhla"
-        <?php endif ?>/>
+		str_replace
+		(' ',
+			'%20', $ticket['id'])
+		?>'"
+			<?php if ($ticket['is_paid'] === 'Ano'): ?>
+                disabled title="Již zaplaceno"
+			<?php elseif (($ticket['date'] < $todayDate) || (($ticket['begin'] < $currentTime) && ($ticket['date'] <= $todayDate))): ?>
+                disabled title="Nelze zaplatit - událost již proběhla"
+			<?php endif ?>/>
         
         <input type="button" value="Zrušit rezervaci" onclick="location.href= 'cashier/search/remove/<?=
-        str_replace
-        (' ',
-            '%20', $ticket['id'])
-        ?>';"/>
+		str_replace
+		(' ',
+			'%20', $ticket['id'])
+		?>';"/>
 
 
-        <?php foreach ($ticket as $item => $value) : ?>
-            <?= $this->langMapper($item) ?> : <?= $value ?> &nbsp;|
-        <?php endforeach?>
+		<?php foreach ($ticket as $item => $value) : ?>
+			<?= $this->langMapper($item) ?> : <?= $value ?> &nbsp;|
+		<?php endforeach ?>
     </div>
 <?php endforeach ?>
 

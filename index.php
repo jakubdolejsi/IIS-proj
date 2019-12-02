@@ -7,7 +7,7 @@ use Router\Router;
 
 require_once 'autoloader.php';
 
-Enviroment::setVersion(Enviroment::VERSION['DEVEL']);
+Enviroment::setVersion(Enviroment::VERSION['PRODUCTION']);
 Enviroment::setEncoding();
 Enviroment::setErrorNotification();
 Enviroment::setSessions();
